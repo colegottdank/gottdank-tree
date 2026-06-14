@@ -1,0 +1,6 @@
+# Only index.html and README.md belong in this repo.
+# Ignore everything else (uploads, drafts, exports, OS cruft).
+*
+!index.html
+!README.md
+!.gitignore
