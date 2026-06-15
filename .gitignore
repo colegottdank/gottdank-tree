@@ -1,6 +1,11 @@
-# Only index.html and README.md belong in this repo.
-# Ignore everything else (uploads, drafts, exports, OS cruft).
+# Allowlist: only these belong in the repo. Everything else (uploads, drafts,
+# exports, OS cruft) stays out.
 *
 !index.html
+!v2.html
+!family.js
 !README.md
 !.gitignore
+# family photos for the tree (when added)
+!img/
+!img/**
