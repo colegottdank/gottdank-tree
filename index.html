@@ -87,12 +87,8 @@
   .person.u .locket{border-style:dashed;border-color:var(--pencil);background:repeating-linear-gradient(45deg,var(--card),var(--card) 4px,rgba(138,132,114,.10) 4px,rgba(138,132,114,.10) 8px)}
   .person.u .locket .mono{color:var(--pencil)}
   .person.u{opacity:.82}
-  .person.me .locket{border-color:var(--stamp);box-shadow:0 0 0 3px rgba(140,50,38,.18),var(--shadow)}
   .person .pn{font-family:'Fraunces',serif;font-weight:600;font-size:14px;line-height:1.05;text-align:center;max-width:124px}
   .person .py{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--pencil);letter-spacing:.02em}
-  .person .ribbon{position:absolute;top:-7px;left:50%;transform:translateX(-50%);
-    font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.1em;color:var(--stamp);
-    background:var(--paper);padding:1px 4px;border:1px solid var(--stamp);border-radius:2px;white-space:nowrap}
 
   .couple{display:flex;align-items:flex-start;gap:6px;position:relative}
   .couple .knot{align-self:flex-start;margin-top:22px;font-family:'Fraunces',serif;font-size:13px;color:var(--paper);
@@ -152,6 +148,14 @@
   .addbtn{display:inline-flex;align-items:center;gap:7px;margin-top:6px;border:1.5px solid var(--ink);background:var(--paper2);
     color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;padding:9px 13px;border-radius:4px;cursor:pointer}
   .addbtn:active{background:var(--ink);color:var(--paper)}
+  .rels{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+  .relpill{display:inline-flex;flex-direction:column;align-items:flex-start;gap:1px;border:1.5px solid var(--rule);background:var(--paper2);color:var(--ink);font-family:'EB Garamond',serif;font-size:14px;line-height:1.1;padding:5px 12px;border-radius:999px;cursor:pointer;text-align:left}
+  .relpill:active{background:var(--ink);color:var(--paper)}
+  .relpill .rtag{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--pencil)}
+  .relpill:active .rtag{color:rgba(255,255,255,.6)}
+  .simg{margin:0 0 14px;border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+  .simg img{display:block;width:100%}
+  .simg figcaption{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.03em;color:var(--ink-soft);padding:7px 10px;background:var(--paper2);line-height:1.45}
 
   /* contribute */
   .field{display:block;margin-bottom:11px}
@@ -211,6 +215,7 @@
   <div class="recno">Family record</div>
   <div class="dhead"><span class="locket" id="dLock"></span><div><h3 id="dTitle"></h3><div class="sub" id="dSub"></div></div></div>
   <span class="stampbig" id="dStamp"></span>
+  <div class="rels" id="dRels"></div>
   <dl id="dFacts"></dl>
   <div class="story" id="dStory"></div>
   <div class="gapbox" id="dGap" hidden><b>Evidence gap</b><span id="dGapText"></span></div>
@@ -234,9 +239,11 @@
 
 <script src="family.js"></script>
 <script>
-/* ---------- photos: id -> image url. empty for now; archival faces drop in here.
-   e.g. bernhard:"img/bernhard-shop.jpg", davidO:"img/ottawa-portrait.jpg" ---------- */
+/* ---------- photos: id -> face image url (drives the locket avatar).
+   e.g. bernhard:"img/bernhard.jpg" ---------- */
 const PHOTOS = {};
+/* ---------- story images: id -> {src, cap} (shown inside the record). ---------- */
+const STORY_IMG = {};
 
 /* ---------- family structure (units reference ids in P) ---------- */
 const U=(people,children)=>({people,children:children||null});
@@ -317,9 +324,8 @@ function locketHtml(id,big){
 }
 function personHtml(id){
   const p=P[id];
-  const ribbon = id==='cole'?'<span class="ribbon">you are here</span>':'';
-  return `<button class="person ${confClass(p.conf)}${id==='cole'?' me':''}" data-id="${id}" style="position:relative">
-    ${ribbon}${locketHtml(id)}
+  return `<button class="person ${confClass(p.conf)}" data-id="${id}">
+    ${locketHtml(id)}
     <span class="pn">${disp(p.name)}</span><span class="py">${p.years}</span></button>`;
 }
 function unitHtml(u){
@@ -393,6 +399,33 @@ chips.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)retur
 const sheet=document.getElementById('sheet'),scrim=document.getElementById('scrim');
 let openCount=0;
 function showScrim(on){openCount+=on?1:-1;scrim.classList.toggle('open',openCount>0);}
+/* ---------- relationship index (drives in-sheet navigation) ---------- */
+const REL={};
+function ensureRel(id){return REL[id]||(REL[id]={spouse:null,parents:[],siblings:[],children:[]});}
+function primOf(u){return u.note?null:u.people[0];}
+function walkRel(u,parent){
+  if(!u.note){
+    const a=u.people[0], b=u.people[1]||null;
+    if(b){ensureRel(a).spouse=b;ensureRel(b).spouse=a;}
+    const kids=(u.children||[]).map(primOf).filter(Boolean);
+    ensureRel(a).children=kids; if(b)ensureRel(b).children=kids;
+    if(parent&&!parent.note)ensureRel(a).parents=parent.people.slice();
+  }
+  (u.children||[]).forEach(c=>walkRel(c,u));
+  if(u.children){
+    const prims=u.children.map(primOf).filter(Boolean);
+    u.children.forEach(cu=>{if(!cu.note){const me=cu.people[0];ensureRel(me).siblings=prims.filter(x=>x!==me);}});
+  }
+}
+Object.values(TREES).forEach(t=>t.roots.forEach(r=>walkRel(r,null)));
+function relsHtml(id){
+  const r=REL[id]; if(!r)return '';
+  const pill=(pid,tag)=>P[pid]?`<button class="relpill" data-go="${pid}"><span class="rtag">${tag}</span>${disp(P[pid].name)}</button>`:'';
+  return (r.spouse?pill(r.spouse,'partner'):'')
+    + r.parents.map(p=>pill(p,'parent')).join('')
+    + r.siblings.map(s=>pill(s,'sibling')).join('')
+    + r.children.map(c=>pill(c,'child')).join('');
+}
 function openSheet(id){
   const p=P[id];
   document.getElementById('dLock').className='locket '+confClass(p.conf);
@@ -404,7 +437,10 @@ function openSheet(id){
   st.className='stampbig '+p.conf;
   document.getElementById('dFacts').innerHTML=`<dt>Relation</dt><dd>${p.rel}</dd>`+
     Object.entries(p.facts).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('');
-  document.getElementById('dStory').innerHTML=p.story.map(s=>`<p>${s}</p>`).join('');
+  document.getElementById('dRels').innerHTML=relsHtml(id);
+  const si=STORY_IMG[id];
+  const fig=si?`<figure class="simg"><img src="${si.src}" alt=""><figcaption>${si.cap}</figcaption></figure>`:'';
+  document.getElementById('dStory').innerHTML=fig+p.story.map(s=>`<p>${s}</p>`).join('');
   const g=document.getElementById('dGap');
   if(p.gap){g.hidden=false;document.getElementById('dGapText').textContent=p.gap;}else g.hidden=true;
   document.getElementById('dSrc').innerHTML=p.src.map(s=>`<li>${s}</li>`).join('');
@@ -413,6 +449,7 @@ function openSheet(id){
 }
 function closeSheet(){if(sheet.classList.contains('open')){sheet.classList.remove('open');showScrim(false);}}
 document.getElementById('dClose').onclick=closeSheet;
+sheet.addEventListener('click',e=>{const r=e.target.closest('.relpill');if(r){openSheet(r.dataset.go);sheet.scrollTop=0;}});
 
 /* ---------- contribute ---------- */
 const csheet=document.getElementById('csheet');
