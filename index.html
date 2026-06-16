@@ -361,8 +361,8 @@ function fit(){const vw=vp.clientWidth,vh=vp.clientHeight;let z=Math.min((vw-20)
 function centerOn(u,z){z=z||.82;const vw=vp.clientWidth,vh=vp.clientHeight;view.z=z;
   view.x=vw/2-u.cx*z;view.y=vh/2-(u.top+44)*z;apply();}
 
-const pts=new Map(); let lastDist=0, dragged=false, downXY=null;
-vp.addEventListener('pointerdown',e=>{vp.setPointerCapture(e.pointerId);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});dragged=false;downXY={x:e.clientX,y:e.clientY};});
+const pts=new Map(); let lastDist=0, dragged=false, downXY=null, downId=null;
+vp.addEventListener('pointerdown',e=>{const t=e.target.closest('.person');downId=t?t.dataset.id:null;vp.setPointerCapture(e.pointerId);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});dragged=false;downXY={x:e.clientX,y:e.clientY};});
 vp.addEventListener('pointermove',e=>{
   if(!pts.has(e.pointerId))return;
   const prev=pts.get(e.pointerId);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
@@ -371,7 +371,7 @@ vp.addEventListener('pointermove',e=>{
   else if(pts.size===2){const a=[...pts.values()];const d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);
     if(lastDist)zoomAt(view.z*d/lastDist,(a[0].x+a[1].x)/2,(a[0].y+a[1].y)/2);lastDist=d;dragged=true;}
 });
-function up(e){pts.delete(e.pointerId);if(pts.size<2)lastDist=0;}
+function up(e){pts.delete(e.pointerId);if(pts.size<2)lastDist=0;if(pts.size===0){if(!dragged&&downId)openSheet(downId);downId=null;}}
 vp.addEventListener('pointerup',up);vp.addEventListener('pointercancel',up);
 vp.addEventListener('wheel',e=>{e.preventDefault();zoomAt(view.z*(e.deltaY<0?1.12:0.89),e.clientX,e.clientY);},{passive:false});
 
@@ -387,8 +387,7 @@ chips.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)retur
   chips.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-selected',c===b));
   render(b.dataset.k);findBox.value='';});
 
-/* ---------- tap a face ---------- */
-board.addEventListener('click',e=>{if(dragged)return;const b=e.target.closest('.person');if(b)openSheet(b.dataset.id);});
+/* ---------- tap a face (handled in pointerup; setPointerCapture suppresses click) ---------- */
 
 /* ---------- detail sheet ---------- */
 const sheet=document.getElementById('sheet'),scrim=document.getElementById('scrim');
@@ -446,6 +445,7 @@ findBox.addEventListener('input',e=>{
 
 /* ---------- go ---------- */
 render('main');
+if(location.hash){const id=decodeURIComponent(location.hash.slice(1));if(P[id])openSheet(id);}
 setTimeout(()=>{const h=document.getElementById('hint');if(h)h.style.opacity='0';},4200);
 window.addEventListener('resize',()=>{/* keep current view; user can hit FIT */});
 </script>
