@@ -2,493 +2,452 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="robots" content="noindex, nofollow">
-<title>The Gottdank Mega Tree</title>
+<title>The Gottdank Tree</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#EDE6D4; --card:#F6F1E2; --ink:#1E3327; --ink-soft:#445247;
-    --pencil:#857F6D; --stamp:#8C3226; --rule:#CFC5A9; --likely:#356043; --bl:#7E8A7C;
-    --shadow:0 1px 0 rgba(34,56,44,.08), 0 5px 14px -8px rgba(34,56,44,.3);
-    --rail:20px;
+    --paper:#E9E1CD; --paper2:#EFE8D6; --card:#F6F1E2; --ink:#1E3327; --ink-soft:#445247;
+    --pencil:#8A8472; --stamp:#8C3226; --rule:#C9BE9F; --likely:#356043; --line:#9AA08C;
+    --gold:#9C7B33;
+    --shadow:0 1px 0 rgba(30,51,39,.06), 0 8px 22px -12px rgba(30,51,39,.45);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
+  html,body{height:100%}
   body{
     background:var(--paper);
-    background-image:repeating-linear-gradient(to bottom, transparent 0 28px, rgba(34,56,44,.028) 28px 29px);
-    color:var(--ink); font-family:'EB Garamond',Georgia,serif; font-size:18px; line-height:1.62;
-    -webkit-font-smoothing:antialiased; overflow-wrap:break-word;
+    color:var(--ink); font-family:'EB Garamond',Georgia,serif;
+    -webkit-font-smoothing:antialiased; overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  body::before{ /* grain + vignette atmosphere */
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(120% 90% at 50% -10%, rgba(255,250,236,.55), transparent 55%),
+      radial-gradient(120% 120% at 50% 120%, rgba(30,51,39,.10), transparent 60%);
+    mix-blend-mode:multiply;
   }
   ::selection{background:var(--stamp);color:var(--card)}
-  .wrap{max-width:580px;margin:0 auto;padding:0 18px}
 
-  /* ---------- header ---------- */
-  header{padding:34px 0 22px;border-bottom:3px double var(--ink)}
-  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--stamp)}
-  h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(36px,11vw,58px);line-height:.96;letter-spacing:-.015em;margin:8px 0 8px}
-  .meaning{font-size:17px;font-style:italic;color:var(--ink-soft);line-height:1.55}
-  .meaning b{font-style:normal;color:var(--ink)}
+  /* ---------------- header ---------------- */
+  header{position:relative;z-index:5;padding:13px 16px 9px;border-bottom:1px solid var(--rule);
+    background:linear-gradient(180deg,var(--paper2),var(--paper));}
+  .htop{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--stamp)}
+  h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(23px,6.4vw,34px);letter-spacing:-.02em;line-height:.95}
+  h1 .am{font-weight:400;font-style:italic;color:var(--ink-soft)}
+  .tag{font-size:13.5px;font-style:italic;color:var(--ink-soft);margin-top:1px}
+  .tag b{font-style:normal;color:var(--ink)}
 
-  /* ---------- sticky controls ---------- */
-  .bar{position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:1px solid var(--rule);padding:8px 0}
-  .barrow{display:flex;gap:7px;align-items:center}
-  #findBox{flex:1;min-width:0;border:1.5px solid var(--rule);background:var(--card);font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding:9px 11px;color:var(--ink);border-radius:2px}
-  #findBox:focus{outline:none;border-color:var(--stamp)}
-  .bbtn{border:1.5px solid var(--ink);background:var(--card);font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;padding:9px 10px;cursor:pointer;color:var(--ink);border-radius:2px;white-space:nowrap}
-  .bbtn:active{background:var(--ink);color:var(--card)}
-  .legendrow{display:flex;gap:12px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin-top:8px;align-items:center}
-  .sw{display:inline-block;width:16px;height:11px;border:1.5px solid var(--ink);background:var(--card);vertical-align:-1px;margin-right:4px}
-  .sw.l{opacity:.72}.sw.u{opacity:.5;border-style:dashed;border-color:var(--pencil)}
-  .ln{display:inline-block;width:18px;border-top:2px solid var(--bl);vertical-align:3px;margin-right:4px}
-  .ln.d{border-top-style:dashed}.ln.t{border-top-style:dotted}
-  label.fade{display:inline-flex;gap:5px;align-items:center;cursor:pointer;color:var(--ink)}
-  label.fade input{accent-color:var(--stamp)}
+  .toolrow{display:flex;gap:8px;align-items:center;margin-top:11px}
+  .search{flex:1;min-width:0;position:relative}
+  .search input{width:100%;border:1.5px solid var(--rule);background:var(--card);border-radius:999px;
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding:9px 13px 9px 32px;color:var(--ink)}
+  .search input:focus{outline:none;border-color:var(--stamp)}
+  .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:14px;height:14px;opacity:.5}
+  .cbtn{flex:none;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.05em;padding:9px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
+  .cbtn:active{transform:translateY(1px)}
 
-  /* ---------- vertical tree ---------- */
-  .treezone{padding:20px 0 40px}
-  .rootnode{background:var(--ink);color:var(--paper);border-radius:2px;padding:15px 17px;margin-bottom:4px}
-  .rootnode .rt{font-family:'Fraunces',serif;font-size:22px;font-weight:700}
-  .rootnode .rs{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;opacity:.8;display:block;margin-top:4px;line-height:1.5}
+  .chips{display:flex;gap:7px;overflow-x:auto;margin-top:10px;padding-bottom:2px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:none;border:1.5px solid var(--rule);background:var(--paper2);color:var(--ink-soft);
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+    padding:6px 11px;border-radius:3px;cursor:pointer;transition:all .15s}
+  .chip .ct{display:block;font-size:7.5px;letter-spacing:.12em;color:var(--pencil);margin-top:1px}
+  .chip[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .chip[aria-selected="true"] .ct{color:rgba(255,255,255,.55)}
 
-  ul.vt{list-style:none;padding-left:var(--rail)}
-  ul.vt>li{position:relative;padding:9px 0 0}
-  ul.vt>li::before{content:'';position:absolute;left:calc(-1*var(--rail));top:0;bottom:0;border-left:2px solid var(--bl)}
-  ul.vt>li::after{content:'';position:absolute;left:calc(-1*var(--rail));top:31px;width:calc(var(--rail) - 5px);border-top:2px solid var(--bl)}
-  ul.vt>li:last-child::before{height:31px;bottom:auto}
-  ul.vt.inf>li::before{border-left-style:dashed}
-  ul.vt.inf>li::after{border-top-style:dashed}
-  ul.vt.ast>li::before{border-left-style:dotted}
-  ul.vt.ast>li::after{border-top-style:dotted}
+  /* ---------------- board ---------------- */
+  .viewport{position:relative;z-index:1;flex:1;overflow:hidden;touch-action:none;cursor:grab;
+    background-image:radial-gradient(rgba(30,51,39,.07) 1px, transparent 1.4px);
+    background-size:22px 22px;}
+  .viewport:active{cursor:grabbing}
+  .board{position:absolute;top:0;left:0;transform-origin:0 0;will-change:transform}
+  svg.links{position:absolute;top:0;left:0;overflow:visible;pointer-events:none}
+  svg.links path{fill:none;stroke:var(--line);stroke-width:1.6}
+  svg.links path.inferred{stroke-dasharray:3 4;opacity:.7}
 
-  .branchlabel{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--stamp);margin:2px 0 6px;line-height:1.5}
+  .unit{position:absolute;transform:translateX(-50%);display:flex;justify-content:center}
+  .person{display:flex;flex-direction:column;align-items:center;gap:5px;width:128px;
+    background:none;border:none;font-family:inherit;color:inherit;cursor:pointer;padding:4px 2px;
+    transition:transform .15s, opacity .2s;animation:pop .5s both}
+  .person:active{transform:scale(.96)}
+  .person.dim{opacity:.16}
+  .locket{position:relative;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:var(--card);border:2px solid var(--ink);box-shadow:var(--shadow);overflow:hidden}
+  .locket::after{content:"";position:absolute;inset:3px;border-radius:50%;border:1px solid rgba(30,51,39,.18)}
+  .locket img{width:100%;height:100%;object-fit:cover}
+  .locket .mono{font-family:'Fraunces',serif;font-weight:700;font-size:20px;color:var(--ink-soft)}
+  .person.l .locket{border-color:var(--likely);opacity:.96}
+  .person.l .locket .mono{color:var(--likely)}
+  .person.u .locket{border-style:dashed;border-color:var(--pencil);background:repeating-linear-gradient(45deg,var(--card),var(--card) 4px,rgba(138,132,114,.10) 4px,rgba(138,132,114,.10) 8px)}
+  .person.u .locket .mono{color:var(--pencil)}
+  .person.u{opacity:.82}
+  .person.me .locket{border-color:var(--stamp);box-shadow:0 0 0 3px rgba(140,50,38,.18),var(--shadow)}
+  .person .pn{font-family:'Fraunces',serif;font-weight:600;font-size:14px;line-height:1.05;text-align:center;max-width:124px}
+  .person .py{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--pencil);letter-spacing:.02em}
+  .person .ribbon{position:absolute;top:-7px;left:50%;transform:translateX(-50%);
+    font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.1em;color:var(--stamp);
+    background:var(--paper);padding:1px 4px;border:1px solid var(--stamp);border-radius:2px;white-space:nowrap}
 
-  /* ---------- person card ---------- */
-  .person{
-    display:flex;width:100%;align-items:center;gap:10px;text-align:left;
-    background:var(--card);border:1.5px solid var(--ink);border-radius:2px;
-    padding:10px 12px;cursor:pointer;box-shadow:var(--shadow);position:relative;
-    font-family:inherit;color:inherit;transition:opacity .2s;
-  }
-  .person:active{transform:translateY(1px)}
-  .person:focus-visible{outline:2px solid var(--stamp);outline-offset:2px}
-  .person .tx{flex:1;min-width:0}
-  .person .nm{font-family:'Fraunces',serif;font-weight:600;font-size:17.5px;line-height:1.18;display:block}
-  .person .meta{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);display:block;margin-top:3px;line-height:1.4}
-  .person .conf{
-    flex:none;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;
-    padding:2px 5px;border:1.2px solid currentColor;border-radius:1px;transform:rotate(-2deg);
-  }
-  .person.verified .conf{color:var(--stamp)}
-  .person.likely{opacity:.85}.person.likely .conf{color:var(--likely);transform:rotate(2deg)}
-  .person.unconfirmed{opacity:.62;border-style:dashed;border-color:var(--pencil)}
-  .person.unconfirmed .conf{color:var(--pencil);transform:rotate(2deg)}
-  body.dimmed .person.unconfirmed{opacity:.25}
-  .person.dimfind{opacity:.15!important}
-  li.hidefind{display:none}
+  .couple{display:flex;align-items:flex-start;gap:6px;position:relative}
+  .couple .knot{align-self:flex-start;margin-top:22px;font-family:'Fraunces',serif;font-size:13px;color:var(--paper);
+    background:var(--ink-soft);border-radius:50%;width:19px;height:19px;display:flex;align-items:center;justify-content:center;flex:none}
+  .couple.q .knot{background:var(--pencil);font-family:'IBM Plex Mono',monospace;font-size:8px}
+  .couple .person{width:104px}
 
-  /* couple */
-  .couple{position:relative}
-  .couple .person+.person{margin-top:14px}
-  .couple .knot{
-    position:absolute;left:18px;top:50%;transform:translateY(-50%);z-index:2;
-    font-family:'Fraunces',serif;font-size:13px;color:var(--paper);background:var(--ink-soft);
-    border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;
-  }
-  .couple .knot.q{background:var(--pencil);font-family:'IBM Plex Mono',monospace;font-size:9px}
+  .note{max-width:168px;background:var(--paper2);border:1.5px dashed var(--rule);border-radius:3px;
+    padding:8px 11px;font-size:12.5px;color:var(--ink-soft);line-height:1.3;text-align:center;cursor:default}
+  .note b{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--stamp);display:block;margin-bottom:3px}
 
-  /* group node */
-  .gnode{background:rgba(246,241,226,.75);border:1.5px solid var(--bl);border-radius:2px;padding:11px 13px}
-  .gnode .gt{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--stamp);display:block;margin-bottom:4px}
-  .gnode .gd{font-size:15px;color:var(--ink-soft);line-height:1.45}
-  .gnode .chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
-  .mini{font-family:'IBM Plex Mono',monospace;font-size:9.5px;border:1px solid var(--rule);background:var(--card);padding:3px 6px;color:var(--ink-soft);border-radius:1px}
-  .gnode.tap{cursor:pointer}
+  .genband{position:absolute;left:0;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--pencil);transform:translateY(-50%);pointer-events:none;white-space:nowrap;opacity:.8}
 
-  /* expand toggle */
-  .kidsbtn{
-    display:inline-flex;align-items:center;gap:6px;margin:7px 0 0;
-    border:1.5px solid var(--rule);background:var(--paper);border-radius:2px;
-    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
-    color:var(--ink-soft);padding:6px 10px;cursor:pointer;
-  }
-  .kidsbtn .ch{transition:transform .15s;display:inline-block;color:var(--stamp)}
-  .kidsbtn[aria-expanded="true"] .ch{transform:rotate(90deg)}
-  .kidsbtn:active{border-color:var(--ink);color:var(--ink)}
-  .branchkids{overflow:hidden}
-  .branchkids.closed{display:none}
+  @keyframes pop{from{opacity:0;transform:translateY(8px) scale(.9)}to{opacity:1;transform:none}}
 
-  /* ---------- bottom sheet ---------- */
-  .scrim{position:fixed;inset:0;background:rgba(34,56,44,.4);opacity:0;pointer-events:none;transition:opacity .2s;z-index:60}
+  /* ---------------- zoom controls ---------------- */
+  .zoom{position:absolute;right:13px;bottom:16px;z-index:6;display:flex;flex-direction:column;gap:6px}
+  .zoom button{width:38px;height:38px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);
+    font-family:'Fraunces',serif;font-size:19px;border-radius:50%;cursor:pointer;box-shadow:var(--shadow);
+    display:flex;align-items:center;justify-content:center;line-height:1}
+  .zoom button:active{background:var(--ink);color:var(--paper)}
+  .zoom .fit{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.04em}
+  .hint{position:absolute;left:14px;bottom:18px;z-index:6;font-family:'IBM Plex Mono',monospace;
+    font-size:9px;letter-spacing:.08em;color:var(--pencil);text-transform:uppercase;pointer-events:none;
+    background:rgba(233,225,205,.7);padding:4px 8px;border-radius:3px;transition:opacity .6s}
+
+  /* ---------------- sheets ---------------- */
+  .scrim{position:fixed;inset:0;z-index:60;background:rgba(30,51,39,.42);opacity:0;pointer-events:none;transition:opacity .22s}
   .scrim.open{opacity:1;pointer-events:auto}
-  aside.sheet{
-    position:fixed;left:0;right:0;bottom:0;z-index:70;max-height:86vh;
-    background:var(--card);border-top:3px double var(--ink);border-radius:14px 14px 0 0;
-    transform:translateY(105%);transition:transform .25s ease;overflow-y:auto;
-    padding:14px 20px calc(34px + env(safe-area-inset-bottom));
-  }
+  aside.sheet{position:fixed;left:0;right:0;bottom:0;z-index:70;max-height:88vh;overflow-y:auto;
+    background:var(--card);border-top:3px double var(--ink);border-radius:16px 16px 0 0;
+    transform:translateY(105%);transition:transform .26s cubic-bezier(.22,.9,.3,1);
+    padding:12px 20px calc(30px + env(safe-area-inset-bottom))}
   aside.sheet.open{transform:none}
-  .grab{width:42px;height:4px;border-radius:2px;background:var(--rule);margin:0 auto 14px}
-  .sheet .close{position:absolute;top:14px;right:14px;border:1.5px solid var(--ink);background:none;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:5px 9px;cursor:pointer;color:var(--ink);border-radius:2px}
-  .sheet .recno{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--pencil);text-transform:uppercase}
-  .sheet h3{font-family:'Fraunces',serif;font-size:27px;font-weight:700;line-height:1.06;margin:6px 36px 4px 0}
-  .sheet .sub{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);margin-bottom:11px}
-  .stampbig{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.18em;border:2px solid currentColor;padding:4px 10px;border-radius:2px;transform:rotate(-2deg);margin:2px 0 14px}
-  .stampbig.verified{color:var(--stamp)}
-  .stampbig.likely{color:var(--likely)}
+  .grab{width:42px;height:4px;border-radius:2px;background:var(--rule);margin:2px auto 12px}
+  .sheet .close{position:absolute;top:14px;right:14px;width:30px;height:30px;border:1.5px solid var(--ink);background:none;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;color:var(--ink);border-radius:50%}
+  .dhead{display:flex;gap:14px;align-items:center;margin:2px 36px 6px 0}
+  .dhead .locket{width:64px;height:64px;flex:none}
+  .dhead .locket .mono{font-size:24px}
+  .recno{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;color:var(--pencil);text-transform:uppercase}
+  .sheet h3{font-family:'Fraunces',serif;font-size:25px;font-weight:700;line-height:1.04}
+  .sheet .sub{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-soft);margin-top:2px}
+  .stampbig{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;
+    border:2px solid currentColor;padding:3px 9px;border-radius:2px;transform:rotate(-2deg);margin:6px 0 12px}
+  .stampbig.verified{color:var(--stamp)} .stampbig.likely{color:var(--likely)}
   .stampbig.unconfirmed{color:var(--pencil);border-style:dashed;transform:rotate(2deg)}
-  .sheet dl{display:grid;grid-template-columns:90px 1fr;gap:6px 12px;margin:0 0 14px;font-size:15.5px}
-  .sheet dt{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--pencil);padding-top:3px}
-  .sheet .story p{margin-bottom:11px;font-size:16.5px;line-height:1.58}
-  .sheet .gap{margin:14px 0;border:1.5px dashed var(--pencil);padding:12px 14px;font-size:15px;color:#41504a;background:rgba(133,127,109,.1)}
-  .sheet .gap b{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--pencil);display:block;margin-bottom:4px}
-  .sheet h4{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--stamp);margin:16px 0 6px;border-top:1px solid var(--rule);padding-top:12px}
-  .sheet ul{list-style:none}
-  .sheet ul li{padding-left:15px;position:relative;font-size:15px;color:var(--ink-soft);margin-bottom:5px;line-height:1.45}
-  .sheet ul li::before{content:"§";position:absolute;left:0;color:var(--stamp)}
+  .sheet dl{display:grid;grid-template-columns:88px 1fr;gap:6px 12px;margin:0 0 13px;font-size:15px}
+  .sheet dt{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--pencil);padding-top:3px}
+  .story p{margin-bottom:11px;font-size:16px;line-height:1.55}
+  .gapbox{margin:13px 0;border:1.5px dashed var(--pencil);padding:11px 13px;font-size:14px;color:#41504a;background:rgba(138,132,114,.1)}
+  .gapbox b{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--pencil);display:block;margin-bottom:4px}
+  .sech{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--stamp);margin:16px 0 7px;border-top:1px solid var(--rule);padding-top:11px}
+  .srcs{list-style:none} .srcs li{padding-left:15px;position:relative;font-size:14px;color:var(--ink-soft);margin-bottom:5px;line-height:1.4}
+  .srcs li::before{content:"§";position:absolute;left:0;color:var(--stamp)}
+  .addbtn{display:inline-flex;align-items:center;gap:7px;margin-top:6px;border:1.5px solid var(--ink);background:var(--paper2);
+    color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;padding:9px 13px;border-radius:4px;cursor:pointer}
+  .addbtn:active{background:var(--ink);color:var(--paper)}
 
-  footer{border-top:3px double var(--ink);padding:24px 0 70px;color:var(--ink-soft)}
-  footer h2{font-family:'Fraunces',serif;font-size:24px;color:var(--ink);margin-bottom:10px;line-height:1.15}
-  footer p,footer li{font-size:15.5px;margin-bottom:10px;line-height:1.55}
-  footer ol{padding-left:18px}
+  /* contribute */
+  .field{display:block;margin-bottom:11px}
+  .field span{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--pencil);display:block;margin-bottom:4px}
+  .field input,.field textarea{width:100%;border:1.5px solid var(--rule);background:var(--paper2);border-radius:4px;
+    font-family:'EB Garamond',serif;font-size:15px;padding:9px 11px;color:var(--ink)}
+  .field textarea{min-height:90px;resize:vertical}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--stamp)}
+  .sendbtn{width:100%;border:none;background:var(--stamp);color:#fff;font-family:'IBM Plex Mono',monospace;
+    font-size:12px;letter-spacing:.06em;padding:13px;border-radius:5px;cursor:pointer;text-transform:uppercase}
+  .sendbtn:active{filter:brightness(.92)}
+  .muted{font-size:13px;color:var(--ink-soft);line-height:1.45;margin-bottom:13px}
 
-  /* ---------- larger screens ---------- */
   @media (min-width:760px){
-    .wrap{max-width:700px}
-    body{font-size:19px}
-    aside.sheet{
-      left:auto;top:0;bottom:0;width:480px;max-height:none;border-radius:0;
-      border-top:none;border-left:3px double var(--ink);
-      transform:translateX(105%);padding:30px 28px 50px;
-    }
+    aside.sheet{left:auto;top:0;bottom:0;width:460px;max-height:none;border-radius:0;border-top:none;border-left:3px double var(--ink);
+      transform:translateX(105%);padding:28px 26px 44px}
     aside.sheet.open{transform:none}
     .grab{display:none}
-    .sheet h3{font-size:31px}
+    h1{font-size:38px}
   }
-  @media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="wrap">
-    <div class="eyebrow">One Tree · Every Documented Gottdank · June 2026</div>
-    <h1>The Gottdank Mega&nbsp;Tree</h1>
-    <p class="meaning"><b>Gott dank</b> — "thank God." One rare Ashkenazi name drawn as a single tree: Galicia, London, Chicago, the New York tenements, then Pennsylvania, California, Canada, Brazil. 136 records mined. Tap any name for its full record; tap the root for the origin of the name.</p>
+  <div class="htop">
+    <span class="eyebrow">Gott&nbsp;dank · thank God</span>
   </div>
+  <h1>The Gottdank Tree <span class="am">&amp; all who carry the name</span></h1>
+  <p class="tag">One rare name across <b>six countries</b> and three centuries. Tap a face for the story. Pinch to roam.</p>
+  <div class="toolrow">
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="findBox" type="search" placeholder="find a name…" aria-label="Find a name">
+    </div>
+    <button class="cbtn" id="contribBtn">✎ Add</button>
+  </div>
+  <div class="chips" id="chips"></div>
 </header>
 
-<div class="bar">
-  <div class="wrap">
-    <div class="barrow">
-      <input id="findBox" type="search" placeholder="find a name…" aria-label="Find a name">
-      <button class="bbtn" id="allBtn">OPEN ALL</button>
-    </div>
-    <div class="legendrow">
-      <span><span class="sw"></span>Verified</span>
-      <span><span class="sw l"></span>Likely</span>
-      <span><span class="sw u"></span>Pencil</span>
-      <span><span class="ln"></span>Documented</span>
-      <span><span class="ln d"></span>Inferred</span>
-      <span><span class="ln t"></span>Unplaced</span>
-      <label class="fade"><input type="checkbox" id="dimToggle">Fade pencil</label>
-    </div>
-  </div>
+<div class="viewport" id="vp">
+  <div class="board" id="board"></div>
 </div>
-
-<div class="wrap treezone">
-  <div class="rootnode" data-id="thename" data-name="gott dank name origin hanau" role="button" tabindex="0" style="cursor:pointer"><div class="rt">„Gott dank" — thank God</div><span class="rs">One name · Hanau, Galicia &amp; the German lands · 1700s — tap for the origin story</span></div>
-  <div id="megatree"></div>
+<div class="zoom">
+  <button id="zin" aria-label="Zoom in">+</button>
+  <button id="zout" aria-label="Zoom out">−</button>
+  <button class="fit" id="zfit" aria-label="Fit">FIT</button>
 </div>
+<div class="hint" id="hint">drag · pinch · tap a face</div>
 
-<div class="wrap">
-  <footer>
-    <h2>The spine is complete — what the documents open next</h2>
-    <p><strong>Documented, Generation One down the main line:</strong> Gittel (midwife, buried in Pápa, Hungary) ⚭ Coleman → Charles (NYC barber) ⚭ Fannie Krantz (1894–1972, Bronx) → Milton (1921–1984) ⚭ Phyllis Schraeter → Brian ⚭ Laurie. Plus: the Chicago branch is family (Bernhard was Charles's brother), Franklin and the late Allan are Brian and Dale's first cousins, and Yisroel survived the Holocaust — his daughter Miriam, likely born in the Bergen-Belsen DP camp, lives in Washington DC.</p>
-    <p><strong>Highest-value next steps, in order:</strong></p>
-    <ol>
-      <li><strong>Call Phyllis.</strong> She holds the shtetl's name, the two lost children's names, the unknown brother, and whether Linda is the Ridgecrest Linda.</li>
-      <li><strong>Arolsen Archives (free, online):</strong> Bergen-Belsen DP records for Yisroel's family — and the test of whether he is Geni's Israel of Kraków.</li>
-      <li><strong>JewishGen Hungary:</strong> Pápa cemetery records for Gittel's grave.</li>
-      <li><strong>1940 census (free):</strong> Charles &amp; Fannie's NY household with Lillian, Helen, Jerry &amp; Milton — and the unknown brother's family.</li>
-      <li><strong>Living memory-keepers:</strong> Miriam in DC and Marvin Stober — the document's author corresponded with both.</li>
-      <li><strong>The shtetl:</strong> the Wiesenfeld surname (Bertha's family, same town) is the key — JewishGen's Family Finder maps it to candidate Galician towns.</li>
-    </ol>
-  </footer>
-</div>
-
+<!-- detail sheet -->
 <div class="scrim" id="scrim"></div>
-<aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="dTitle">
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true">
   <div class="grab"></div>
   <button class="close" id="dClose">✕</button>
-  <div class="recno" id="dRec"></div>
-  <h3 id="dTitle"></h3>
-  <div class="sub" id="dSub"></div>
+  <div class="recno">Family record</div>
+  <div class="dhead"><span class="locket" id="dLock"></span><div><h3 id="dTitle"></h3><div class="sub" id="dSub"></div></div></div>
   <span class="stampbig" id="dStamp"></span>
   <dl id="dFacts"></dl>
   <div class="story" id="dStory"></div>
-  <div class="gap" id="dGap" hidden><b>Evidence gap</b><span id="dGapText"></span></div>
-  <h4>Sources</h4>
-  <ul id="dSources"></ul>
+  <div class="gapbox" id="dGap" hidden><b>Evidence gap</b><span id="dGapText"></span></div>
+  <button class="addbtn" id="dAdd">＋ Add a photo or memory</button>
+  <div class="sech">Sources</div>
+  <ul class="srcs" id="dSrc"></ul>
 </aside>
 
+<!-- contribute sheet -->
+<aside class="sheet" id="csheet" role="dialog" aria-modal="true">
+  <div class="grab"></div>
+  <button class="close" id="cClose">✕</button>
+  <div class="recno">Contribute</div>
+  <h3 id="cTitle" style="font-family:'Fraunces',serif;font-size:24px;font-weight:700;margin:4px 0 8px">Add to the tree</h3>
+  <p class="muted">Spotted a mistake, have a photo, or remember a story? Send it over and it gets added. A family login is coming so you can post directly — for now this opens an email.</p>
+  <label class="field"><span>Family code</span><input id="cCode" placeholder="ask Cole for the code"></label>
+  <label class="field"><span>Your name</span><input id="cName" placeholder="who's contributing"></label>
+  <label class="field"><span>Photo or memory</span><textarea id="cMsg" placeholder="a correction, a story, who's missing… (attach photos to the email)"></textarea></label>
+  <button class="sendbtn" id="cSend">Send to the keeper of the tree</button>
+</aside>
+
+<script src="family.js"></script>
 <script>
-const P = {
-thename:{name:"„Gott dank“ — the name itself",conf:"verified",years:"1700s → today",place:"Hanau → Galicia → the world",rel:"Origin of the surname",facts:{Meaning:"'Thank God' — German & Yiddish",Family:"The name passed through a WOMAN — Gittel's husband took HER surname at marriage",Shtetl:"Same Galician shtetl as the Wiesenfeld family",Earliest:"Hanau, Germany, c. 1690–1794 (Geni)"},story:["The Gottdank name came from a marriage in which the man took his wife's last name. Every Gottdank in this tree carries a matriarch's name — fitting for a family whose Generation-One ancestor, Gittel, was a midwife 'like her female ancestors.'","The same pattern repeats: Abraham Vaytman of Kraków took the name 'Gottdank' from his wife Miriam — another man joined to the name by marriage. The earliest trace anywhere is the Jewish Hanau family of 1700s Germany ('Wolf Hanau (Gottdank)')."],src:["Family document: 'Gottdank Descendants'","Geni (Hanau family; Vaytman-Gottdank)"]},
-gittel:{name:"Gittel Gottdank",conf:"verified",years:"19th c.",place:"Galicia → Pápa, Hungary",rel:"GENERATION ONE — the matriarch whose name the family carries",facts:{Trade:"Midwife — 'like her female ancestors'",Husband:"Coleman ('Itsruck' on Jordan's chart)",America:"Never emigrated",Rest:"Apparently buried in Pápa, Hungary, her last residence"},story:["The root of the documented tree. Gittel was a midwife in Galicia, in a line of midwives — and the Gottdank name is hers: her husband took her surname at marriage, not the other way around. Six children carried it to Chicago, New York, and beyond.","She never crossed the ocean. Her trail ends in Pápa, a Hungarian town with a storied Jewish community — its cemetery records, indexed by JewishGen, are the next place her stone might be found."],gap:"Jordan's chart labels her 'Geitell Weissberg' and gives Gottdank to her husband 'Itsruck' — the reverse of the document. One of the two family memories is flipped; Pápa's records could settle it.",src:["Family document, Generation 1","Jordan's hand-drawn pedigree chart"]},
-coleman:{name:"Coleman 'Itsruck' Gottdank",conf:"verified",years:"d. before 1900",place:"Galicia",rel:"GENERATION ONE — took his wife's name",facts:{Name:"Coleman (the document) / Itsruck (Jordan's chart) — likely Kalman / Yitzchak",Died:"Before Bernhard & Bertha's 1900 wedding",Legacy:"The man who took the Gottdank name"},story:["Gittel's husband, dead before the century turned, remembered by two names: Coleman in the family document, Itsruck on Jordan's chart — most likely the Yiddish pair Kalman and Yitzchak.","One echo worth smiling at: Kalman anglicizes to Coleman... and six generations later, the family named a boy Cole. Whether anyone intended it, the Generation-One patriarch's name echoes down the line."],src:["Family document, Generation 1","Jordan's pedigree chart"]},
-charles:{name:"Charles Gottdank",conf:"verified",years:"late 1800s – mid 1900s",place:"New York City",rel:"Gittel & Coleman's son · the New York barber",facts:{Trade:"Barber, New York",Wife:"Fannie Krantz",Children:"Lillian · Helen · Jerry · MILTON",Parents:"Gittel & Coleman of Galicia"},story:["Charles died before the public indexes begin, which is why earlier searches found no trace of him. He was a barber in New York who married Fannie; their children were Lillian, Helen, Jerry, and Milton.","He is the Galician barber whose New York chair sat at the head of the American line. 'Charles' was never a missing cousin — he was the trunk."],src:["Family document, Generations 2–3","Jordan's pedigree chart (parents: Gittel & Itsruck/Coleman)"]},
-fannieK:{name:"Fannie (Krantz) Gottdank",conf:"verified",years:"1894 – 1972",place:"Bronx, NY",rel:"Charles's wife · Generation Two",facts:{Parents:"Jacob Krantz ⚭ Martha Feit (per Jordan's chart)",Match:"Almost certainly the SSDI's 'Fanny Gottdank, b. Apr 20 1894, d. Bronx 1972'",Children:"Lillian · Helen · Jerry · Milton"},story:["The barber's wife. Born in 1894, she died in the Bronx in 1972 — exactly where and when Charles's widow should be.","Her parents were Jacob Krantz and Martha Feit, another Galician generation back."],src:["Family document","Jordan's chart (Krantz/Feit parents)","SSDI (Fanny, 1894–1972, Bronx)"]},
-lillian:{name:"Lillian (Gottdank) Johnson",conf:"verified",years:"20th c.",place:"New York",rel:"Charles & Fannie's daughter · Milton's sister",facts:{FirstHusband:"Morris Birnbaum",Children:"Ira · June"},story:["The eldest of the barber's children. Two children, Ira and June Birnbaum, by her first marriage; Johnson by a later one. Her descendants are an untraced cousin line."],src:["Family document, Generation 4"]},
-helenS:{name:"Helen (Gottdank) Stober",conf:"verified",years:"20th c.",place:"New York",rel:"Charles & Fannie's daughter · Milton's sister",facts:{Husband:"Leo Stober",Children:"Judy Wahrman · Marvin Stober",Note:"'We were very friendly with Helen and her husband Leo' — the document"},story:["The sister remembered most warmly. Her children Judy Wahrman and Marvin Stober stayed in touch with the family for years, which makes the Stober line the easiest living bridge to the family's New York memory."],src:["Family document, Generations 3–4"]},
-jerry:{name:"Jerry (Jerome) Gottdank",conf:"verified",years:"1911 – 1993",place:"New York → Miami Beach, FL",rel:"Charles & Fannie's son · Milton's brother",facts:{Wife:"Molly (1910–2011)",Children:"Frank · Alan · Linda",Match:"SSDI: Jerome Gottdank, b. Oct 19 1911, d. Miami Beach 1993"},story:["Jerry — Jerome on paper — married Molly and had three children: Frank, Alan, and Linda. He lived 1911 to 1993, ending in Miami Beach; his wife Molly was the Spring Valley matriarch who lived to 101.","That makes Frank, Alan, and Linda Milton's nephews and niece."],src:["Family document, Generation 4","SSDI (Jerome 1911–1993; Molly 1910–2011)"]},
-mollyR:{name:"Molly Gottdank",conf:"verified",years:"1910 – 2011",place:"Brooklyn → Spring Valley, NY",rel:"Jerry's wife · mother of Frank, Alan & Linda",facts:{Born:"March 31, 1910",Died:"April 21, 2011 — aged 101",Children:"Frank(lin) · Alan · Linda"},story:["Born when the immigrant generation was still arriving, gone a hundred and one years later. She was Jerry's wife and the mother of Frank, Alan, and Linda — the matriarch who ties the Spring Valley household to this family."],src:["Family document","SSDI","Radaris relative listings (confirmed)"]},
-franklin:{name:"Franklin D. Gottdank",conf:"verified",years:"b. ~1955",place:"Spring Valley, NY → Lewes, DE",rel:"Son of Jerry & Molly",facts:{Wife:"Wendy",Parents:"Jerry ⚭ Molly — per the family document ('Frank')",Lived:"Spring Valley & Monsey, NY; now Delaware"},story:["Franklin of Spring Valley — 'Frank' in the family — is the son of Jerry and Molly, which makes him Brian and Dale's first cousin.","He and Wendy are living; the Rockland 'cluster' was never a separate branch — it was family the whole time."],src:["Family document (son 'Frank')","Radaris (Molly relative listing)","LocateFamily (household with Wendy)"]},
-wendy:{name:"Wendy Gottdank",conf:"verified",years:"living",place:"Spring Valley, NY",rel:"Wife of Franklin",facts:{Household:"Same David Drive unit as Franklin"},story:["Listed at Franklin's exact Spring Valley unit — his wife."],src:["LocateFamily (shared household)"]},
-allan:{name:"Allan M. Gottdank",conf:"verified",years:"~1939 – 2025",place:"Brooklyn → Manhattan UWS",rel:"Son of Jerry & Molly",facts:{Parents:"Jerry ⚭ Molly — the document's 'Alan'",Education:"Brooklyn College, Class of 1960",Died:"~March 2025 — Ridgewood Chapels, NY",Siblings:"Frank(lin) · Linda"},story:["Allan — 'Alan' in the family — was the middle child of Jerry and Molly: Brooklyn-raised (Brooklyn College '60), a Manhattanite for decades, and Brian and Dale's first cousin. He died in March 2025.","His brother Franklin and sister Linda survive him."],src:["Family document (son 'Alan')","Brooklyn College In Memoriam '60","Legacy.com / Morton-Ridgewood, Mar 2025"]},
-lindaJ:{name:"Linda Gottdank",conf:"likely",years:"living",place:"unknown",rel:"Daughter of Jerry & Molly",facts:{Siblings:"Frank(lin) · the late Alan"},story:["Jerry and Molly's daughter, named in the family document. Whether she is the Linda L. Gottdank of Ridgecrest (who appears there as Sidney's wife) or married out of the name entirely is an open question — Franklin would know."],gap:"No independently matched record yet.",src:["Family document, Generation 4"]},
-milton:{name:"Milton Gottdank",conf:"verified",years:"1921 – 1984",place:"New York",rel:"Charles & Fannie's youngest son — fully documented",facts:{Born:"February 28, 1921, New York",Parents:"Charles (the barber) ⚭ Fannie Krantz",Siblings:"Lillian · Helen (Stober) · Jerry",Wife:"Phyllis Schraeter",Children:"Dale · Brian · two children lost young",Died:"August 1, 1984"},story:["Milton, youngest of the barber's four children, married Phyllis Schraeter and raised Dale and Brian in Brooklyn. He died in 1984.","Milton and Phyllis had four children. Two died in childhood."],src:["Family document, Generations 3–4","Jordan's pedigree chart","SSDI (1921–1984, NY)"]},
-phyllis:{name:"Phyllis (Schraeter) Gottdank",conf:"verified",years:"living (or recent)",place:"Brooklyn, NY",rel:"Milton's wife — maiden name found",facts:{Maiden:"SCHRAETER — the 'S' in her directory listing",Parents:"Jacob Schraeter ⚭ Bertha Blazer",Grandparents:"Aaron Schraeter ⚭ Sara Guttman · Wolf Blazer ⚭ Hannah Mandel",Deeper:"David Schraeter · Feivush Gutman ⚭ Hannah Leah · Hersh Mandel ⚭ Ida",Home:"West 5th St, Brooklyn — Dale listed at the same apartment"},story:["Phyllis S. Gottdank is Phyllis Schraeter — and her ancestry runs back three more generations of Galician Jewish families: Schraeter, Blazer, Guttman, Mandel.","She raised four children at the apartment by the Coney Island boardwalk and buried two of them young, then her husband in 1984 — and she is the living library for everything still open in this tree: the shtetl's name, the two lost children, the unknown brother."],src:["Jordan's pedigree chart (full Schraeter ancestry)","Family document","LocateFamily (Brooklyn household with Dale)"]},
-lostKids:{name:"Two children, lost young",conf:"verified",years:"died in childhood",place:"New York",rel:"Children of Milton & Phyllis · Brian and Dale's siblings",facts:{Record:"'Two other children died as children' — the family document"},story:["Milton and Phyllis had four children and lost two of them young, their names unrecorded here. Brian and Dale grew up with that absence; Phyllis carries their names still.","If the family wants them remembered in this tree by name, Phyllis is the one to ask — and NYC death records (free at the Municipal Archives) could supply dates."],src:["Family document, Generation 4"]},
-brian:{name:"Brian R. Gottdank",conf:"verified",years:"living",place:"Downingtown, PA",rel:"Son of Milton & Phyllis",facts:{Household:"Santillo Way, Downingtown — same record as Cole",With:"Laurie Gottdank, same address & phone"},story:["Brian R. Gottdank lives at the Santillo Way address in Downingtown — the same household where Cole appears, on the same phone line.","Raised (inferred) in the Brooklyn household of Milton and Phyllis, he carried the name to Chester County — the 18% of American Gottdanks in Pennsylvania is essentially Brian's household."],src:["LocateFamily (Downingtown household, 2001–2024)"]},
-laurie:{name:"Laurie Gottdank",conf:"verified",years:"living",place:"Downingtown, PA",rel:"Wife of Brian (household record)",facts:{Household:"Same Santillo Way address & phone as Brian and Cole",Listed:"Since 2001"},story:["Laurie Gottdank, at the family's Downingtown address continuously since 2001 — alongside Brian and, later, Cole.","Two decades at the same Downingtown address say it plainly enough."],src:["LocateFamily (Downingtown household, 2001–2024)"]},
-cole:{name:"Cole Gottdank",conf:"verified",years:"b. ~1997",place:"Downingtown, PA → San Francisco, CA",rel:"Son of Brian & Laurie",facts:{Household:"Raised at the Santillo Way house, Downingtown",Now:"San Francisco, CA"},story:["Brian and Laurie's son, raised in the Downingtown household and now in San Francisco."],src:["LocateFamily (Downingtown household record)"]},
-annalyn:{name:"Annalyn Gottdank",conf:"likely",years:"living",place:"Downingtown, PA",rel:"Daughter of Brian & Laurie",facts:{Work:"Wawa, Inc.",Engaged:"Kyle Graefe (Zola registry)"},story:["Downingtown-based, engaged to Kyle Graefe. The rare surname plus the shared hometown make the link to Brian and Laurie's household all but certain."],gap:"Not yet tied to the household record by address.",src:["LinkedIn","Zola registry"]},
-bridget:{name:"Bridget Gottdank",conf:"verified",years:"living",place:"Downingtown, PA → Israel",rel:"Daughter of Brian & Laurie · Cole and Annalyn's sister",facts:{Education:"West Chester University — BA, political science & public policy",Aliyah:"Moved from the U.S. to Israel in 2021",Work:"Recruitment & Marketing Manager, Yahel Israel",Studio:"Founder, Anava Creative — marketing & design"},story:["Brian and Laurie's daughter and Cole's sister. She studied political science and public policy at West Chester University — the same school as Cole — then made the family's longest move yet: aliyah to Israel in 2021, after a 2019 social-justice fellowship in Haifa.","In Israel she runs recruitment and marketing for Yahel, the social-change nonprofit, and her own creative studio, Anava Creative. She cast her first Israeli ballot in the 2022 election — Gittel's great-great-granddaughter voting in the country her Galician ancestors never reached."],src:["LinkedIn (Bridget Gottdank, Yahel Israel)","Anava Creative (anavacreative.co)","Yahel Israel team bios","JTA / Times of Israel, Nov 2022"]},
-dale:{name:"Dale D. Gottdank",conf:"verified",years:"living",place:"Brooklyn → San Diego (1989)",rel:"Son of Milton & Phyllis (likely)",facts:{Born:"Brooklyn, NY",Education:"Princeton",Key:"Also listed at Phyllis's Brooklyn apartment",Community:"UUFSD board · Torrey Pines Gulls officer"},story:["Brooklyn-born, Princeton-educated, San Diegan since 1989. Board member at the Unitarian Universalist Fellowship of San Dieguito; secretary and communications officer of the Torrey Pines Gulls glider club, quoted in the San Diego papers defending his club's cliff-soaring hours.","Dale grew up at the same West 5th Street Brooklyn apartment as Phyllis — his childhood home. He and Brian, sons of Milton and Phyllis, went their separate ways: one west, one to Pennsylvania."],src:["uufsd.org","torreypinesgulls.org","La Jolla Light, Jan 7 2022","LocateFamily (Brooklyn + San Diego)"]},
-nancy:{name:"Nancy Hebert",conf:"verified",years:"living",place:"San Diego, CA",rel:"Wife of Dale · deep American roots",facts:{Met:"Dale, at Princeton",Career:"Healthcare finance — Scripps, Kaiser",Roots:"Cajun Louisiana (Deshotels, Guillory, Berzas) · French Canada (Desautels, Montreal 1631) · colonial New England (Ford, Hingham MA)",Deepest:"Andrew Ford, b. ~1620 England, d. 1693 Hingham, Massachusetts; Thomas Desautels, b. 1600 Malicorne, France"},story:["Jordan's chart maps his mother's side too, and it is a tour of early America: Cajun Evangeline-Parish families (Deshotels, Guillory, Berzas dit La Fleur), a French-Canadian line through Pierre Desautels of 1631 Montreal, and a colonial New England line of Hezekiah Fords reaching Andrew Ford, who left England around 1620 and died in Hingham, Massachusetts in 1693.","Which means Jordan and Jessica carry, in one body, Galician shtetl midwives and Plymouth-era Puritans. America."],src:["Jordan's pedigree chart","UUFSD biography"]},
-jordan:{name:"Jordan E. Gottdank",conf:"verified",years:"living",place:"San Diego, CA",rel:"Son of Dale & Nancy · drew the family chart",facts:{Profession:"Patent attorney — Partner, Knobbe Martens",Education:"Oberlin BA · UCLA Law JD",Author:"Of the hand-drawn pedigree chart that completed this tree"},story:["A Knobbe Martens partner prosecuting patents — and the family's most important record-keeper. Years ago Jordan hand-drew 'My Family Tree' on poster board, capturing Phyllis's maiden name, Milton's parents, and four generations of Schraeters, Blazers, Krantzes and Guttmans that no public index holds.","The kid with the poster-board school project had it all along. Lawyers."],src:["Jordan's pedigree chart (primary source!)","knobbe.com","LocateFamily (Kibbings Rd household)"]},
-jessica:{name:"Jessica Gottdank",conf:"likely",years:"living",place:"San Diego, CA",rel:"Daughter of Dale & Nancy (inferred)",facts:{Found:"Front Street, downtown San Diego (2017)"},story:["Jessica Gottdank, downtown San Diego. Same rare name, same city as Dale's household — very likely Jordan's sister, out on her own by 2017."],gap:"Not yet tied to the Kibbings Rd household by a shared record.",src:["LocateFamily (San Diego, 2017)"]},
-bernhard:{name:"Bernhard Gottdank",conf:"verified",years:"late 1800s – mid 1900s",place:"Galicia → Chicago, IL",rel:"Charles's brother · Gittel & Coleman's son",facts:{Married:"Bertha Wiesenfeld, 1900 — a family from the same shtetl",Trade:"Shopkeeper — photographed before his shop",Children:"Ruth · Kate · twins Helen & Florence (died young) · Mildred"},story:["Bernhard was Charles the barber's brother. He married Bertha Wiesenfeld in 1900, joining the two families of one Galician shtetl on American soil.","A photograph survives of him in front of his Chicago shop — the one image of this immigrant generation at work. The twins, Helen and Florence, died young and are buried in Chicago."],src:["Family document, Generations 2–3","AncientFaces (photo)"]},
-bertha:{name:"Bertha (Wiesenfeld) Gottdank",conf:"verified",years:"1878 – 1967",place:"Galicia → Chicago, IL",rel:"Wife of Bernhard · of the shtetl's other family",facts:{Born:"June 22, 1878",Married:"Bernhard, 1900",Shtetl:"The Wiesenfelds shared the Gottdanks' Galician hometown"},story:["Her maiden name carries a meaning: Wiesenfeld, the other family of the home shtetl. Identifying which Galician town the Wiesenfelds came from is the single best key to finding the family's European hometown."],src:["Family document","SSDI"]},
-ruthM:{name:"Ruth (Gottdank) Marek",conf:"verified",years:"20th c.",place:"Chicago, IL",rel:"Daughter of Bernhard & Bertha",facts:{Husband:"Michael Marek",Children:"Jewel · Donald · Bernard"},story:["Eldest of the Chicago daughters; three children carry the Marek name."],src:["Family document, Generation 4"]},
-kateB:{name:"Kate (Gottdank) Bierlein",conf:"verified",years:"20th c.",place:"Chicago, IL",rel:"Daughter of Bernhard & Bertha",facts:{Husband:"Ken Bierlein",Children:"Bernadine · Allen"},story:["The second Chicago daughter; her line continues under Bierlein."],src:["Family document, Generation 4"]},
-twinsHF:{name:"Helen & Florence Gottdank",conf:"verified",years:"died young",place:"Chicago, IL",rel:"Twin daughters of Bernhard & Bertha",facts:{Rest:"Buried in Chicago"},story:["Bernhard and Bertha's twins, who did not survive childhood. Their graves in Chicago — likely at one of the Jewish cemeteries on the South or West Side — are findable through the JGSI cemetery indexes."],src:["Family document, Generation 3"]},
-mildredH:{name:"Mildred (Gottdank) Harris",conf:"verified",years:"~1912 – 2006",place:"Wilmette, IL",rel:"Daughter of Bernhard & Bertha",facts:{Married:"Dr. Harold M. Harris, D.D.S.",Sons:"Bruce · Irwin",Died:"2006, aged 94"},story:["The youngest Chicago daughter. Her sons Bruce and Irwin Harris continue the Chicago side."],src:["Family document","Chicago Tribune / Legacy.com, Mar 2006"]},
-pauline:{name:"Pauline (Gottdank) Ascher",conf:"verified",years:"19th–20th c.",place:"Chicago, IL",rel:"Charles's sister · Generation 2",facts:{Son:"Kermit Green"},story:["One of Gittel's two daughters who settled in Chicago. Her son carried the name Kermit Green — a thread for the Cook County indexes."],src:["Family document, Generations 2–3"]},
-claraK:{name:"Clara Gottdank",conf:"verified",years:"19th–20th c.",place:"Chicago, IL",rel:"Charles's sister · Generation 2",facts:{Children:"Lena Sandman · Karl Korman",Grandchild:"Karen Korman Bradshaw, Washington DC"},story:["The other Chicago sister. Her son Karl Korman's two children split between Chicago and Washington DC — Karen Korman Bradshaw, in DC, is another living thread."],src:["Family document, Generations 2–4"]},
-yisroel:{name:"Yisroel Gottdank",conf:"verified",years:"20th c.",place:"Galicia → Bergen-Belsen → New York",rel:"Charles's brother · Holocaust survivor",facts:{War:"Survived the Holocaust with his wife",DPcamp:"A child born in Bergen-Belsen camp AFTER the war",Emigrated:"To the U.S. only after WWII",Daughter:"Miriam, of Washington DC"},story:["The family's gravest and most extraordinary story: Yisroel did not reach America until after WWII. He survived the Holocaust with his wife, and they had a child born in the Bergen-Belsen camp after the war. That displaced-persons camp saw thousands of Jewish births between 1945 and 1950 — each one an act of defiance. One of them was a Gottdank.","A reconciliation worth testing: the death index's Israel Gottdank (b. Aug 28 1909, d. New York 1985) and Geni's Israel of Kraków share that exact birth date — if they're all one man, then Geni's 'presumed all killed in WWII' family lost everyone but him, and the Kraków line and this family meet here. The Arolsen Archives (free, online) hold the Bergen-Belsen DP records that would prove it."],gap:"The document places Yisroel in Generation 2; his apparent 1909 birth fits Generation 3. Family memory may have slipped a generation — or there were two Israels.",src:["Family document, Generations 2–3","SSDI (Israel, 1909–1985, NY)","Geni (Israel of Kraków, identical DOB)"]},
-miriamDC:{name:"Miriam Gottdank",conf:"verified",years:"living (b. ~1945–50)",place:"Bergen-Belsen DP camp → Washington, DC",rel:"Yisroel's daughter · likely born in the camp",facts:{Birth:"Plausibly the child 'born in Bergen Belsen Camp after the war'",Now:"Washington, DC",Contact:"The document's author corresponded with her yearly and had met her"},story:["Very possibly the most remarkable living relative in this tree: a Gottdank born in the Bergen-Belsen displaced-persons camp, daughter of survivors, now in Washington DC. The family kept up letters with her for years.","If anyone holds the European story — the shtetl, the war years, the names — it is Miriam."],src:["Family document, Generations 3–4"]},
-unknownB:{name:"The Unknown Brother",conf:"likely",years:"19th–20th c.",place:"New York — Manhattan",rel:"Charles's brother · name forgotten",facts:{Clue:"'Involved with the artist community in Manhattan' — the document",Hypothesis:"The unplaced NY Gottdanks (Abraham, Arnold, Samuel...) may be his family"},story:["The most tantalizing thread: a sixth sibling, name forgotten, who lived in New York and was involved with the artist community in Manhattan. A Galician immigrant moving through Greenwich Village's art world in the early 1900s is a story begging to be recovered.","He is also the best explanation for the unplaced New York Gottdanks — Abraham, Arnold, Harry, Samuel and Anna's family — who must descend from somebody."],gap:"Name unknown. The 1910–1940 censuses for NY Gottdank households would likely surface him.",src:["Family document, Generation 2"]},
-abrahamW:{name:"Abraham Weitman Gottdank",conf:"verified",years:"19th c.",place:"Kraków region, Galicia",rel:"Married INTO the name — the Geni pattern",facts:{Original:"Surname Vaytman/Weitman",Wife:"Miriam GOTTDANK — the name came from her",Siblings:"David, Jacob & Heynekh Vaytman; Jenny Weitman"},story:["This Kraków family shows the matrilineal pattern a second time: Abraham was born a Vaytman, and the Gottdank name attached through his wife Miriam — exactly as it did for Coleman and Gittel.","Whether Miriam Gottdank was Gittel's daughter or kinswoman is the open link between the Kraków family and the Galician line. Same name, same region, same naming custom — the shtetl connection is begging to be proven."],gap:"Miriam's parents are the missing link to Gittel's family.",src:["Geni profiles","Family document (parallel naming pattern)"]},
-miriam:{name:"Miriam Gottdank (of Kraków)",conf:"verified",years:"19th c.",place:"Galicia",rel:"The Gottdank-born wife of Abraham Vaytman",facts:{Sons:"Israel · Joseph · Rony · Calmen · Moyshe Aaron",Pattern:"Her husband took her name — like Coleman took Gittel's"},story:["Matriarch of the Kraków line and the one born a Gottdank. If she connects to Gittel — daughter, niece, cousin — the Kraków family and the Galician family are one tree, and Yisroel/Israel the survivor is the proof in human form."],src:["Geni family tree","Family document (naming parallel)"]},
-israel:{name:"Israel Gottdank",conf:"verified",years:"1909 – 1985",place:"Kraków → New York",rel:"The Kraków-born Israel — possibly Yisroel himself",facts:{Born:"August 28, 1909, Kraków (Geni)",Died:"September 1985, New York (SSDI — identical DOB)",Question:"Is he the family document's Yisroel, the Bergen-Belsen survivor?"},story:["Israel of Kraków and Israel of New York share an identical birth date — and the family remembers a Yisroel who survived the Holocaust and reached New York after the war. Three traces, possibly one man.","If all three are one man, the circle closes: the Kraków family Geni presumes 'all killed in WWII' had one survivor, he was kin, and his daughter was born in Bergen-Belsen and lives in Washington DC."],gap:"One-man hypothesis, clearly labeled — Arolsen Archives DP records would confirm or split it.",src:["Geni (Kraków birth)","SSDI (NY death)","Family document (Yisroel)"]},
-joseph_g:{name:"Joseph · Rony · Calmen · Moyshe Aaron",conf:"verified",years:"early 20th c.",place:"Galicia (Isterik)",rel:"Israel's siblings — lost in the Shoah",facts:{Record:"'Presumed all killed in WWII' — Geni",Son:"Joseph had a son, Getzl Gottdank"},story:["Israel's four siblings. One, a trained shoemaker, stayed in Isterik with his wife and small son — a family photograph described on Geni is the last trace. The record is one line long: presumed all killed in WWII.","If Yisroel the Bergen-Belsen survivor is this family's Israel, he was the only one who lived. Yad Vashem Pages of Testimony under Gottdank and Vaytman would recover their names."],src:["Geni profile notes (incl. son Getzl)"]},
-davidO:{name:"David Gottdank",conf:"verified",years:"~1880 – 1922",place:"London → Ottawa",rel:"Immigrant patriarch, Ottawa line",facts:{Married:"Rachel Leah Cohen, London",Emigrated:"~1905–1910",Died:"Aug 31, 1922, tuberculosis",Buried:"Jewish Memorial Gardens, Ottawa"},story:["Married Rachel in London, crossed to Canada around 1905–1910, raised five children in Ottawa, and died of tuberculosis at about forty-two."],src:["FindAGrave 256993440, citing Ottawa Jewish Archives"]},
-rachelO:{name:"Rachel Leah Gottdank",conf:"verified",years:"d. 1938",place:"London → Ottawa",rel:"Immigrant matriarch, Ottawa line",facts:{Maiden:"Cohen (per archives; Geni records Nitupski)",Died:"March 20, 1938",Widowed:"1922, with five children"},story:["Raised Sarah, Esther, Jeanne, Arthur, and Syd alone for sixteen years after David's death. She started all three daughters on music lessons early — Sarah at the piano, Esther on cello, Jeanne on violin — a decision that put two of them on the American vaudeville circuit."],src:["FindAGrave 256993443","Geni (Rachel Gottdank profile)"]},
-estherO:{name:"Esther Gottdank",conf:"verified",years:"1904 – 1988",place:"Ottawa → vaudeville America",rel:"Daughter of David & Rachel · the touring cellist",facts:{Start:"Played silent-movie accompaniment, Allen's Danforth Theatre, Toronto",Stage:"'The Roumanian Serenaders' → 'The Slaves of Melody' (from ~1926)",StageName:"Performed as Esther GORDON",Married:"David Mirsky, nephew of Rev. Jacob Mirsky"},story:["The register's best story. A tubercular immigrant's daughter who learned cello on her widowed mother's insistence, Esther started in the orchestra pit at Allen's Danforth Theatre in Toronto, scoring silent movies live. Around 1926 she joined a Chicago vaudeville troupe — 'The Roumanian Serenaders,' later 'The Slaves of Melody' — and toured cities and towns across the United States for five years.","On the road, she and her sister performed under a stage name: the Gottdank girls became the Gordon sisters. She came home to Ottawa, married David Mirsky of the prominent Mirsky family, and kept playing — Ottawa Music Festivals, the Ottawa Philharmonic, the Jewish Community Centre orchestra — for the rest of her life."],src:["Geni / Ottawa Jewish Archives (full account)","FindAGrave"]},
-jeanneO:{name:"Jeanne Gottdank Lieff",conf:"verified",years:"1906 – 2003",place:"Ottawa",rel:"Daughter of David & Rachel · violinist",facts:{Toured:"Joined the Serenaders with Esther ~1926; left after two years",StageName:"Performed as a 'Gordon' sister",Married:"Louis Lieff",Lived:"96 years"},story:["The violinist of the three sisters. She toured vaudeville America alongside Esther under the Gordon stage name for two years before coming home, marrying Louis Lieff, and playing on in Ottawa's orchestras until a few weeks shy of her 97th year."],src:["Geni / Ottawa Jewish Archives","FindAGrave"]},
-sasO:{name:"Sarah & Syd Gottdank",conf:"verified",years:"early 1900s",place:"Ottawa",rel:"Children of David & Rachel",facts:{Sarah:"The pianist sister — married Harry Torontow",Syd:"Youngest son; possible namesake of Sidney of Ridgecrest"},story:["Sarah, the eldest, was the pianist of the family and married Harry Torontow of Ottawa's well-known Torontow clan. Syd's descendants are a thread still to pull — and his name echoes in Sidney Gottdank of Ridgecrest, California."],src:["Geni / Ottawa Jewish Archives"]},
-arthur:{name:"Arthur J. Gottdank",conf:"verified",years:"1910 – 1983",place:"Ottawa, ON",rel:"Son of David & Rachel · father of the Canadian line",facts:{Born:"1910, Ottawa (after the family's ~1905–10 arrival)",Died:"1983 — per his public FamilySearch profile (LBJ2-M7K)",Wife:"Violet Kathleen (~1925–2014)",Children:"Robert 'Bob' · David 'Lee' · Michael 'Kim' · Tina Lou"},story:["The boy of the musical Ottawa household who carried the name forward. While his sisters toured vaudeville, Arthur stayed, married Violet Kathleen, and raised four children — and through them, every Gottdank in Canada today.","Once just a first name on the chart, Arthur is now bracketed by dates — 1910 to 1983 — fitting exactly between sister Jeanne (1906) and the family's Ottawa arrival."],src:["Violet Gottdank obituary, Ottawa Citizen, Apr 30 2014","FamilySearch profile LBJ2-M7K (Arthur J Gottdank, 1910–1983)","FindAGrave family notes"]},
-violet:{name:"Violet Kathleen Gottdank",conf:"verified",years:"~1925 – 2014",place:"Ottawa, ON",rel:"Wife of Arthur · matriarch of the Canadian line",facts:{Died:"April 28, 2014, Carleton Lodge, in her 89th year",Children:"Bob (Rita) · Lee (Joyce) · Kim (Janet) · the late Tina Lou (Rick)",Grandchildren:"Steven (Celina) · Danny (Celia) · Kayla (Thomas) · Lauren · Nathan",Also:"5 great-grandchildren; sisters Gladys & the late Lena",Rest:"Capital Funeral Home & Cemetery, Prince of Wales Dr"},story:["The hinge of the Canadian branch. Through Violet, two full generations come into focus — four children and five grandchildren — welding the modern Canadian Gottdanks to the immigrant line.","Two more living Gottdank women belong here too: Edith and Barbara Gottdank, daughters-in-law who mourned her as 'our Mother-in-Law.'"],src:["Ottawa Citizen obituary, Apr 30 2014 (Legacy.com)"]},
-bobG:{name:"Robert 'Bob' Gottdank",conf:"verified",years:"living",place:"Ontario",rel:"Son of Arthur & Violet",facts:{Wife:"Rita",Note:"A Robert Gottdank is also listed in Thornhill, ON"},story:["The eldest son. A Robert Gottdank in Thornhill is likely the same man, and Edith Gottdank — a daughter-in-law — sits in the same town."],src:["Violet Gottdank obituary","LocateFamily (Thornhill records)"]},
-davidGreely:{name:"David 'Lee' Gottdank",conf:"verified",years:"living",place:"Greely, ON (Ottawa)",rel:"Son of Arthur & Violet",facts:{Named:"After his grandfather, the immigrant David",Wife:"Joyce",Location:"Greely — ten miles from his grandfather's grave"},story:["Violet's son David 'Lee' (Joyce), at Greely, an Ottawa suburb ten miles from Jewish Memorial Gardens, where the immigrant David Gottdank was buried in 1922. A grandson carrying his grandfather's name, exactly as Jewish naming tradition predicts."],src:["Violet Gottdank obituary (named son)","LocateFamily (Greely, ON)"]},
-kimG:{name:"Michael 'Kim' Gottdank",conf:"verified",years:"living",place:"Kemptville / Nepean, ON",rel:"Son of Arthur & Violet · entrepreneur",facts:{Wife:"Janet",Companies:"COM/MIT Financial · COM/MIT Hitech · Clean.Net Inc.",Area:"Kemptville, Lanark, Nepean — greater Ottawa"},story:["Violet's son Michael 'Kim' (Janet): the 'M. Kim Gottdank' and 'Michael K. Gottdank' who own three registered companies in the Ottawa countryside are one man — the immigrants' grandson turned serial small-business owner."],src:["Violet Gottdank obituary (named son)","Canadian corporate registry via LocateFamily"]},
-tinaG:{name:"Tina Lou Gottdank",conf:"verified",years:"d. before 2014",place:"Ontario",rel:"Daughter of Arthur & Violet",facts:{Husband:"Rick",Note:"Predeceased her mother"},story:["Arthur and Violet's daughter, who predeceased her mother; her husband was Rick."],src:["Violet Gottdank obituary"]},
-danny:{name:"Danny Gottdank",conf:"verified",years:"living",place:"Toronto, ON",rel:"Grandson of Arthur & Violet",facts:{Wife:"Celia",Work:"Talent Acquisition, Rogers Communications",Education:"York University",Lineage:"Great-great-grandson of David & Rachel"},story:["Works in talent acquisition at Rogers in Toronto. Danny is Arthur's grandson — a great-great-grandson of the London couple who landed in Ottawa around 1905. Four generations, immigrant to recruiter."],src:["Violet Gottdank obituary (named grandson)","LinkedIn","LocateFamily"]},
-celia:{name:"Celia Gottdank",conf:"verified",years:"living/recent",place:"Markham / Bradford, ON",rel:"Wife of Danny",facts:{Named:"'Danny (Celia)' in Violet's obituary",Household:"Breeze Drive — same address & phone as Danny"},story:["Danny's wife — 'Danny (Celia).' They share the Breeze Drive household."],src:["Violet Gottdank obituary","LocateFamily (shared household)"]},
-steven:{name:"Steven Gottdank",conf:"verified",years:"living",place:"Toronto, ON",rel:"Grandson of Arthur & Violet",facts:{Wife:"Celina",Listed:"South Kingsway, Toronto"},story:["Violet's grandson — 'Steven (Celina)' — in Toronto. The Toronto cluster is simply Arthur's grandchildren."],src:["Violet Gottdank obituary (named grandson)","LocateFamily (Toronto)"]},
-grandkidsCA:{name:"Kayla · Lauren · Nathan",conf:"verified",years:"living",place:"Ontario",rel:"Grandchildren of Arthur & Violet",facts:{Kayla:"married Thomas",Plus:"Five great-grandchildren by 2014"},story:["The rest of Violet's grandchildren. By 2014 the Canadian line had reached five great-grandchildren — a sixth living generation from David and Rachel's 1905 crossing."],src:["Violet Gottdank obituary"]},
-torontoMisc:{name:"Edith & Barbara Gottdank",conf:"likely",years:"living/recent",place:"Thornhill, ON & Canton, MA",rel:"Daughters-in-law of Arthur & Violet (self-identified)",facts:{Evidence:"Signed Violet's guestbook: 'In remembrance of our Mother-in-Law'",Edith:"Thornhill / North York directory records",Barbara:"Canton, MA record"},story:["Two more living Gottdank women: Edith and Barbara, daughters-in-law of Arthur and Violet. Which sons they married — and whether by earlier marriages — is the open detail; Edith's Thornhill address matches Robert's town."],gap:"Exact pairing to Violet's sons unstated.",src:["Violet obituary guestbook (self-identified)","LocateFamily records"]},
-nyimm:{name:"Unplaced New York Gottdanks",conf:"verified",years:"b. 1884 – 1902",place:"Brooklyn · Bronx · Manhattan",rel:"Likely the Unknown Brother's family — or close kin",facts:{Members:"Abraham (1884–1975, Brooklyn) · Samuel ⚭ Anna (1887–1980) → Esther Brody · Sophie (1889–1984) · Annie (1890–1986) · Arnold (1895–1975, Manhattan) · Harry (1895–1975)",Hypothesis:"The document's 'unknown brother' in Manhattan must have a family — these are the candidates"},story:["With the spine now documented, these New Yorkers are the remainder — and the forgotten sixth sibling, the Manhattan artist-community brother, is their most likely father or uncle. Arnold of Manhattan (1895–1975) is a tempting match for an artist's son.","Samuel and Anna's daughter Esther Brody (d. 2006 LA) shows these families left paper trails; the 1910–1940 censuses would sort them into households in an afternoon."],src:["SSDI","Ancestry (Esther Brody record)","Family document (unknown brother)"]},
-nygen:{name:"NY-born, still unplaced",conf:"verified",years:"b. 1908 – 1924",place:"New York City",rel:"The rest of the American-born band",facts:{Members:"Gladys (1908) · Rosa (1910) · David (1911) · Mildred (1916) · Christine (1918) · Terry (1918) · Beatrice (1919) · Lawrence (1919) · Seymour (1920) · Leon (1922, buried at LA's Hillside) · Barbara (1924)",Placed:"Jerome=Jerry ✓ · Milton ✓ · Molly ✓ · Irving (El Cajon) likely Chicago-or-NY kin"},story:["Jerry and Milton stepped out of this anonymous band into the documented family; the rest still wait. Most are probably children of the unknown brother or of Charles's New York cousins — first cousins of Milton's generation, scattered later to Florida and California."],src:["Social Security Death Index","LA Times (Leon, Hillside Mortuary)"]},
-lawrence:{name:"Lawrence Gottdank",conf:"verified",years:"1919 – 1998",place:"NY → Pompano Beach, FL",rel:"Plainview patriarch (inferred)",facts:{Born:"May 23, 1919",Died:"Oct 27, 1998"},story:["Born the same year as Beatrice, died in the Florida retirement belt; the natural father figure for the Plainview household, though the marriage is inferred."],gap:"Marriage to Beatrice inferred from matching years + Long Island geography.",src:["SSDI"]},
-beatrice:{name:"Beatrice Gottdank",conf:"verified",years:"1919 – 2009",place:"Plainview, NY & Margate, FL",rel:"Plainview matriarch",facts:{Born:"July 4, 1919",Died:"Feb 8, 2009, aged 89"},story:["A Fourth-of-July baby who lived to eighty-nine, wintering in Margate, Florida. Her Plainview address is one street from the household of Joseph, Ellen, Heather, and Tracy."],src:["SSDI","LocateFamily (Plainview & Margate)"]},
-josephP:{name:"Joseph D. Gottdank",conf:"verified",years:"living",place:"Plainview, NY",rel:"Son of Lawrence & Beatrice (inferred)",facts:{Household:"Alma Lane, Plainview — with Ellen, Heather, Tracy"},story:["Head of the Alma Lane household in Plainview, Long Island, shared with Ellen and daughters Heather and Tracy. Geography and generation place him as Lawrence and Beatrice's son."],gap:"Parentage inferred; no document names it.",src:["LocateFamily (shared Plainview household)"]},
-ellenP:{name:"Ellen Gottdank",conf:"verified",years:"living",place:"Plainview, NY",rel:"Wife of Joseph",facts:{Household:"Alma Lane, Plainview"},story:["Listed at the Alma Lane household across two decades of records."],src:["LocateFamily"]},
-heather:{name:"Heather Gottdank",conf:"verified",years:"living",place:"Plainview, NY",rel:"Daughter of Joseph & Ellen",facts:{Household:"Alma Lane, Plainview"},story:["One of the two Alma Lane daughters."],src:["LocateFamily (shared household)"]},
-tracy:{name:"Tracy Gottdank",conf:"verified",years:"living",place:"Plainview / Franklin Sq, NY",rel:"Daughter of Joseph & Ellen",facts:{Household:"Alma Lane; later Franklin Square"},story:["The other Alma Lane daughter, with a later Franklin Square record of her own — the next Long Island generation setting out."],src:["LocateFamily (shared household + Franklin Sq)"]},
-roseEC:{name:"Rose Gottdank",conf:"verified",years:"1902 – 1995",place:"El Cajon, CA",rel:"El Cajon matriarch",facts:{Born:"Dec 26, 1902",Died:"July 9, 1995, aged 92"},story:["European-born (1902), died in El Cajon at ninety-two — the same small city where Irving E. Gottdank is listed. Mother and son is the natural reading."],src:["SSDI"]},
-irving:{name:"Irving E. Gottdank",conf:"verified",years:"1925 – 2014",place:"El Cajon, CA",rel:"Rose's son (inferred) · Milton's generation",facts:{Born:"September 11, 1925",Died:"January 22, 2014, El Cajon",Address:"Alderson Street, El Cajon — records 2001–2024"},story:["Born September 11, 1925, died January 2014 at eighty-eight, in Rose's town. Born four years after Milton, Irving belongs to the same American-born generation — a likely first cousin of Milton, aging out his years twenty minutes from Dale's San Diego without either branch necessarily knowing."],gap:"Relation to Rose inferred from shared rare name + same small city.",src:["Legacy.com obituary, Jan 22 2014","LocateFamily (El Cajon records)"]},
-sidney:{name:"Sidney Gottdank",conf:"verified",years:"living/recent",place:"Ridgecrest, CA",rel:"Ridgecrest household · with Linda",facts:{Household:"Farragut Street — with Linda L.",Town:"Ridgecrest = China Lake naval weapons base"},story:["A Sidney and Linda Gottdank sharing a Ridgecrest household — a town that exists almost entirely to serve the China Lake base, hinting at a defense-work chapter. 'Sidney' echoes 'Syd' of the Ottawa line — possibly a namesake thread worth pulling."],gap:"Unplaced in the tree.",src:["LocateFamily (shared Ridgecrest household)"]},
-linda:{name:"Linda L. Gottdank",conf:"verified",years:"living/recent",place:"Ridgecrest, CA",rel:"Wife of Sidney",facts:{Household:"Same Farragut St address"},story:["Listed with Sidney at the Ridgecrest household across twenty years of records."],src:["LocateFamily"]},
-alex:{name:"Alex Gottdank",conf:"verified",years:"living",place:"San Juan Capistrano, CA",rel:"Author & teacher · OC cluster",facts:{Author:"'Preparing for Christ's New Name' (2004)",Faith:"Bahá'í, from a Jewish/Christian background",Service:"Nat'l Spiritual Assembly, W. Caroline Islands, 1988–2000"},story:["The register's most unexpected life: a Bahá'í author who served twelve years on the National Spiritual Assembly of the Western Caroline Islands, taught at Yap High School in Micronesia, and teaches seventh-grade world history in San Juan Capistrano."],src:["Amazon","BahaiTeachings.org"]},
-marilyn:{name:"Marilyn B. Gottdank",conf:"verified",years:"living/recent",place:"San Clemente / Vista, CA",rel:"OC cluster — likely Alex's household",facts:{Towns:"San Clemente & Vista — minutes from San Juan Capistrano"},story:["Marilyn's San Clemente records sit ten minutes from Alex's San Juan Capistrano — in a county with perhaps four Gottdanks total, that proximity reads as one household or close kin."],gap:"Link to Alex inferred from tight geography only.",src:["LocateFamily (San Clemente/Vista)"]},
-adam:{name:"Adam S.U. Gottdank",conf:"verified",years:"living",place:"Laguna Niguel, CA",rel:"OC cluster",facts:{Role:"Director, Disability Support Services — NOCE",Affiliation:"UCLA Semel Institute / PEERS"},story:["Directs disability support services at North Orange Continuing Education; UCLA PEERS-affiliated. Laguna Niguel sits between Alex's and Marilyn's towns — the three form a tight Orange County triangle, plausibly parents and son."],gap:"Cluster relationships inferred from geography.",src:["NOCE","LocateFamily (Laguna Niguel)"]},
-michaelNJ:{name:"Michael D. Gottdank",conf:"verified",years:"living",place:"East Brunswick, NJ",rel:"Unplaced — New York roots",facts:{Career:"Financial services executive",Education:"NYU Stern · Tel Aviv University MBA"},story:["A financial-services executive and native New Yorker, now in East Brunswick with his family. Rosa Gottdank (1910–1987), the one NJ death record, may be his grandmother."],gap:"Unplaced.",src:["Professional bios","LocateFamily (East Brunswick)"]},
-mariza:{name:"Mariza & Fernando Gottdank",conf:"verified",years:"living/recent",place:"São Paulo & Santos, Brazil",rel:"The Brazilian branch",facts:{Mariza:"Av. Rouxinol, São Paulo; Rua Pernambuco, Santos",Fernando:"São Paulo — freelancer, public Facebook profile"},story:["The name reached South America: Mariza of São Paulo and the port city of Santos, and Fernando, a freelancer with a public profile — consistent with the well-worn path of Galician Jewish emigration to Brazil when U.S. quotas tightened in the 1920s.","Plausibly descended from a sibling of Israel's generation who sailed south instead of west. Brazilian immigration records (Santos was THE Jewish port of entry) would tell the story."],gap:"Unplaced; Brazilian port records would resolve it.",src:["LocateFamily (São Paulo & Santos)","Facebook (Fernando Gottdank)"]},
+/* ---------- photos: id -> image url. empty for now; archival faces drop in here.
+   e.g. bernhard:"img/bernhard-shop.jpg", davidO:"img/ottawa-portrait.jpg" ---------- */
+const PHOTOS = {};
+
+/* ---------- family structure (units reference ids in P) ---------- */
+const U=(people,children)=>({people,children:children||null});
+const N=(note,children)=>({note,children:children||null});
+
+const TREES = {
+  main:{label:"Galician line", sub:"Gittel → today", gens:["Galicia · 1800s","New York & Chicago","Phyllis & Milton's world","Living today","Living today"], roots:[
+    U(["gittel","coleman"],[
+      U(["charles","fannieK"],[
+        U(["lillian"]), U(["helenS"]),
+        U(["jerry","mollyR"],[ U(["franklin","wendy"]), U(["allan"]), U(["lindaJ"]) ]),
+        U(["milton","phyllis"],[
+          U(["brian","laurie"],[ U(["cole"]), U(["bridget"]), U(["annalyn"]) ]),
+          U(["dale","nancy"],[ U(["jordan"]), U(["jessica"]) ]),
+          U(["lostKids"])
+        ])
+      ]),
+      U(["bernhard","bertha"],[ U(["ruthM"]), U(["kateB"]), U(["twinsHF"]), U(["mildredH"]) ]),
+      U(["pauline"]), U(["claraK"]),
+      U(["yisroel"],[ U(["miriamDC"]) ]),
+      U(["unknownB"])
+    ])
+  ]},
+  ottawa:{label:"Ottawa", sub:"London → Canada", roots:[
+    U(["davidO","rachelO"],[
+      U(["estherO"]), U(["jeanneO"]), U(["sasO"]),
+      U(["arthur","violet"],[
+        U(["bobG"]), U(["davidGreely"]), U(["kimG"]), U(["tinaG"]),
+        N("Grandchildren · parents per the obituary",[
+          U(["danny","celia"]), U(["steven"]), U(["grandkidsCA"]), U(["torontoMisc"])
+        ])
+      ])
+    ])
+  ]},
+  krakow:{label:"Kraków", sub:"by marriage", roots:[
+    U(["abrahamW","miriam"],[ U(["israel"]), U(["joseph_g"]) ])
+  ]},
+  newyork:{label:"New York", sub:"unplaced kin", roots:[
+    U(["nyimm"],[
+      U(["nygen"]),
+      U(["lawrence","beatrice"],[ U(["josephP","ellenP"],[ U(["heather"]), U(["tracy"]) ]) ]),
+      U(["roseEC"],[ U(["irving"]) ])
+    ])
+  ]},
+  diaspora:{label:"Diaspora", sub:"share the name", roots:[
+    U(["sidney","linda"]),
+    U(["alex"],[ U(["marilyn"]), U(["adam"]) ]),
+    U(["michaelNJ"]),
+    U(["mariza"])
+  ]}
 };
 
-/* ===== builders ===== */
-function card(id,extra=""){
+/* ---------- helpers ---------- */
+function clean(n){return n.replace(/\(.*?\)/g,'').replace(/[„“”"'‚].*?[„“”"'‚]/g,'').replace(/\s+/g,' ').trim();}
+function disp(n){let c=clean(n);if(!c)c=n;let w=c.split(' ');if(w.length>1&&w[w.length-1]==='Gottdank')w.pop();return w.join(' ');}
+function initials(n){let w=clean(n).split(' ').filter(Boolean);let a=(w[0]||n)[0]||'?';let b=w.length>1?w[w.length-1][0]:'';return (a+b).toUpperCase();}
+function confClass(c){return c==='verified'?'v':c==='likely'?'l':'u';}
+
+/* ---------- layout (tidy forest) ---------- */
+const SLOT={couple:236,single:138,note:176}, NODEH=98, ROW=176, HGAP=18, ROOTGAP=58, PAD=46;
+function selfW(u){return u.note?SLOT.note:(u.people.length===2?SLOT.couple:SLOT.single);}
+function measure(u){const own=selfW(u);const ch=u.children;
+  if(ch&&ch.length){const k=ch.reduce((s,c)=>s+measure(c),0)+HGAP*(ch.length-1);u.w=Math.max(own,k);}else u.w=own;return u.w;}
+function place(u,left,depth){u.depth=depth;u.left=left;const ch=u.children;
+  if(ch&&ch.length){let cur=left;ch.forEach(c=>{place(c,cur,depth+1);cur+=c.w+HGAP;});u.cx=(ch[0].cx+ch[ch.length-1].cx)/2;}
+  else u.cx=left+u.w/2;
+  u.top=depth*ROW+PAD;}
+function flatten(roots){const a=[];const w=u=>{a.push(u);(u.children||[]).forEach(w);};roots.forEach(w);return a;}
+
+/* ---------- render ---------- */
+const vp=document.getElementById('vp'), board=document.getElementById('board');
+let curAll=[], curW=0, curH=0, curKey='main';
+
+function locketHtml(id,big){
+  const p=P[id], ph=PHOTOS[id];
+  const inner = ph?`<img src="${ph}" alt="">`:`<span class="mono">${initials(p.name)}</span>`;
+  return `<span class="locket">${inner}</span>`;
+}
+function personHtml(id){
   const p=P[id];
-  return `<button class="person ${p.conf} ${extra}" data-id="${id}" data-name="${p.name.toLowerCase()}">
-    <span class="tx"><span class="nm">${p.name}</span><span class="meta">${p.years} · ${p.place}</span></span>
-    <span class="conf">${p.conf==='unconfirmed'?'PENCIL':p.conf.toUpperCase()}</span>
-  </button>`;
+  const ribbon = id==='cole'?'<span class="ribbon">you are here</span>':'';
+  return `<button class="person ${confClass(p.conf)}${id==='cole'?' me':''}" data-id="${id}" style="position:relative">
+    ${ribbon}${locketHtml(id)}
+    <span class="pn">${disp(p.name)}</span><span class="py">${p.years}</span></button>`;
 }
-const couple=(a,b,q=false,extra="")=>`<div class="couple">${card(a,extra)}<span class="knot${q?' q':''}">${q?'⚭?':'⚭'}</span>${card(b,extra)}</div>`;
-const gcard=(id)=>{const p=P[id];return `<div class="gnode tap" data-id="${id}" data-name="${p.name.toLowerCase()}" role="button" tabindex="0">
-  <span class="gt">${p.name} · ${p.years}</span>
-  <span class="gd">${p.rel} — tap for the full story.</span>
-  <span class="chips">${(p.facts.Members||'').split('·').map(m=>`<span class="mini">${m.trim()}</span>`).join('')}</span>
-</div>`;}
-
-/* node with collapsible children: kids(label, openByDefault, ulClass, innerHTML) */
-let kid=0;
-function kids(label,open,cls,inner){
-  const id="k"+(++kid);
-  return `<button class="kidsbtn" aria-expanded="${open}" aria-controls="${id}"><span class="ch">▸</span>${label}</button>
-  <ul class="vt ${cls} branchkids${open?'':' closed'}" id="${id}">${inner}</ul>`;
+function unitHtml(u){
+  if(u.note) return `<div class="note"><b>note</b>${u.note}</div>`;
+  if(u.people.length===2){
+    return `<div class="couple">${personHtml(u.people[0])}<span class="knot">⚭</span>${personHtml(u.people[1])}</div>`;
+  }
+  return personHtml(u.people[0]);
 }
-const li=(inner)=>`<li>${inner}</li>`;
+function render(key){
+  curKey=key;
+  const t=TREES[key];
+  t.roots.forEach(r=>measure(r));
+  let left=PAD; t.roots.forEach(r=>{place(r,left,0);left+=r.w+ROOTGAP;});
+  curAll=flatten(t.roots);
+  curW=Math.max(...curAll.map(u=>u.left+u.w))+PAD;
+  curH=Math.max(...curAll.map(u=>u.top))+NODEH+PAD;
+  let paths='';
+  curAll.forEach(u=>{(u.children||[]).forEach(c=>{
+    const x1=u.cx,y1=u.top+NODEH-10,x2=c.cx,y2=c.top+2,my=(y1+y2)/2;
+    const inf=(c.note||(c.people&&['nygen','lawrence','beatrice','josephP','irving','roseEC','israel','joseph_g'].includes(c.people[0])))?' class="inferred"':'';
+    paths+=`<path${inf} d="M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}"/>`;
+  });});
+  let nodes='', i=0;
+  curAll.forEach(u=>{nodes+=`<div class="unit" style="left:${u.cx}px;top:${u.top}px;animation-delay:${Math.min(i*22,600)}ms">${unitHtml(u)}</div>`;i++;});
+  board.style.width=curW+'px'; board.style.height=curH+'px';
+  board.innerHTML=`<svg class="links" width="${curW}" height="${curH}">${paths}</svg>${nodes}`;
+  fit();
+}
 
-/* ===== THE ONE TREE (vertical) ===== */
-document.getElementById("megatree").innerHTML =
-`<ul class="vt" style="padding-left:0"><li style="padding-top:10px">` +
+/* ---------- pan / zoom ---------- */
+let view={x:0,y:0,z:1};
+function apply(){board.style.transform=`translate(${view.x}px,${view.y}px) scale(${view.z})`;}
+function clampZ(z){return Math.max(.32,Math.min(2.2,z));}
+function zoomAt(nz,cx,cy){nz=clampZ(nz);const r=vp.getBoundingClientRect();const lx=cx-r.left,ly=cy-r.top;
+  const px=(lx-view.x)/view.z,py=(ly-view.y)/view.z;view.z=nz;view.x=lx-px*nz;view.y=ly-py*nz;apply();}
+function fit(){const vw=vp.clientWidth,vh=vp.clientHeight;let z=Math.min((vw-20)/curW,(vh-20)/curH,1);if(z<.34)z=.34;
+  view.z=z;view.x=(vw-curW*z)/2;view.y=14;apply();}
+function centerOn(u,z){z=z||.82;const vw=vp.clientWidth,vh=vp.clientHeight;view.z=z;
+  view.x=vw/2-u.cx*z;view.y=vh/2-(u.top+44)*z;apply();}
 
-`<div class="branchlabel">Generation One · Galicia → buried in Pápa, Hungary</div>${couple("gittel","coleman")}` +
-kids("6 children — the whole American family",true,"",
-  li( couple("charles","fannieK") +
-    kids("4 children · the New York line",true,"",
-      li(card("lillian")) + li(card("helenS")) +
-      li( couple("jerry","mollyR") +
-        kids("3 children — Brian & Dale's first cousins",false,"",
-          li(couple("franklin","wendy")) + li(card("allan")) + li(card("lindaJ"))
-        )
-      ) +
-      li( couple("milton","phyllis") +
-        kids("4 children",true,"",
-          li( couple("brian","laurie") +
-            kids("3 children",true,"", li(card("cole")) + li(card("annalyn")) + li(card("bridget")))
-          ) +
-          li( couple("dale","nancy") +
-            kids("2 children",true,"", li(card("jordan")) + li(card("jessica")))
-          ) +
-          li(card("lostKids"))
-        )
-      )
-    )
-  ) +
-  li( couple("bernhard","bertha") +
-    kids("5 children · the Chicago branch",false,"",
-      li(card("ruthM")) + li(card("kateB")) + li(card("twinsHF")) + li(card("mildredH"))
-    )
-  ) +
-  li(card("pauline")) +
-  li(card("claraK")) +
-  li( card("yisroel") + kids("1 daughter",false,"", li(card("miriamDC"))) ) +
-  li(card("unknownB"))
-) +
+const pts=new Map(); let lastDist=0, dragged=false, downXY=null;
+vp.addEventListener('pointerdown',e=>{vp.setPointerCapture(e.pointerId);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});dragged=false;downXY={x:e.clientX,y:e.clientY};});
+vp.addEventListener('pointermove',e=>{
+  if(!pts.has(e.pointerId))return;
+  const prev=pts.get(e.pointerId);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pts.size===1){view.x+=e.clientX-prev.x;view.y+=e.clientY-prev.y;apply();
+    if(downXY&&Math.hypot(e.clientX-downXY.x,e.clientY-downXY.y)>8)dragged=true;}
+  else if(pts.size===2){const a=[...pts.values()];const d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);
+    if(lastDist)zoomAt(view.z*d/lastDist,(a[0].x+a[1].x)/2,(a[0].y+a[1].y)/2);lastDist=d;dragged=true;}
+});
+function up(e){pts.delete(e.pointerId);if(pts.size<2)lastDist=0;}
+vp.addEventListener('pointerup',up);vp.addEventListener('pointercancel',up);
+vp.addEventListener('wheel',e=>{e.preventDefault();zoomAt(view.z*(e.deltaY<0?1.12:0.89),e.clientX,e.clientY);},{passive:false});
 
-`<div class="branchlabel" style="margin-top:22px">Kraków — joined to the name by marriage · shtetl kin?</div>${couple("abrahamW","miriam")}` +
-kids("Children of the Vaytman-Gottdank line",false,"inf",
-  li(card("israel")) + li(card("joseph_g"))
-) +
+document.getElementById('zin').onclick=()=>{const r=vp.getBoundingClientRect();zoomAt(view.z*1.2,r.left+vp.clientWidth/2,r.top+vp.clientHeight/2);};
+document.getElementById('zout').onclick=()=>{const r=vp.getBoundingClientRect();zoomAt(view.z*0.83,r.left+vp.clientWidth/2,r.top+vp.clientHeight/2);};
+document.getElementById('zfit').onclick=fit;
 
-`<div class="branchlabel" style="margin-top:22px">London → Ottawa — a separate Gottdank family, fully documented</div>${couple("davidO","rachelO")}` +
-kids("5 children · the Canadian line",false,"",
-  li(card("estherO")) + li(card("jeanneO")) + li(card("sasO")) +
-  li( couple("arthur","violet") +
-    kids("4 children (per Violet's obituary)",false,"",
-      li(card("bobG")) + li(card("davidGreely")) + li(card("kimG")) + li(card("tinaG")) +
-      li(`<div class="gnode"><span class="gt">Grandchildren · per the obituary</span><span class="gd">Named by Violet; parent assignments unstated.</span></div>` +
-        kids("5 grandchildren + in-laws",false,"",
-          li( couple("danny","celia") ) +
-          li(card("steven")) +
-          li(card("grandkidsCA")) +
-          li(card("torontoMisc"))
-        )
-      )
-    )
-  )
-) +
+/* ---------- chips ---------- */
+const chips=document.getElementById('chips');
+chips.innerHTML=Object.entries(TREES).map(([k,t],i)=>
+  `<button class="chip" data-k="${k}" aria-selected="${i===0}">${t.label}<span class="ct">${t.sub}</span></button>`).join('');
+chips.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;
+  chips.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-selected',c===b));
+  render(b.dataset.k);findBox.value='';});
 
-`<div class="branchlabel" style="margin-top:22px">New York — unplaced · likely the Unknown Brother's people</div>` +
-gcard("nyimm") +
-kids("Households & the NY-born band",false,"ast",
-  li(gcard("nygen")) +
-  li( couple("lawrence","beatrice",true) +
-    kids("Plainview household",false,"inf",
-      li( couple("josephP","ellenP") +
-        kids("2 daughters",false,"", li(card("heather")) + li(card("tracy")))
-      )
-    )
-  ) +
-  li( card("roseEC") + kids("El Cajon household",false,"inf", li(card("irving"))) )
-) +
+/* ---------- tap a face ---------- */
+board.addEventListener('click',e=>{if(dragged)return;const b=e.target.closest('.person');if(b)openSheet(b.dataset.id);});
 
-`<div class="branchlabel" style="margin-top:22px">Unplaced — West Coast, NJ & Brazil</div>` +
-`<div class="gnode"><span class="gt">Awaiting a documented link</span><span class="gd">Each shares the name; none yet has a documented parent in this tree.</span></div>` +
-kids("5 unplaced people & households",false,"ast",
-  li(couple("sidney","linda")) +
-  li(card("alex") + kids("Orange County cluster (inferred)",false,"ast", li(card("marilyn")) + li(card("adam")))) +
-  li(card("michaelNJ")) +
-  li(card("mariza"))
-) +
-
-`</li></ul>`;
-
-/* ===== interactions ===== */
-const sheet=document.getElementById("sheet"),scrim=document.getElementById("scrim");
-let lastFocus=null;
+/* ---------- detail sheet ---------- */
+const sheet=document.getElementById('sheet'),scrim=document.getElementById('scrim');
+let openCount=0;
+function showScrim(on){openCount+=on?1:-1;scrim.classList.toggle('open',openCount>0);}
 function openSheet(id){
-  const p=P[id];lastFocus=document.activeElement;
-  document.getElementById("dRec").textContent="Register entry";
-  document.getElementById("dTitle").textContent=p.name;
-  document.getElementById("dSub").textContent=`${p.years} · ${p.place}`;
-  const st=document.getElementById("dStamp");
-  st.textContent=(p.conf==='unconfirmed'?'PENCIL — UNCONFIRMED':p.conf.toUpperCase());
-  st.className="stampbig "+p.conf;
-  document.getElementById("dFacts").innerHTML=
-    `<dt>Relation</dt><dd>${p.rel}</dd>`+
-    Object.entries(p.facts).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join("");
-  document.getElementById("dStory").innerHTML=p.story.map(s=>`<p>${s}</p>`).join("");
-  const gap=document.getElementById("dGap");
-  if(p.gap){gap.hidden=false;document.getElementById("dGapText").textContent=p.gap;}else gap.hidden=true;
-  document.getElementById("dSources").innerHTML=p.src.map(s=>`<li>${s}</li>`).join("");
-  sheet.classList.add("open");scrim.classList.add("open");
-  document.getElementById("dClose").focus();
+  const p=P[id];
+  document.getElementById('dLock').className='locket '+confClass(p.conf);
+  document.getElementById('dLock').innerHTML=PHOTOS[id]?`<img src="${PHOTOS[id]}" alt="">`:`<span class="mono">${initials(p.name)}</span>`;
+  document.getElementById('dTitle').textContent=p.name;
+  document.getElementById('dSub').textContent=`${p.years} · ${p.place}`;
+  const st=document.getElementById('dStamp');
+  st.textContent=p.conf==='unconfirmed'?'PENCIL — UNCONFIRMED':p.conf.toUpperCase();
+  st.className='stampbig '+p.conf;
+  document.getElementById('dFacts').innerHTML=`<dt>Relation</dt><dd>${p.rel}</dd>`+
+    Object.entries(p.facts).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('');
+  document.getElementById('dStory').innerHTML=p.story.map(s=>`<p>${s}</p>`).join('');
+  const g=document.getElementById('dGap');
+  if(p.gap){g.hidden=false;document.getElementById('dGapText').textContent=p.gap;}else g.hidden=true;
+  document.getElementById('dSrc').innerHTML=p.src.map(s=>`<li>${s}</li>`).join('');
+  document.getElementById('dAdd').onclick=()=>{closeSheet();openContrib(id);};
+  sheet.classList.add('open');showScrim(true);
 }
-function closeSheet(){sheet.classList.remove("open");scrim.classList.remove("open");if(lastFocus)lastFocus.focus();}
-document.addEventListener("click",e=>{
-  const kb=e.target.closest(".kidsbtn");
-  if(kb){
-    const ul=document.getElementById(kb.getAttribute("aria-controls"));
-    const open=ul.classList.toggle("closed");
-    kb.setAttribute("aria-expanded",String(!open));
-    return;
-  }
-  const b=e.target.closest("[data-id]");
-  if(b)openSheet(b.dataset.id);
-});
-document.addEventListener("keydown",e=>{
-  if(e.key==="Escape")closeSheet();
-  if(e.key==="Enter"&&e.target.classList?.contains("gnode"))openSheet(e.target.dataset.id);
-});
-document.getElementById("dClose").addEventListener("click",closeSheet);
-scrim.addEventListener("click",closeSheet);
-document.getElementById("dimToggle").addEventListener("change",e=>document.body.classList.toggle("dimmed",e.target.checked));
+function closeSheet(){if(sheet.classList.contains('open')){sheet.classList.remove('open');showScrim(false);}}
+document.getElementById('dClose').onclick=closeSheet;
 
-/* expand/collapse all */
-const allBtn=document.getElementById("allBtn");
-let allOpen=false;
-allBtn.addEventListener("click",()=>{
-  allOpen=!allOpen;
-  document.querySelectorAll(".branchkids").forEach(ul=>ul.classList.toggle("closed",!allOpen));
-  document.querySelectorAll(".kidsbtn").forEach(b=>b.setAttribute("aria-expanded",String(allOpen)));
-  allBtn.textContent=allOpen?"CLOSE ALL":"OPEN ALL";
-});
+/* ---------- contribute ---------- */
+const csheet=document.getElementById('csheet');
+let contribTarget=null;
+function openContrib(id){contribTarget=id||null;
+  document.getElementById('cTitle').textContent=id?`Add to ${disp(P[id].name)}'s record`:'Add to the tree';
+  csheet.classList.add('open');showScrim(true);}
+function closeContrib(){if(csheet.classList.contains('open')){csheet.classList.remove('open');showScrim(false);}}
+document.getElementById('cClose').onclick=closeContrib;
+document.getElementById('contribBtn').onclick=()=>openContrib(null);
+document.getElementById('cSend').onclick=()=>{
+  const code=document.getElementById('cCode').value.trim();
+  const nm=document.getElementById('cName').value.trim();
+  const msg=document.getElementById('cMsg').value.trim();
+  const who=contribTarget?` about ${P[contribTarget].name}`:'';
+  const body=encodeURIComponent(`From: ${nm||'(name)'}\nFamily code: ${code||'(none)'}\n\nContribution${who}:\n${msg}\n\n(Photos: please attach them to this email.)`);
+  location.href=`mailto:colegottdank@gmail.com?subject=${encodeURIComponent('Gottdank tree — a contribution'+who)}&body=${body}`;
+};
 
-/* find: open everything that matches, hide non-matching top nodes */
-document.getElementById("findBox").addEventListener("input",e=>{
+scrim.addEventListener('click',()=>{closeSheet();closeContrib();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSheet();closeContrib();}});
+
+/* ---------- find ---------- */
+const findBox=document.getElementById('findBox');
+findBox.addEventListener('input',e=>{
   const q=e.target.value.trim().toLowerCase();
-  document.querySelectorAll(".person,[data-id].gnode").forEach(p=>{
-    p.classList.toggle("dimfind",q!==""&&!p.dataset.name.includes(q));
-  });
-  if(q!==""){
-    document.querySelectorAll(".person:not(.dimfind)").forEach(m=>{
-      let el=m.closest(".branchkids");
-      while(el){el.classList.remove("closed");
-        const btn=document.querySelector(`[aria-controls="${el.id}"]`);
-        if(btn)btn.setAttribute("aria-expanded","true");
-        el=el.parentElement.closest(".branchkids");}
-    });
-  }
+  document.querySelectorAll('.person').forEach(b=>{const p=P[b.dataset.id];b.classList.toggle('dim',q&&!p.name.toLowerCase().includes(q));});
+  if(q){const hit=curAll.find(u=>!u.note&&u.people.some(id=>P[id].name.toLowerCase().includes(q)));if(hit)centerOn(hit,.9);}
 });
+
+/* ---------- go ---------- */
+render('main');
+setTimeout(()=>{const h=document.getElementById('hint');if(h)h.style.opacity='0';},4200);
+window.addEventListener('resize',()=>{/* keep current view; user can hit FIT */});
 </script>
 </body>
 </html>
