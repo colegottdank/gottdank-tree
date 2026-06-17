@@ -339,7 +339,15 @@ function glossify(text){
   }
   return out;
 }
-function mapUrl(q){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q.trim());}
+function mapQuery(seg){
+  let q=seg; const m=q.match(/\(([^)]+)\)/);
+  q = m ? m[1] : q.replace(/\([^)]*\)/g,'');
+  q = q.replace(/\bthe Isterik region\b/ig,'Ustrzyki Dolne').replace(/\bIsterik\b/ig,'Ustrzyki Dolne');
+  q = q.replace(/,?\s*Galicia\b/ig,', Poland').replace(/\bDP camp\b/ig,'');
+  q = q.replace(/\s{2,}/g,' ').replace(/^[,\s]+|[,\s]+$/g,'').trim();
+  return q||seg;
+}
+function mapUrl(seg){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(mapQuery(seg));}
 function placeSegs(place){return place.split(/\s*(?:→|·|;)\s*/).filter(Boolean);}
 function placeHtml(place){return placeSegs(place).map(seg=>'<a class="placelink" href="'+mapUrl(seg)+'" target="_blank" rel="noopener">'+esc(seg)+'</a>').join(' → ');}
 function srcLink(s){
@@ -367,7 +375,7 @@ function openSheet(id){
   document.getElementById('dRels').innerHTML=relsHtml(id);
   document.getElementById('dFacts').innerHTML=`<dt>Relation</dt><dd>${p.rel}</dd>`+Object.entries(p.facts).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('');
   const dMap=document.getElementById('dMap'),pp=placeSegs(p.place)[0]||'';
-  if(pp){dMap.hidden=false;dMap.innerHTML='<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q='+encodeURIComponent(pp)+'&output=embed"></iframe>';}else{dMap.hidden=true;dMap.innerHTML='';}
+  if(pp){dMap.hidden=false;dMap.innerHTML='<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q='+encodeURIComponent(mapQuery(pp))+'&output=embed"></iframe>';}else{dMap.hidden=true;dMap.innerHTML='';}
   const si=STORY_IMG[id];
   const fig=si?`<figure class="simg"><img src="${si.src}" alt=""><figcaption>${si.cap}</figcaption></figure>`:'';
   document.getElementById('dStory').innerHTML=fig+p.story.map(s=>`<p>${glossify(s)}</p>`).join('');
