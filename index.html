@@ -237,7 +237,13 @@
 <script>
 /* photos: id -> face url (locket).  story images: id -> {src,cap}. filled as we get them. */
 const PHOTOS = {};
-const STORY_IMG = {};
+const STORY_IMG = {
+  thename:{src:"img/galicia-1914.jpg",cap:"Galicia (shaded red) — the family's corner of old Austria-Hungary, now split between southeast Poland and western Ukraine. Map: Wikimedia Commons."},
+  gittel:{src:"img/ustrzyki-view.jpg",cap:"Ustrzyki Dolne today — the town the Jews called Isterik — in its Bieszczady valley. Photo: Wikimedia Commons."},
+  charles:{src:"img/immigrant-boat.jpg",cap:"An 'immigrant boat' ferrying new arrivals across New York harbor, c.1900 — the crossing Charles's generation made. Library of Congress."},
+  phyllis:{src:"img/coney-boardwalk.jpg",cap:"The Coney Island boardwalk in its heyday — the world by Phyllis's door in Brooklyn. Library of Congress."},
+  estherO:{src:"img/vaudeville-1927.jpg",cap:"A vaudeville stage and chorus line, 1927 — the touring world Esther and Jeanne played as 'the Gordon sisters.' MOHAI / Wikimedia Commons."}
+};
 
 /* family structure */
 const U=(people,children)=>({people,children:children||null});
