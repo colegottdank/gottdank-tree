@@ -123,12 +123,11 @@
     border:2px solid currentColor;padding:3px 9px;border-radius:2px;transform:rotate(-2deg);margin:6px 0 12px}
   .stampbig.verified{color:var(--stamp)} .stampbig.likely{color:var(--likely)}
   .stampbig.unconfirmed{color:var(--pencil);border-style:dashed;transform:rotate(2deg)}
-  .rels{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
-  .relpill{display:inline-flex;flex-direction:column;align-items:flex-start;gap:1px;border:1.5px solid var(--rule);
-    background:var(--paper2);color:var(--ink);font-family:'EB Garamond',serif;font-size:14.5px;line-height:1.1;
-    padding:6px 12px;border-radius:999px;cursor:pointer;text-align:left}
+  .rels{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 14px}
+  .relpill{display:inline-flex;align-items:baseline;gap:5px;border:1px solid var(--rule);background:var(--paper2);
+    color:var(--ink);font-family:'EB Garamond',serif;font-size:14px;line-height:1.5;padding:2px 9px;border-radius:6px;cursor:pointer;white-space:nowrap}
   .relpill:active{background:var(--ink);color:var(--paper)}
-  .relpill .rtag{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--pencil)}
+  .relpill .rtag{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.05em;text-transform:uppercase;color:var(--pencil)}
   .relpill:active .rtag{color:rgba(255,255,255,.6)}
   .sheet dl{display:grid;grid-template-columns:92px 1fr;gap:6px 12px;margin:0 0 14px;font-size:15.5px}
   .sheet dt{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--pencil);padding-top:3px}
@@ -144,6 +143,16 @@
   .sech{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--stamp);margin:16px 0 7px;border-top:1px solid var(--rule);padding-top:12px}
   .srcs{list-style:none} .srcs li{padding-left:15px;position:relative;font-size:14.5px;color:var(--ink-soft);margin-bottom:5px;line-height:1.4}
   .srcs li::before{content:"§";position:absolute;left:0;color:var(--stamp)}
+  .srcs a{color:var(--ink-soft);text-decoration:none;border-bottom:1px dotted var(--pencil)}
+  .srcs a:active{color:var(--stamp)}
+  .gloss{border:none;border-bottom:1.5px dotted var(--stamp);background:none;padding:0;font:inherit;color:inherit;cursor:help}
+  .placelink{color:var(--stamp);text-decoration:none;border-bottom:1px dotted var(--stamp)}
+  .dmap{margin:2px 0 14px;border:1.5px solid var(--rule);border-radius:4px;overflow:hidden;line-height:0}
+  .dmap iframe{width:100%;height:150px;border:0;display:block}
+  .gtoast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);z-index:90;max-width:340px;width:calc(100% - 32px);
+    background:var(--ink);color:var(--paper);border-radius:8px;padding:12px 15px;font-size:14.5px;line-height:1.45;box-shadow:0 10px 28px -8px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+  .gtoast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
+  .gtoast b{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--rule);margin-bottom:4px}
 
   /* contribute */
   .field{display:block;margin-bottom:11px}
@@ -202,12 +211,14 @@
   <span class="stampbig" id="dStamp"></span>
   <div class="rels" id="dRels"></div>
   <dl id="dFacts"></dl>
+  <div class="dmap" id="dMap" hidden></div>
   <div class="story" id="dStory"></div>
   <div class="gapbox" id="dGap" hidden><b>Evidence gap</b><span id="dGapText"></span></div>
   <button class="addbtn" id="dAdd">＋ Add a photo or memory</button>
   <div class="sech">Sources</div>
   <ul class="srcs" id="dSrc"></ul>
 </aside>
+<div class="gtoast" id="gToast"></div>
 
 <!-- contribute sheet -->
 <aside class="sheet" id="csheet" role="dialog" aria-modal="true">
@@ -304,8 +315,40 @@ function walkRel(u,parent){
     u.children.forEach(cu=>{if(!cu.note){const me=cu.people[0];ensureRel(me).siblings=prims.filter(x=>x!==me);}});}
 }
 Object.values(TREES).forEach(t=>t.roots.forEach(r=>walkRel(r,null)));
+function disp(n){let c=clean(n)||n;let w=c.split(' ');if(w.length>1&&w[w.length-1]==='Gottdank')w.pop();return w.join(' ');}
+function esc(s){return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+/* plain-language glossary so the page reads from 0 to 100 */
+const GLOSSARY={
+  "displaced-persons camp":"A postwar camp (1945 to the early 1950s) that housed Holocaust survivors and refugees who had no home to return to.",
+  "DP camp":"A displaced-persons camp — postwar housing for Holocaust survivors and refugees.",
+  "Galicia":"A historic region of the Austro-Hungarian Empire, now split between southeast Poland and western Ukraine. It had a large Jewish population before WWII.",
+  "shtetl":"A small Jewish market town in Eastern Europe.",
+  "Ashkenazi":"Jews of Central and Eastern European descent.",
+  "Yizkor book":"A memorial book written by survivors to record a destroyed Jewish town and name its dead.",
+  "aliyah":"Immigrating to Israel.",
+  "Shoah":"Another name for the Holocaust.",
+  "vaudeville":"Early-1900s North American variety theater — music and comedy acts that toured from town to town.",
+  "matrilineal":"Passed down through the mother's line.",
+  "matriarch":"The female head of a family line."
+};
+function glossify(text){
+  let out=text;
+  for(const term of Object.keys(GLOSSARY)){
+    const re=new RegExp('(?<![\\w-])('+term+')(?![\\w-])','i');
+    if(re.test(out)) out=out.replace(re,'<button class="gloss" data-def="'+GLOSSARY[term].replace(/"/g,'&quot;')+'">$1</button>');
+  }
+  return out;
+}
+function mapUrl(q){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q.trim());}
+function placeSegs(place){return place.split(/\s*(?:→|·|;)\s*/).filter(Boolean);}
+function placeHtml(place){return placeSegs(place).map(seg=>'<a class="placelink" href="'+mapUrl(seg)+'" target="_blank" rel="noopener">'+esc(seg)+'</a>').join(' → ');}
+function srcLink(s){
+  const m=s.match(/(?:find ?a ?grave|findagrave)[^0-9]*([0-9]{5,})/i); if(m) return 'https://www.findagrave.com/memorial/'+m[1];
+  const u=s.match(/https?:\/\/\S+/); if(u) return u[0];
+  return 'https://www.google.com/search?q='+encodeURIComponent(s.replace(/['"()]/g,' ')+' genealogy');
+}
 function relsHtml(id){const r=REL[id];if(!r)return '';
-  const pill=(pid,tag)=>P[pid]?`<button class="relpill" data-go="${pid}"><span class="rtag">${tag}</span>${clean(P[pid].name)}</button>`:'';
+  const pill=(pid,tag)=>P[pid]?`<button class="relpill" data-go="${pid}"><span class="rtag">${tag}</span>${disp(P[pid].name)}</button>`:'';
   return (r.spouse?pill(r.spouse,'partner'):'')+r.parents.map(p=>pill(p,'parent')).join('')+r.siblings.map(s=>pill(s,'sibling')).join('')+r.children.map(c=>pill(c,'child')).join('');}
 
 /* detail sheet */
@@ -317,24 +360,30 @@ function openSheet(id){
   document.getElementById('dLock').className='locket '+confClass(p.conf);
   document.getElementById('dLock').innerHTML=PHOTOS[id]?`<img src="${PHOTOS[id]}" alt="">`:`<span class="mono">${initials(p.name)}</span>`;
   document.getElementById('dTitle').textContent=p.name;
-  document.getElementById('dSub').textContent=`${p.years} · ${p.place}`;
+  document.getElementById('dSub').innerHTML=esc(p.years)+' · '+placeHtml(p.place);
   const st=document.getElementById('dStamp');
   st.textContent=p.conf==='unconfirmed'?'PENCIL — UNCONFIRMED':p.conf.toUpperCase();
   st.className='stampbig '+p.conf;
   document.getElementById('dRels').innerHTML=relsHtml(id);
   document.getElementById('dFacts').innerHTML=`<dt>Relation</dt><dd>${p.rel}</dd>`+Object.entries(p.facts).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('');
+  const dMap=document.getElementById('dMap'),pp=placeSegs(p.place)[0]||'';
+  if(pp){dMap.hidden=false;dMap.innerHTML='<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q='+encodeURIComponent(pp)+'&output=embed"></iframe>';}else{dMap.hidden=true;dMap.innerHTML='';}
   const si=STORY_IMG[id];
   const fig=si?`<figure class="simg"><img src="${si.src}" alt=""><figcaption>${si.cap}</figcaption></figure>`:'';
-  document.getElementById('dStory').innerHTML=fig+p.story.map(s=>`<p>${s}</p>`).join('');
+  document.getElementById('dStory').innerHTML=fig+p.story.map(s=>`<p>${glossify(s)}</p>`).join('');
   const g=document.getElementById('dGap');
   if(p.gap){g.hidden=false;document.getElementById('dGapText').textContent=p.gap;}else g.hidden=true;
-  document.getElementById('dSrc').innerHTML=p.src.map(s=>`<li>${s}</li>`).join('');
+  document.getElementById('dSrc').innerHTML=p.src.map(s=>`<li><a href="${srcLink(s)}" target="_blank" rel="noopener">${esc(s)}</a></li>`).join('');
   document.getElementById('dAdd').onclick=()=>{closeSheet();openContrib(id);};
   sheet.scrollTop=0; sheet.classList.add('open'); showScrim(true);
 }
 function closeSheet(){if(sheet.classList.contains('open')){sheet.classList.remove('open');showScrim(false);}}
 document.getElementById('dClose').onclick=closeSheet;
 sheet.addEventListener('click',e=>{const r=e.target.closest('.relpill');if(r){openSheet(r.dataset.go);}});
+const gToast=document.getElementById('gToast');let gtTimer;
+document.addEventListener('click',e=>{const g=e.target.closest('.gloss');
+  if(g){e.stopPropagation();gToast.innerHTML='<b>'+esc(g.textContent)+'</b>'+esc(g.dataset.def);gToast.classList.add('show');clearTimeout(gtTimer);gtTimer=setTimeout(()=>gToast.classList.remove('show'),6000);return;}
+  if(!e.target.closest('.gtoast'))gToast.classList.remove('show');});
 
 /* tap anyone */
 document.addEventListener('click',e=>{const b=e.target.closest('[data-id]');if(b&&!b.closest('.sheet'))openSheet(b.dataset.id);});
