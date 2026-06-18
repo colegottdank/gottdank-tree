@@ -129,6 +129,7 @@
   .relpill:active{background:var(--ink);color:var(--paper)}
   .relpill .rtag{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.05em;text-transform:uppercase;color:var(--pencil)}
   .relpill:active .rtag{color:rgba(255,255,255,.6)}
+  .keyhint{display:none;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.03em;color:var(--pencil);margin:-4px 0 13px}
   .sheet dl{display:grid;grid-template-columns:92px 1fr;gap:6px 12px;margin:0 0 14px;font-size:15.5px}
   .sheet dt{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--pencil);padding-top:3px}
   .simg{margin:0 0 14px;border:1px solid var(--rule);border-radius:3px;overflow:hidden}
@@ -166,7 +167,7 @@
 
   @media (min-width:760px){ body{font-size:18px} .wrap{max-width:680px}
     aside.sheet{left:auto;top:0;bottom:0;width:470px;max-height:none;border-radius:0;border-top:none;border-left:3px double var(--ink);transform:translateX(105%);padding:28px 26px 44px}
-    aside.sheet.open{transform:none}.grab{display:none}}
+    aside.sheet.open{transform:none}.grab{display:none}.keyhint{display:block}}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -210,6 +211,7 @@
   <div class="dhead"><span class="locket" id="dLock"></span><div><h3 id="dTitle"></h3><div class="sub" id="dSub"></div></div></div>
   <span class="stampbig" id="dStamp"></span>
   <div class="rels" id="dRels"></div>
+  <div class="keyhint">←&nbsp;→ siblings&nbsp;&nbsp;·&nbsp;&nbsp;↑ parent&nbsp;&nbsp;·&nbsp;&nbsp;↓ child&nbsp;&nbsp;·&nbsp;&nbsp;esc close</div>
   <dl id="dFacts"></dl>
   <div class="dmap" id="dMap" hidden></div>
   <div class="story" id="dStory"></div>
@@ -318,7 +320,7 @@ function walkRel(u,parent){
   }
   (u.children||[]).forEach(c=>walkRel(c,u));
   if(u.children){const prims=u.children.map(primOf).filter(Boolean);
-    u.children.forEach(cu=>{if(!cu.note){const me=cu.people[0];ensureRel(me).siblings=prims.filter(x=>x!==me);}});}
+    u.children.forEach(cu=>{if(!cu.note){const me=cu.people[0];ensureRel(me).siblings=prims.filter(x=>x!==me);ensureRel(me).sibGroup=prims;}});}
 }
 Object.values(TREES).forEach(t=>t.roots.forEach(r=>walkRel(r,null)));
 function disp(n){let c=clean(n)||n;let w=c.split(' ');if(w.length>1&&w[w.length-1]==='Gottdank')w.pop();return w.join(' ');}
@@ -369,8 +371,9 @@ function relsHtml(id){const r=REL[id];if(!r)return '';
 const sheet=document.getElementById('sheet'),scrim=document.getElementById('scrim');
 let openCount=0;
 function showScrim(on){openCount=Math.max(0,openCount+(on?1:-1));scrim.classList.toggle('open',openCount>0);}
+let curSheetId=null;
 function openSheet(id){
-  const p=P[id]; if(!p)return;
+  const p=P[id]; if(!p)return; curSheetId=id;
   document.getElementById('dLock').className='locket '+confClass(p.conf);
   document.getElementById('dLock').innerHTML=PHOTOS[id]?`<img src="${PHOTOS[id]}" alt="">`:`<span class="mono">${initials(p.name)}</span>`;
   document.getElementById('dTitle').textContent=p.name;
@@ -418,7 +421,16 @@ document.getElementById('cSend').onclick=()=>{
   location.href=`mailto:colegottdank@gmail.com?subject=${encodeURIComponent('Gottdank tree — a contribution'+who)}&body=${body}`;
 };
 scrim.addEventListener('click',()=>{closeSheet();closeContrib();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSheet();closeContrib();}});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeSheet();closeContrib();return;}
+  if(!sheet.classList.contains('open'))return;
+  if(e.target.matches('input,textarea'))return;
+  const r=REL[curSheetId]; if(!r)return;
+  if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();
+    const g=r.sibGroup||[],i=g.indexOf(curSheetId),t=g[i+(e.key==='ArrowRight'?1:-1)];if(t)openSheet(t);}
+  else if(e.key==='ArrowUp'){e.preventDefault();if(r.parents[0])openSheet(r.parents[0]);}
+  else if(e.key==='ArrowDown'){e.preventDefault();if(r.children[0])openSheet(r.children[0]);}
+});
 
 /* find */
 const findBox=document.getElementById('findBox');
