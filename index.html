@@ -123,12 +123,26 @@
     border:2px solid currentColor;padding:3px 9px;border-radius:2px;transform:rotate(-2deg);margin:6px 0 12px}
   .stampbig.verified{color:var(--stamp)} .stampbig.likely{color:var(--likely)}
   .stampbig.unconfirmed{color:var(--pencil);border-style:dashed;transform:rotate(2deg)}
-  .rels{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 14px}
-  .relpill{display:inline-flex;align-items:baseline;gap:5px;border:1px solid var(--rule);background:var(--paper2);
-    color:var(--ink);font-family:'EB Garamond',serif;font-size:14px;line-height:1.5;padding:2px 9px;border-radius:6px;cursor:pointer;white-space:nowrap}
-  .relpill:active{background:var(--ink);color:var(--paper)}
-  .relpill .rtag{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.05em;text-transform:uppercase;color:var(--pencil)}
-  .relpill:active .rtag{color:rgba(255,255,255,.6)}
+  .reldiagram{margin:4px 0 16px}
+  .relrow{display:flex;flex-wrap:wrap;justify-content:safe center;gap:6px 12px}
+  .relfocus{display:flex;align-items:flex-start;justify-content:center;gap:6px}
+  .relnode{display:inline-flex;flex-direction:column;align-items:center;gap:3px;width:64px;background:none;border:none;padding:2px 0;cursor:pointer;font-family:inherit;color:inherit}
+  .relnode .rndot{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--paper2);border:2px solid var(--ink);overflow:hidden;flex:none;transition:transform .12s}
+  .relnode .rndot.likely{border-color:var(--likely)}
+  .relnode .rndot.unconfirmed{border-style:dashed;border-color:var(--pencil)}
+  .relnode .rndot img{width:100%;height:100%;object-fit:cover}
+  .relnode .rndot .mono{font-family:'Fraunces',serif;font-weight:700;font-size:14px;color:var(--ink-soft)}
+  .relnode .rnname{font-family:'EB Garamond',serif;font-size:12.5px;line-height:1.08;text-align:center;max-width:64px}
+  .relnode:active .rndot{transform:scale(.93)}
+  .relnode.focus{cursor:default}
+  .relnode.focus .rndot{width:54px;height:54px;border-width:2.5px;border-color:var(--stamp);box-shadow:0 0 0 3px rgba(140,50,38,.14)}
+  .relnode.focus .rnname{font-family:'Fraunces',serif;font-weight:700;font-size:15px;max-width:96px}
+  .relknot{align-self:center;font-family:'Fraunces',serif;font-size:15px;color:var(--ink-soft);margin:0 1px}
+  .relconn{width:2px;height:13px;background:var(--line);margin:3px auto}
+  .relsibs{margin-top:13px;border-top:1px solid var(--rule);padding-top:11px}
+  .rellabel{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--pencil);display:block;margin-bottom:7px;text-align:center}
+  .relsibrow{display:flex;gap:10px;overflow-x:auto;padding-bottom:3px;justify-content:safe center}
+  .relsibrow::-webkit-scrollbar{display:none}
   .keyhint{display:none;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.03em;color:var(--pencil);margin:-4px 0 13px}
   .sheet dl{display:grid;grid-template-columns:92px 1fr;gap:6px 12px;margin:0 0 14px;font-size:15.5px}
   .sheet dt{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--pencil);padding-top:3px}
@@ -363,9 +377,18 @@ function srcLink(s){
   const u=s.match(/https?:\/\/\S+/); if(u) return u[0];
   return 'https://www.google.com/search?q='+encodeURIComponent(s.replace(/['"()]/g,' ')+' genealogy');
 }
-function relsHtml(id){const r=REL[id];if(!r)return '';
-  const pill=(pid,tag)=>P[pid]?`<button class="relpill" data-go="${pid}"><span class="rtag">${tag}</span>${disp(P[pid].name)}</button>`:'';
-  return (r.spouse?pill(r.spouse,'partner'):'')+r.parents.map(p=>pill(p,'parent')).join('')+r.siblings.map(s=>pill(s,'sibling')).join('')+r.children.map(c=>pill(c,'child')).join('');}
+function relDot(pid){const p=P[pid];const ph=PHOTOS[pid];return `<span class="rndot ${confClass(p.conf)}">${ph?`<img src="${ph}" alt="">`:`<span class="mono">${initials(p.name)}</span>`}</span>`;}
+function relNode(pid){return P[pid]?`<button class="relnode" data-go="${pid}">${relDot(pid)}<span class="rnname">${disp(P[pid].name)}</span></button>`:'';}
+function relsHtml(id){
+  const r=REL[id]; if(!r)return ''; const p=P[id];
+  let h='<div class="reldiagram">';
+  if(r.parents.length) h+='<div class="relrow">'+r.parents.map(relNode).join('')+'</div><div class="relconn"></div>';
+  h+='<div class="relfocus"><div class="relnode focus">'+relDot(id)+'<span class="rnname">'+disp(p.name)+'</span></div>'
+     +(r.spouse?'<span class="relknot">⚭</span>'+relNode(r.spouse):'')+'</div>';
+  if(r.children.length) h+='<div class="relconn"></div><div class="relrow">'+r.children.map(relNode).join('')+'</div>';
+  if(r.siblings.length) h+='<div class="relsibs"><span class="rellabel">brothers &amp; sisters</span><div class="relsibrow">'+r.siblings.map(relNode).join('')+'</div></div>';
+  return h+'</div>';
+}
 
 /* detail sheet */
 const sheet=document.getElementById('sheet'),scrim=document.getElementById('scrim');
@@ -396,7 +419,7 @@ function openSheet(id){
 }
 function closeSheet(){if(sheet.classList.contains('open')){sheet.classList.remove('open');showScrim(false);}}
 document.getElementById('dClose').onclick=closeSheet;
-sheet.addEventListener('click',e=>{const r=e.target.closest('.relpill');if(r){openSheet(r.dataset.go);}});
+sheet.addEventListener('click',e=>{const r=e.target.closest('.relnode');if(r&&r.dataset.go){openSheet(r.dataset.go);}});
 const gToast=document.getElementById('gToast');let gtTimer;
 document.addEventListener('click',e=>{const g=e.target.closest('.gloss');
   if(g){e.stopPropagation();gToast.innerHTML='<b>'+esc(g.textContent)+'</b>'+esc(g.dataset.def);gToast.classList.add('show');clearTimeout(gtTimer);gtTimer=setTimeout(()=>gToast.classList.remove('show'),6000);return;}
