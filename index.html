@@ -162,8 +162,10 @@
   .srcs a:active{color:var(--stamp)}
   .gloss{border:none;border-bottom:1.5px dotted var(--stamp);background:none;padding:0;font:inherit;color:inherit;cursor:help}
   .placelink{color:var(--stamp);text-decoration:none;border-bottom:1px dotted var(--stamp)}
-  .dmap{margin:2px 0 14px;border:1.5px solid var(--rule);border-radius:4px;overflow:hidden;line-height:0}
-  .dmap iframe{width:100%;height:150px;border:0;display:block}
+  .dmap{position:relative;margin:6px 0 14px;height:140px;overflow:hidden;border:1px solid var(--rule);border-radius:5px;box-shadow:inset 0 0 0 1px rgba(255,250,236,.4),var(--shadow);line-height:0}
+  .dmap iframe{width:100%;height:188px;border:0;display:block;position:relative;top:-24px;pointer-events:none;filter:grayscale(.32) sepia(.3) contrast(.93) brightness(1.05) saturate(.82)}
+  .dmap .mapover{position:absolute;inset:0;z-index:2;display:flex;align-items:flex-end;text-decoration:none;padding:8px}
+  .dmap .mappin{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.05em;color:var(--ink);background:rgba(247,242,228,.9);border:1px solid var(--rule);border-radius:3px;padding:3px 8px;max-width:90%}
   .gtoast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);z-index:90;max-width:340px;width:calc(100% - 32px);
     background:var(--ink);color:var(--paper);border-radius:8px;padding:12px 15px;font-size:14.5px;line-height:1.45;box-shadow:0 10px 28px -8px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
   .gtoast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
@@ -327,7 +329,7 @@ function primOf(u){return u.note?null:u.people[0];}
 function walkRel(u,parent){
   if(!u.note){
     const a=u.people[0], b=u.people[1]||null;
-    if(b){ensureRel(a).spouse=b;ensureRel(b).spouse=a;}
+    if(b){ensureRel(a).spouse=b;ensureRel(b).spouse=a;ensureRel(a).couple=[a,b];ensureRel(b).couple=[a,b];}
     const kids=(u.children||[]).map(primOf).filter(Boolean);
     ensureRel(a).children=kids; if(b)ensureRel(b).children=kids;
     if(parent&&!parent.note)ensureRel(a).parents=parent.people.slice();
@@ -373,9 +375,26 @@ function mapUrl(seg){return 'https://www.google.com/maps/search/?api=1&query='+e
 function placeSegs(place){return place.split(/\s*(?:→|·|;)\s*/).filter(Boolean);}
 function placeHtml(place){return placeSegs(place).map(seg=>'<a class="placelink" href="'+mapUrl(seg)+'" target="_blank" rel="noopener">'+esc(seg)+'</a>').join(' → ');}
 function srcLink(s){
-  const m=s.match(/(?:find ?a ?grave|findagrave)[^0-9]*([0-9]{5,})/i); if(m) return 'https://www.findagrave.com/memorial/'+m[1];
-  const u=s.match(/https?:\/\/\S+/); if(u) return u[0];
-  return 'https://www.google.com/search?q='+encodeURIComponent(s.replace(/['"()]/g,' ')+' genealogy');
+  let m=s.match(/(?:find ?a ?grave|findagrave)[^0-9]*([0-9]{5,})/i); if(m) return 'https://www.findagrave.com/memorial/'+m[1];
+  m=s.match(/https?:\/\/\S+/); if(m) return m[0];
+  const t=s.toLowerCase(), pairs=[
+    [/geni/,'https://www.geni.com/search?search_type=people&names=Gottdank'],
+    [/jewishgen|yizkor|lesko/,'https://www.jewishgen.org/yizkor/lesko/lesko.html'],
+    [/yad ?vashem/,'https://yvng.yadvashem.org/index.html?language=en&s_lastName=Gottdank&s_inTransport=false'],
+    [/ushmm/,'https://collections.ushmm.org/search/?q=Gottdank'],
+    [/lilith/,'https://lilith.org/?s=Gottdank'],
+    [/moment/,'https://momentmag.com/?s=Gottdank'],
+    [/forebears/,'https://forebears.io/surnames/gottdank'],
+    [/jewish women|jwa\b/,'https://jwa.org/encyclopedia'],
+    [/gesher galicia|all galicia/,'https://www.geshergalicia.org/galician-towns/ustrzyki-dolne/'],
+    [/cjhn|ottawa jewish|canadian jewish/,'https://www.cjhn.ca/en/list?q=Gottdank'],
+    [/yiddish book center/,'https://www.yiddishbookcenter.org/collections/oral-histories'],
+    [/legacy|obituar|citizen|tribune/,'https://www.legacy.com/us/obituaries/name/gottdank'],
+    [/ellis island|passenger|manifest/,'https://heritage.statueofliberty.org/passenger-result?last_name=Gottdank'],
+    [/census|naturali|marriage record|ssdi|draft|immigration|familysearch/,'https://www.familysearch.org/search/record/results?q.surname=Gottdank'],
+  ];
+  for(const [re,url] of pairs){ if(re.test(t)) return url; }
+  return null;
 }
 function relDot(pid){const p=P[pid];const ph=PHOTOS[pid];return `<span class="rndot ${confClass(p.conf)}">${ph?`<img src="${ph}" alt="">`:`<span class="mono">${initials(p.name)}</span>`}</span>`;}
 function relNode(pid){return P[pid]?`<button class="relnode" data-go="${pid}">${relDot(pid)}<span class="rnname">${disp(P[pid].name)}</span></button>`:'';}
@@ -383,8 +402,8 @@ function relsHtml(id){
   const r=REL[id]; if(!r)return ''; const p=P[id];
   let h='<div class="reldiagram">';
   if(r.parents.length) h+='<div class="relrow">'+r.parents.map(relNode).join('')+'</div><div class="relconn"></div>';
-  h+='<div class="relfocus"><div class="relnode focus">'+relDot(id)+'<span class="rnname">'+disp(p.name)+'</span></div>'
-     +(r.spouse?'<span class="relknot">⚭</span>'+relNode(r.spouse):'')+'</div>';
+  const pair=r.couple||[id];
+  h+='<div class="relfocus">'+pair.map((pid,i)=>(i>0?'<span class="relknot">⚭</span>':'')+(pid===id?'<div class="relnode focus">'+relDot(pid)+'<span class="rnname">'+disp(P[pid].name)+'</span></div>':relNode(pid))).join('')+'</div>';
   if(r.children.length) h+='<div class="relconn"></div><div class="relrow">'+r.children.map(relNode).join('')+'</div>';
   if(r.siblings.length) h+='<div class="relsibs"><span class="rellabel">brothers &amp; sisters</span><div class="relsibrow">'+r.siblings.map(relNode).join('')+'</div></div>';
   return h+'</div>';
@@ -407,13 +426,13 @@ function openSheet(id){
   document.getElementById('dRels').innerHTML=relsHtml(id);
   document.getElementById('dFacts').innerHTML=`<dt>Relation</dt><dd>${p.rel}</dd>`+Object.entries(p.facts).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('');
   const dMap=document.getElementById('dMap'),pp=placeSegs(p.place)[0]||'';
-  if(pp){dMap.hidden=false;dMap.innerHTML='<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q='+encodeURIComponent(mapQuery(pp))+'&output=embed"></iframe>';}else{dMap.hidden=true;dMap.innerHTML='';}
+  if(pp){dMap.hidden=false;dMap.innerHTML='<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q='+encodeURIComponent(mapQuery(pp))+'&output=embed"></iframe><a class="mapover" href="'+mapUrl(pp)+'" target="_blank" rel="noopener" aria-label="Open in Google Maps"><span class="mappin">'+esc(pp)+'&nbsp;↗</span></a>';}else{dMap.hidden=true;dMap.innerHTML='';}
   const si=STORY_IMG[id];
   const fig=si?`<figure class="simg"><img src="${si.src}" alt=""><figcaption>${si.cap}</figcaption></figure>`:'';
   document.getElementById('dStory').innerHTML=fig+p.story.map(s=>`<p>${glossify(s)}</p>`).join('');
   const g=document.getElementById('dGap');
   if(p.gap){g.hidden=false;document.getElementById('dGapText').textContent=p.gap;}else g.hidden=true;
-  document.getElementById('dSrc').innerHTML=p.src.map(s=>`<li><a href="${srcLink(s)}" target="_blank" rel="noopener">${esc(s)}</a></li>`).join('');
+  document.getElementById('dSrc').innerHTML=p.src.map(s=>{const u=srcLink(s);return '<li>'+(u?'<a href="'+u+'" target="_blank" rel="noopener">'+esc(s)+'</a>':esc(s))+'</li>';}).join('');
   document.getElementById('dAdd').onclick=()=>{closeSheet();openContrib(id);};
   sheet.scrollTop=0; sheet.classList.add('open'); showScrim(true);
 }
