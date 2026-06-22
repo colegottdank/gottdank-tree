@@ -185,6 +185,67 @@
     aside.sheet{left:auto;top:0;bottom:0;width:470px;max-height:none;border-radius:0;border-top:none;border-left:3px double var(--ink);transform:translateX(105%);padding:28px 26px 44px}
     aside.sheet.open{transform:none}.grab{display:none}.keyhint{display:block}}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+
+  /* ===== tabs + multi-view ===== */
+  .tabs{position:sticky;top:0;z-index:42;background:var(--paper);border-bottom:1px solid var(--rule)}
+  .tabsrow{display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tabsrow::-webkit-scrollbar{display:none}
+  .tab{flex:none;background:none;border:none;border-bottom:2px solid transparent;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--pencil);padding:13px 14px;cursor:pointer;white-space:nowrap}
+  .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--stamp)}
+  .view[hidden]{display:none}
+
+  /* ===== stories ===== */
+  .storyhero{padding:26px 0 6px}
+  .storyhero h2{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(30px,9vw,46px);line-height:.96;letter-spacing:-.02em}
+  .storyhero p{font-size:16.5px;font-style:italic;color:var(--ink-soft);margin-top:9px;max-width:30em}
+  .scard{display:block;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--ink);border-radius:7px;overflow:hidden;margin:16px 0;cursor:pointer;box-shadow:var(--shadow);color:inherit;font-family:inherit;transition:transform .12s}
+  .scard:active{transform:translateY(1px)}
+  .scard .simgwrap{height:172px;overflow:hidden;background:var(--paper2);border-bottom:1.5px solid var(--ink)}
+  .scard .simgwrap img{width:100%;height:100%;object-fit:cover;filter:saturate(.88) contrast(.97)}
+  .scard .sbody{padding:15px 17px}
+  .scard .seyebrow{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--stamp)}
+  .scard .sh{font-family:'Fraunces',serif;font-weight:700;font-size:22px;line-height:1.08;margin:6px 0 7px}
+  .scard .st{font-size:15.5px;color:var(--ink-soft);line-height:1.5}
+  .scard .more{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.05em;color:var(--stamp);margin-top:10px;display:inline-block}
+  .allbtn{display:block;width:100%;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);background:var(--paper2);border:1.5px solid var(--rule);border-radius:7px;padding:15px;margin:10px 0 34px;cursor:pointer}
+
+  /* ===== find ===== */
+  .findhero{padding:30px 0 4px;text-align:center}
+  .findhero h2{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(26px,7vw,38px);line-height:1.0}
+  .findhero p{font-size:15.5px;color:var(--ink-soft);margin-top:8px}
+  .bigsearch{position:relative;margin:18px auto 4px;max-width:440px}
+  .bigsearch input{width:100%;border:2px solid var(--ink);background:var(--card);border-radius:999px;font-family:'IBM Plex Mono',monospace;font-size:13.5px;padding:14px 18px 14px 42px;color:var(--ink)}
+  .bigsearch input:focus{outline:none;border-color:var(--stamp)}
+  .bigsearch svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:16px;height:16px;opacity:.5}
+  .fresults{margin:4px 0}
+  .branchlabel2{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--pencil);text-align:center;margin:26px 0 12px}
+  .bcard{display:flex;align-items:center;gap:13px;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--ink);border-radius:7px;padding:12px 15px;margin:9px 0;cursor:pointer;box-shadow:var(--shadow);color:inherit;font-family:inherit}
+  .bcard:active{transform:translateY(1px)}
+  .bcard .bnm{font-family:'Fraunces',serif;font-weight:700;font-size:18px;display:block;line-height:1.1}
+  .bcard .bsub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-soft);display:block;margin-top:3px}
+
+  /* ===== map / timeline ===== */
+  .maphero{padding:26px 0 4px;text-align:center}
+  .maphero h2{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(26px,7vw,38px)}
+  .maphero p{font-size:15px;color:var(--ink-soft);margin-top:7px}
+  .diaspora{position:relative;width:100%;aspect-ratio:16/11;background:radial-gradient(120% 100% at 65% 35%, #E7E0CB, #ECE5D4);border:1.5px solid var(--ink);border-radius:9px;margin:16px 0 6px;overflow:hidden;box-shadow:var(--shadow)}
+  .dplace{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;background:none;border:none;cursor:pointer;font-family:inherit;color:var(--ink);z-index:2}
+  .dplace .ddot{width:12px;height:12px;border-radius:50%;background:var(--stamp);border:2px solid var(--paper);box-shadow:0 1px 3px rgba(0,0,0,.35)}
+  .dplace.origin .ddot{width:17px;height:17px;background:var(--ink)}
+  .dplace .dlbl{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.03em;text-transform:uppercase;margin-top:4px;background:rgba(247,242,228,.82);padding:1px 4px;border-radius:2px;white-space:nowrap}
+  .dplace.active .ddot{box-shadow:0 0 0 5px rgba(140,50,38,.25)}
+  svg.darcs{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+  svg.darcs path{fill:none;stroke:var(--stamp);stroke-width:1;stroke-dasharray:2 4;opacity:.4}
+  .placepanel{margin:8px 0 14px}
+  .placepanel:empty{display:none}
+  .placepanel h3{font-family:'Fraunces',serif;font-size:19px;margin-bottom:8px}
+  .tlabel{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--pencil);margin:26px 0 6px;border-top:1px solid var(--rule);padding-top:15px}
+  .tline{position:relative;padding-left:24px;margin-bottom:34px}
+  .tline::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .titem{display:block;width:100%;text-align:left;background:none;border:none;position:relative;padding:9px 0;cursor:pointer;font-family:inherit;color:inherit}
+  .titem::before{content:'';position:absolute;left:-23px;top:15px;width:9px;height:9px;border-radius:50%;background:var(--stamp);border:2px solid var(--paper)}
+  .titem .ty{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--stamp);letter-spacing:.03em}
+  .titem .tt{font-size:15.5px;color:var(--ink);margin-top:2px;line-height:1.35}
 </style>
 </head>
 <body>
@@ -197,6 +258,13 @@
   </header>
 </div>
 
+<nav class="tabs"><div class="wrap tabsrow" role="tablist">
+  <button class="tab" data-mode="stories">Stories</button>
+  <button class="tab" data-mode="find">Find your people</button>
+  <button class="tab" data-mode="map">Where they went</button>
+  <button class="tab" data-mode="tree">The full tree</button>
+</div></nav>
+
 <div class="bar">
   <div class="wrap barrow">
     <div class="search">
@@ -207,7 +275,7 @@
   </div>
 </div>
 
-<div class="wrap">
+<div class="wrap view" id="view-tree">
   <button class="rootcard" data-id="thename">
     <span class="locket"><span class="mono">G</span></span>
     <span><span class="rl">„Gott dank" — thank God</span><span class="rs">The name itself · Hanau &amp; Galicia, 1700s · it passed through a woman — tap for the origin</span></span>
@@ -217,6 +285,10 @@
     <p><b>How to read this:</b> ink portraits are documented, green are likely, faint pencil ones are still unconfirmed. The five sections are separate Gottdank families that don't yet provably connect — the Galician line is the main trunk; the others carry the same rare name.</p>
   </footer>
 </div>
+
+<div class="wrap view" id="view-stories" hidden></div>
+<div class="wrap view" id="view-find" hidden></div>
+<div class="wrap view" id="view-map" hidden></div>
 
 <!-- detail sheet -->
 <div class="scrim" id="scrim"></div>
@@ -479,7 +551,7 @@ const findBox=document.getElementById('findBox');
 findBox.addEventListener('input',e=>{
   const q=e.target.value.trim().toLowerCase();
   let first=null;
-  document.querySelectorAll('.person').forEach(b=>{
+  document.querySelectorAll('#view-tree .person').forEach(b=>{
     const p=P[b.dataset.id], m=!q||p.name.toLowerCase().includes(q);
     b.classList.toggle('dim',q&&!m); b.classList.toggle('hit',!!q&&m);
     if(q&&m&&!first)first=b;
@@ -487,8 +559,116 @@ findBox.addEventListener('input',e=>{
   if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
 });
 
-/* deep link */
+/* ===== featured stories ===== */
+const FEATURED=[
+  {id:'gittel',eyebrow:'Generation One',h:'The midwife whose name they all carry',t:'In a Galician shtetl called Isterik, a midwife in a line of midwives. The Gottdank name is hers — her husband took it at marriage.'},
+  {id:'charles',eyebrow:'The trunk',h:'The barber at the head of the line',t:"He crossed from Galicia, set up a barber's chair in New York, and fathered the whole American family — naturalized in 1912, in Brooklyn by 1940."},
+  {id:'yisroel',eyebrow:'The survivor',h:'He survived in a gulag, and began again',t:'Israel fled east into the Soviet Union; his first wife and small son were murdered in Poland. He remarried in a displaced-persons camp, where his daughter Miriam was born.'},
+  {id:'lostKids',eyebrow:'Found at last',h:'Two children, named after seventy years',t:"Milton and Phyllis lost two young. Lynn Jay and Kurt, toddlers, lie in the Mandel family plot — Phyllis's own people. The oldest blank in the tree, finally filled."},
+  {id:'estherO',eyebrow:'The road',h:'The sisters who toured America as “the Gordons”',t:"A widow's daughters learned cello and violin and rode the vaudeville circuit across the States — the Gottdank girls billed as the Gordon sisters."},
+  {id:'miriamDC',eyebrow:'The keeper',h:"Born in the war's aftermath, keeper of the story",t:'Miriam Gottdank Isaacs, born 1946 in occupied Germany, became a Yiddish scholar — and the one who set her father’s whole life to paper.'},
+  {id:'mariza',eyebrow:'The far side',h:'The name reached Brazil — and survived October 7',t:'A line that fled the Nazis to São Paulo. Fernando, a designer who made aliyah, lived through the Supernova festival attack in 2023.'},
+];
+function imgFor(id){return (STORY_IMG[id]&&STORY_IMG[id].src)||PHOTOS[id]||null;}
+function renderStories(){
+  let h='<div class="storyhero"><h2>The Gottdanks</h2><p>One rare name, a Galician shtetl to six countries. A handful of the stories — tap to read.</p></div>';
+  h+=FEATURED.map(f=>{const im=imgFor(f.id);return '<button class="scard" data-id="'+f.id+'">'
+    +(im?'<span class="simgwrap"><img src="'+im+'" alt=""></span>':'')
+    +'<span class="sbody"><span class="seyebrow">'+f.eyebrow+'</span><span class="sh">'+f.h+'</span><span class="st">'+f.t+'</span><span class="more">'+disp(P[f.id].name)+' →</span></span></button>';}).join('');
+  h+='<button class="allbtn" data-mode="tree">Explore all 72 people ↓</button>';
+  return h;
+}
+
+/* ===== find ===== */
+const BRANCHES=[
+  {id:'gittel',nm:'The Galician line',sub:'Gittel of Isterik → today'},
+  {id:'davidO',nm:'London → Ottawa',sub:'the musical Canadian family'},
+  {id:'yisroel',nm:"The survivor's line",sub:'Isterik / Vaytman-Gottdank'},
+  {id:'nyimm',nm:'New York',sub:'the unplaced kin'},
+  {id:'mariza',nm:'West Coast, NJ & Brazil',sub:'who carry the name'},
+];
+function renderFind(){
+  let h='<div class="findhero"><h2>Find your people</h2><p>Search a name, or start from a branch and trace it back.</p>'
+    +'<div class="bigsearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>'
+    +'<input id="findBox2" type="search" placeholder="a last name, or someone you know…" autocomplete="off"></div>'
+    +'<div class="fresults" id="fresults"></div></div>';
+  h+='<div class="branchlabel2">or start from a branch</div>';
+  h+=BRANCHES.map(b=>'<button class="bcard" data-id="'+b.id+'">'+locket(b.id)+'<span><span class="bnm">'+b.nm+'</span><span class="bsub">'+b.sub+'</span></span></button>').join('');
+  return h;
+}
+function wireFind(){
+  const fb=document.getElementById('findBox2'),fr=document.getElementById('fresults'); if(!fb)return;
+  fb.addEventListener('input',()=>{const q=fb.value.trim().toLowerCase();
+    if(!q){fr.innerHTML='';return;}
+    const hits=Object.keys(P).filter(id=>id!=='thename'&&clean(P[id].name).toLowerCase().includes(q)).slice(0,12);
+    fr.innerHTML=hits.length?'<div style="display:flex;flex-direction:column;gap:8px">'+hits.map(personRow).join('')+'</div>':'<p style="text-align:center;color:var(--ink-soft);font-size:14px;padding:14px 0">No one by that name in the tree yet.</p>';});
+}
+
+/* ===== map / timeline ===== */
+const PLACES=[
+  {k:'galicia',lbl:'Galicia · Isterik',x:67,y:30,origin:true,re:/galicia|isterik|ustrzyki|kańczuga|kanczuga|rzesz|krak/i},
+  {k:'london',lbl:'London',x:52,y:25,re:/london|england|whitechapel/i},
+  {k:'germany',lbl:'DP camps',x:58,y:30,re:/leipheim|günzburg|gunzburg|bavaria|germany/i},
+  {k:'israel',lbl:'Israel',x:72,y:46,re:/israel/i},
+  {k:'ottawa',lbl:'Ottawa',x:25,y:25,re:/ottawa|ontario|greely|nepean|kemptville|toronto|thornhill|montreal|canada/i},
+  {k:'ny',lbl:'New York',x:30,y:37,re:/new york|brooklyn|bronx|queens|manhattan|flushing|spring valley|plainview|babylon|downingtown|lewes|brunswick|\bny\b|\bpa\b|\bnj\b/i},
+  {k:'chicago',lbl:'Chicago',x:22,y:35,re:/chicago|wilmette|illinois|\bil\b/i},
+  {k:'cali',lbl:'California',x:11,y:44,re:/angeles|san diego|el cajon|ridgecrest|capistrano|laguna|vista|clemente|francisco|california|\bca\b/i},
+  {k:'brazil',lbl:'Brazil',x:33,y:72,re:/brazil|paulo|santos/i},
+];
+function peopleAt(pl){return Object.keys(P).filter(id=>id!=='thename'&&pl.re.test(P[id].place||''));}
+const TIMELINE=[
+  {y:'1700s',id:'thename',t:'A Jewish family surnamed for Hanau, in the German lands'},
+  {y:'19th c.',id:'gittel',t:'Gittel, a midwife of Isterik in Galicia'},
+  {y:'1900',id:'bernhard',t:'Bernhard marries Bertha Wiesenfeld — the Chicago branch begins'},
+  {y:'~1905',id:'davidO',t:'David & Rachel cross from London to Ottawa'},
+  {y:'1909',id:'charles',t:'Charles the barber marries Fanny Krantz in Manhattan'},
+  {y:'1922',id:'davidO',t:'David dies of tuberculosis in Ottawa, about forty-two'},
+  {y:'1925–28',id:'estherO',t:'Esther & Jeanne tour vaudeville as the Gordon sisters'},
+  {y:'1942',id:'gittel',t:'Maryem Gottdank, midwife of Isterik, murdered'},
+  {y:'1946',id:'miriamDC',t:'Miriam born at a displaced-persons camp in occupied Germany'},
+  {y:'1953 & 1961',id:'lostKids',t:'Milton & Phyllis lose Lynn Jay and Kurt as toddlers'},
+  {y:'2023',id:'mariza',t:'Fernando survives the October 7 festival attack in Israel'},
+];
+function renderMap(){
+  let h='<div class="maphero"><h2>Where they went</h2><p>One rare name, scattered from a single Galician town.</p></div>';
+  const seen=PLACES.filter(pl=>peopleAt(pl).length), o=PLACES[0];
+  let arcs=''; seen.forEach(pl=>{if(!pl.origin)arcs+='<path d="M'+o.x+' '+o.y+' Q'+((o.x+pl.x)/2)+' '+(Math.min(o.y,pl.y)-12)+' '+pl.x+' '+pl.y+'"/>';});
+  h+='<div class="diaspora"><svg class="darcs" viewBox="0 0 100 100" preserveAspectRatio="none">'+arcs+'</svg>'
+    +seen.map(pl=>'<button class="dplace'+(pl.origin?' origin':'')+'" data-place="'+pl.k+'" style="left:'+pl.x+'%;top:'+pl.y+'%"><span class="ddot"></span><span class="dlbl">'+pl.lbl+'</span></button>').join('')+'</div>';
+  h+='<div class="placepanel" id="placepanel"><p style="color:var(--ink-soft);font-size:13.5px;text-align:center;font-style:italic">Tap a place to see who landed there.</p></div>';
+  h+='<div class="tlabel">A timeline</div><div class="tline">'+TIMELINE.map(e=>'<button class="titem" data-id="'+e.id+'"><span class="ty">'+e.y+'</span><div class="tt">'+e.t+'</div></button>').join('')+'</div>';
+  return h;
+}
+
+/* ===== mode switching ===== */
+const MODES=['stories','find','map','tree'];
+function setMode(m){
+  if(!MODES.includes(m))m='stories';
+  document.querySelectorAll('.view').forEach(v=>v.hidden=true);
+  document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected',String(t.dataset.mode===m)));
+  const v=document.getElementById('view-'+m); if(v)v.hidden=false;
+  if(v&&!v.dataset.built){
+    if(m==='stories')v.innerHTML=renderStories();
+    else if(m==='find'){v.innerHTML=renderFind();wireFind();}
+    else if(m==='map')v.innerHTML=renderMap();
+    v.dataset.built='1';
+  }
+  const bar=document.querySelector('.bar'); if(bar)bar.hidden=(m!=='tree');
+  try{localStorage.setItem('gtmode',m);}catch(e){}
+  window.scrollTo({top:0});
+}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-mode]');if(t){e.preventDefault();setMode(t.dataset.mode);}});
+document.addEventListener('click',e=>{const d=e.target.closest('.dplace');if(!d)return;
+  const pl=PLACES.find(x=>x.k===d.dataset.place);if(!pl)return;
+  document.querySelectorAll('.dplace').forEach(x=>x.classList.toggle('active',x===d));
+  const pp=document.getElementById('placepanel');
+  pp.innerHTML='<h3>'+pl.lbl+' · '+peopleAt(pl).length+'</h3><div style="display:flex;flex-direction:column;gap:8px">'+peopleAt(pl).map(personRow).join('')+'</div>';
+});
+
+/* deep link + initial mode */
 if(location.hash){const id=decodeURIComponent(location.hash.slice(1));if(P[id])openSheet(id);}
+setMode((function(){try{return localStorage.getItem('gtmode')}catch(e){return null}})()||'stories');
 </script>
 </body>
 </html>
