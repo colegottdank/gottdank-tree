@@ -246,68 +246,68 @@
   .titem::before{content:'';position:absolute;left:-23px;top:15px;width:9px;height:9px;border-radius:50%;background:var(--stamp);border:2px solid var(--paper)}
   .titem .ty{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--stamp);letter-spacing:.03em}
   .titem .tt{font-size:15.5px;color:var(--ink);margin-top:2px;line-height:1.35}
+
+  /* ===== explorer shell ===== */
+  .xtop{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:1px solid var(--rule)}
+  .xtoprow{display:flex;align-items:center;gap:10px;padding:9px 0}
+  .brand{flex:none;background:none;border:none;font-family:'Fraunces',serif;font-weight:800;font-size:15px;color:var(--ink);cursor:pointer;letter-spacing:-.01em;white-space:nowrap}
+  .xtoprow .search{flex:1;position:relative;min-width:0}
+  .findpop{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:60;background:var(--card);border:1.5px solid var(--ink);border-radius:7px;box-shadow:var(--shadow);overflow:hidden;max-height:62vh;overflow-y:auto}
+  .findpop button{display:flex;align-items:baseline;gap:9px;width:100%;text-align:left;background:none;border:none;border-bottom:1px solid var(--rule);padding:9px 12px;cursor:pointer;font-family:inherit;color:inherit}
+  .findpop button:last-child{border-bottom:none}
+  .findpop button:active{background:var(--paper2)}
+  .findpop .fpn{font-family:'Fraunces',serif;font-weight:600;font-size:14.5px}
+  .findpop .fpm{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-soft);margin-left:auto}
+  .explorer{padding-bottom:48px}
+  .introline{font-size:13.5px;color:var(--ink-soft);line-height:1.5;margin:15px 0 4px}
+  .introline b{color:var(--ink)}
+  .crumb{display:flex;flex-wrap:wrap;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:10px;margin:12px 0 2px}
+  .crumblink{background:none;border:none;font:inherit;color:var(--ink-soft);cursor:pointer;padding:2px 2px;letter-spacing:.02em}
+  .crumblink.here{color:var(--stamp);font-weight:500}
+  .crumbsep{color:var(--pencil);padding:0 1px}
+  .navigator{background:var(--paper2);border:1px solid var(--rule);border-radius:11px;padding:18px 8px 14px;margin:8px 0 4px;box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
+  .navigator .reldiagram{margin:0}
+  .navigator .relnode .rndot{width:46px;height:46px}
+  .navigator .relnode.focus .rndot{width:62px;height:62px}
+  .navigator .relnode .rnname{font-size:13px;max-width:72px}
+  .navigator .relnode.focus .rnname{font-size:15.5px;max-width:120px}
+  .focuscard{margin-top:10px}
+  .focuscard .dhead{display:flex;gap:13px;align-items:flex-start;margin-bottom:8px}
 </style>
 </head>
 <body>
 
-<div class="wrap">
-  <header>
-    <div class="eyebrow">Gott&nbsp;dank · thank God · est. Galicia</div>
-    <h1>The Gottdank Tree <span class="am">&amp; all who carry the name</span></h1>
-    <p class="tag">One rare name across <b>six countries</b> and three centuries. Tap anyone to read their story.</p>
-  </header>
-</div>
-
-<nav class="tabs"><div class="wrap tabsrow" role="tablist">
-  <button class="tab" data-mode="stories">Stories</button>
-  <button class="tab" data-mode="find">Find your people</button>
-  <button class="tab" data-mode="map">Where they went</button>
-  <button class="tab" data-mode="tree">The full tree</button>
-</div></nav>
-
-<div class="bar">
-  <div class="wrap barrow">
+<div class="xtop">
+  <div class="wrap xtoprow">
+    <button class="brand" data-id="gittel" title="Back to the top of the family">The&nbsp;Gottdank&nbsp;Tree</button>
     <div class="search">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input id="findBox" type="search" placeholder="find a name…" aria-label="Find a name">
+      <input id="findBox" type="search" placeholder="find a name…" aria-label="Find a name" autocomplete="off">
+      <div class="findpop" id="findPop" hidden></div>
     </div>
-    <button class="cbtn" id="contribBtn">✎ Add</button>
+    <button class="cbtn" id="contribBtn" title="Add a photo, story, or correction">✎</button>
   </div>
 </div>
 
-<div class="wrap view" id="view-tree">
-  <button class="rootcard" data-id="thename">
-    <span class="locket"><span class="mono">G</span></span>
-    <span><span class="rl">„Gott dank" — thank God</span><span class="rs">The name itself · Hanau &amp; Galicia, 1700s · it passed through a woman — tap for the origin</span></span>
-  </button>
-  <div id="tree"></div>
-  <footer>
-    <p><b>How to read this:</b> ink portraits are documented, green are likely, faint pencil ones are still unconfirmed. The five sections are separate Gottdank families that don't yet provably connect — the Galician line is the main trunk; the others carry the same rare name.</p>
-  </footer>
-</div>
+<main class="wrap explorer">
+  <p class="introline">One rare name, from a single Galician town to six countries. They almost certainly share one ancestor — the paper trail just doesn't yet prove how every branch joins. <b>Tap any face to walk the family.</b></p>
+  <nav class="crumb" id="crumb" aria-label="Lineage"></nav>
+  <div class="navigator"><div class="rels" id="dRels"></div></div>
+  <div class="keyhint">←&nbsp;→ siblings&nbsp;·&nbsp;↑ parent&nbsp;·&nbsp;↓ child</div>
+  <article class="focuscard">
+    <div class="dhead"><span class="locket" id="dLock"></span><div><h3 id="dTitle"></h3><div class="sub" id="dSub"></div></div></div>
+    <span class="stampbig" id="dStamp"></span>
+    <dl id="dFacts"></dl>
+    <div class="dmap" id="dMap" hidden></div>
+    <div class="story" id="dStory"></div>
+    <div class="gapbox" id="dGap" hidden><b>Evidence gap</b><span id="dGapText"></span></div>
+    <button class="addbtn" id="dAdd">＋ Add a photo or memory</button>
+    <div class="sech">Sources</div>
+    <ul class="srcs" id="dSrc"></ul>
+  </article>
+</main>
 
-<div class="wrap view" id="view-stories" hidden></div>
-<div class="wrap view" id="view-find" hidden></div>
-<div class="wrap view" id="view-map" hidden></div>
-
-<!-- detail sheet -->
 <div class="scrim" id="scrim"></div>
-<aside class="sheet" id="sheet" role="dialog" aria-modal="true">
-  <div class="grab"></div>
-  <button class="close" id="dClose">✕</button>
-  <div class="recno">Family record</div>
-  <div class="dhead"><span class="locket" id="dLock"></span><div><h3 id="dTitle"></h3><div class="sub" id="dSub"></div></div></div>
-  <span class="stampbig" id="dStamp"></span>
-  <div class="rels" id="dRels"></div>
-  <div class="keyhint">←&nbsp;→ siblings&nbsp;&nbsp;·&nbsp;&nbsp;↑ parent&nbsp;&nbsp;·&nbsp;&nbsp;↓ child&nbsp;&nbsp;·&nbsp;&nbsp;esc close</div>
-  <dl id="dFacts"></dl>
-  <div class="dmap" id="dMap" hidden></div>
-  <div class="story" id="dStory"></div>
-  <div class="gapbox" id="dGap" hidden><b>Evidence gap</b><span id="dGapText"></span></div>
-  <button class="addbtn" id="dAdd">＋ Add a photo or memory</button>
-  <div class="sech">Sources</div>
-  <ul class="srcs" id="dSrc"></ul>
-</aside>
 <div class="gtoast" id="gToast"></div>
 
 <!-- contribute sheet -->
@@ -390,9 +390,7 @@ function unitNode(u){
   const row = u.people.length===2 ? `<div class="couple">${personRow(u.people[0])}<span class="knot">⚭</span>${personRow(u.people[1])}</div>` : personRow(u.people[0]);
   return `<li>${row}${kidsList(u)}</li>`;
 }
-document.getElementById('tree').innerHTML = Object.entries(TREES).map(([k,t])=>
-  `<section class="branch"><div class="bhead"><span class="bt">${t.label}</span><span class="bs">${t.sub}</span></div>
-   <ul class="vt vt0">${t.roots.map(unitNode).join('')}</ul></section>`).join('');
+/* the navigator is the tree now — no static list to render */
 
 /* relationship index for in-sheet navigation */
 const REL={};
@@ -481,13 +479,19 @@ function relsHtml(id){
   return h+'</div>';
 }
 
-/* detail sheet */
-const sheet=document.getElementById('sheet'),scrim=document.getElementById('scrim');
+/* the focus view (the page itself is the record now) */
+const scrim=document.getElementById('scrim');
 let openCount=0;
 function showScrim(on){openCount=Math.max(0,openCount+(on?1:-1));scrim.classList.toggle('open',openCount>0);}
+function crumbHtml(id){
+  const path=[id]; let cur=id,guard=0;
+  while(REL[cur]&&REL[cur].parents&&REL[cur].parents[0]&&guard++<24){cur=REL[cur].parents[0];path.unshift(cur);}
+  return path.map(pid=>'<button class="crumblink'+(pid===id?' here':'')+'" data-id="'+pid+'">'+disp(P[pid].name)+'</button>').join('<span class="crumbsep">›</span>');
+}
 let curSheetId=null;
 function openSheet(id){
   const p=P[id]; if(!p)return; curSheetId=id;
+  document.getElementById('crumb').innerHTML=crumbHtml(id);
   document.getElementById('dLock').className='locket '+confClass(p.conf);
   document.getElementById('dLock').innerHTML=PHOTOS[id]?`<img src="${PHOTOS[id]}" alt="">`:`<span class="mono">${initials(p.name)}</span>`;
   document.getElementById('dTitle').textContent=p.name;
@@ -505,12 +509,11 @@ function openSheet(id){
   const g=document.getElementById('dGap');
   if(p.gap){g.hidden=false;document.getElementById('dGapText').textContent=p.gap;}else g.hidden=true;
   document.getElementById('dSrc').innerHTML=p.src.map(s=>{const u=srcLink(s);return '<li>'+(u?'<a href="'+u+'" target="_blank" rel="noopener">'+esc(s)+'</a>':esc(s))+'</li>';}).join('');
-  document.getElementById('dAdd').onclick=()=>{closeSheet();openContrib(id);};
-  sheet.scrollTop=0; sheet.classList.add('open'); showScrim(true);
+  document.getElementById('dAdd').onclick=()=>openContrib(id);
+  const nav=document.querySelector('.navigator'); if(nav&&nav.getBoundingClientRect().top<-4)nav.scrollIntoView({behavior:'smooth',block:'start'});
 }
-function closeSheet(){if(sheet.classList.contains('open')){sheet.classList.remove('open');showScrim(false);}}
-document.getElementById('dClose').onclick=closeSheet;
-sheet.addEventListener('click',e=>{const r=e.target.closest('.relnode');if(r&&r.dataset.go){openSheet(r.dataset.go);}});
+function closeSheet(){}
+document.addEventListener('click',e=>{const r=e.target.closest('.relnode');if(r&&r.dataset.go){openSheet(r.dataset.go);}});
 const gToast=document.getElementById('gToast');let gtTimer;
 document.addEventListener('click',e=>{const g=e.target.closest('.gloss');
   if(g){e.stopPropagation();gToast.innerHTML='<b>'+esc(g.textContent)+'</b>'+esc(g.dataset.def);gToast.classList.add('show');clearTimeout(gtTimer);gtTimer=setTimeout(()=>gToast.classList.remove('show'),6000);return;}
@@ -536,8 +539,7 @@ document.getElementById('cSend').onclick=()=>{
 };
 scrim.addEventListener('click',()=>{closeSheet();closeContrib();});
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){closeSheet();closeContrib();return;}
-  if(!sheet.classList.contains('open'))return;
+  if(e.key==='Escape'){closeContrib();return;}
   if(e.target.matches('input,textarea'))return;
   const r=REL[curSheetId]; if(!r)return;
   if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();
@@ -546,18 +548,16 @@ document.addEventListener('keydown',e=>{
   else if(e.key==='ArrowDown'){e.preventDefault();if(r.children[0])openSheet(r.children[0]);}
 });
 
-/* find */
-const findBox=document.getElementById('findBox');
-findBox.addEventListener('input',e=>{
-  const q=e.target.value.trim().toLowerCase();
-  let first=null;
-  document.querySelectorAll('#view-tree .person').forEach(b=>{
-    const p=P[b.dataset.id], m=!q||p.name.toLowerCase().includes(q);
-    b.classList.toggle('dim',q&&!m); b.classList.toggle('hit',!!q&&m);
-    if(q&&m&&!first)first=b;
-  });
-  if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
+/* find: a jump dropdown */
+const findBox=document.getElementById('findBox'),findPop=document.getElementById('findPop');
+findBox.addEventListener('input',()=>{const q=findBox.value.trim().toLowerCase();
+  if(!q){findPop.hidden=true;findPop.innerHTML='';return;}
+  const hits=Object.keys(P).filter(id=>clean(P[id].name).toLowerCase().includes(q)).slice(0,8);
+  findPop.hidden=!hits.length;
+  findPop.innerHTML=hits.map(id=>'<button data-id="'+id+'"><span class="fpn">'+disp(P[id].name)+'</span><span class="fpm">'+esc(P[id].years)+'</span></button>').join('');
 });
+findPop.addEventListener('click',e=>{const b=e.target.closest('button[data-id]');if(b){e.stopPropagation();openSheet(b.dataset.id);findBox.value='';findPop.hidden=true;}});
+document.addEventListener('click',e=>{if(!e.target.closest('.search'))findPop.hidden=true;});
 
 /* ===== featured stories ===== */
 const FEATURED=[
@@ -666,9 +666,9 @@ document.addEventListener('click',e=>{const d=e.target.closest('.dplace');if(!d)
   pp.innerHTML='<h3>'+pl.lbl+' · '+peopleAt(pl).length+'</h3><div style="display:flex;flex-direction:column;gap:8px">'+peopleAt(pl).map(personRow).join('')+'</div>';
 });
 
-/* deep link + initial mode */
-if(location.hash){const id=decodeURIComponent(location.hash.slice(1));if(P[id])openSheet(id);}
-setMode((function(){try{return localStorage.getItem('gtmode')}catch(e){return null}})()||'stories');
+/* start: a deep-linked person, else the matriarch at the head of the main line */
+const _h=location.hash?decodeURIComponent(location.hash.slice(1)):'';
+openSheet(P[_h]?_h:'gittel');
 </script>
 </body>
 </html>
