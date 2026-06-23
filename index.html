@@ -514,25 +514,19 @@ function placeSegs(place){return place.split(/\s*(?:→|·|;)\s*/).filter(Boolea
 function placeHtml(place){return placeSegs(place).map(seg=>'<a class="placelink" href="'+mapUrl(seg)+'" target="_blank" rel="noopener">'+esc(seg)+'</a>').join(' → ');}
 const SRCLOCAL={'151784528':1,'151738023':1,'256993440':1,'256993443':1};
 function srcLink(s){
-  let m=s.match(/(?:find ?a ?grave|findagrave)[^0-9]*([0-9]{5,})/i); if(m) return SRCLOCAL[m[1]]?'img/sources/grave-'+m[1]+'.jpg':'https://www.findagrave.com/memorial/'+m[1];
-  m=s.match(/https?:\/\/\S+/); if(m) return m[0];
-  const t=s.toLowerCase(), pairs=[
-    [/geni/,'https://www.geni.com/search?search_type=people&names=Gottdank'],
-    [/jewishgen|yizkor|lesko/,'https://www.jewishgen.org/yizkor/lesko/lesko.html'],
-    [/yad ?vashem/,'https://yvng.yadvashem.org/index.html?language=en&s_lastName=Gottdank&s_inTransport=false'],
-    [/ushmm/,'https://collections.ushmm.org/search/?q=Gottdank'],
-    [/lilith/,'https://lilith.org/?s=Gottdank'],
-    [/moment/,'https://momentmag.com/?s=Gottdank'],
-    [/forebears/,'https://forebears.io/surnames/gottdank'],
-    [/jewish women|jwa\b/,'https://jwa.org/encyclopedia'],
-    [/gesher galicia|all galicia/,'https://www.geshergalicia.org/galician-towns/ustrzyki-dolne/'],
-    [/cjhn|ottawa jewish|canadian jewish/,'https://www.cjhn.ca/en/list?q=Gottdank'],
-    [/yiddish book center/,'https://www.yiddishbookcenter.org/collections/oral-histories'],
-    [/legacy|obituar|citizen|tribune/,'https://www.legacy.com/us/obituaries/name/gottdank'],
-    [/ellis island|passenger|manifest/,'https://heritage.statueofliberty.org/passenger-result?last_name=Gottdank'],
-    [/census|naturali|marriage record|ssdi|draft|immigration|familysearch/,'https://www.familysearch.org/search/record/results?q.surname=Gottdank'],
+  // everything resolves to a locally-archived snapshot or stays plain text; never an external site
+  let m=s.match(/(?:find ?a ?grave|findagrave)[^0-9]*([0-9]{5,})/i); if(m) return SRCLOCAL[m[1]]?'img/sources/grave-'+m[1]+'.jpg':null;
+  const t=s.toLowerCase(), L='img/sources/src-', pairs=[
+    [/geni/,L+'geni.png'],
+    [/jewishgen|yizkor|lesko/,L+'jewishgen-yizkor.png'],
+    [/ushmm/,L+'ushmm.png'],
+    [/lilith/,L+'lilith.png'],
+    [/moment/,L+'moment.png'],
+    [/forebears/,L+'forebears.png'],
+    [/jewish women|jwa\b/,L+'jwa.png'],
+    [/gesher galicia|all galicia/,L+'gesher.png'],
   ];
-  for(const [re,url] of pairs){ if(re.test(t)) return url; }
+  for(const [re,u] of pairs){ if(re.test(t)) return u; }
   return null;
 }
 function relDot(pid){const p=P[pid];const ph=PHOTOS[pid];return `<span class="rndot ${confClass(p.conf)}">${ph?`<img src="${ph}" alt="">`:`<span class="mono">${initials(p.name)}</span>`}</span>`;}
