@@ -512,8 +512,9 @@ function mapQuery(seg){
 function mapUrl(seg){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(mapQuery(seg));}
 function placeSegs(place){return place.split(/\s*(?:→|·|;)\s*/).filter(Boolean);}
 function placeHtml(place){return placeSegs(place).map(seg=>'<a class="placelink" href="'+mapUrl(seg)+'" target="_blank" rel="noopener">'+esc(seg)+'</a>').join(' → ');}
+const SRCLOCAL={'151784528':1,'151738023':1,'256993440':1,'256993443':1};
 function srcLink(s){
-  let m=s.match(/(?:find ?a ?grave|findagrave)[^0-9]*([0-9]{5,})/i); if(m) return 'https://www.findagrave.com/memorial/'+m[1];
+  let m=s.match(/(?:find ?a ?grave|findagrave)[^0-9]*([0-9]{5,})/i); if(m) return SRCLOCAL[m[1]]?'img/sources/grave-'+m[1]+'.jpg':'https://www.findagrave.com/memorial/'+m[1];
   m=s.match(/https?:\/\/\S+/); if(m) return m[0];
   const t=s.toLowerCase(), pairs=[
     [/geni/,'https://www.geni.com/search?search_type=people&names=Gottdank'],
