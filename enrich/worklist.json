@@ -1,0 +1,206 @@
+[
+ {
+  "id": "lillian",
+  "name": "Lillian (Gottdank) Johnson",
+  "rel": "Charles & Fannie's daughter · Milton's sister",
+  "status": "todo"
+ },
+ {
+  "id": "helenS",
+  "name": "Helen (Gottdank) Stober",
+  "rel": "Charles & Fannie's daughter · Milton's sister",
+  "status": "todo"
+ },
+ {
+  "id": "franklin",
+  "name": "Franklin D. Gottdank",
+  "rel": "Son of Jerry & Molly",
+  "status": "todo"
+ },
+ {
+  "id": "lindaJ",
+  "name": "Linda Gottdank",
+  "rel": "Daughter of Jerry & Molly",
+  "status": "todo"
+ },
+ {
+  "id": "brian",
+  "name": "Brian R. Gottdank",
+  "rel": "Son of Milton & Phyllis",
+  "status": "todo"
+ },
+ {
+  "id": "bridget",
+  "name": "Bridget Gottdank",
+  "rel": "Daughter of Brian & Laurie · Cole and Annalyn's sister",
+  "status": "todo"
+ },
+ {
+  "id": "dale",
+  "name": "Dale D. Gottdank",
+  "rel": "Son of Milton & Phyllis (likely)",
+  "status": "todo"
+ },
+ {
+  "id": "nancy",
+  "name": "Nancy Hebert",
+  "rel": "Wife of Dale · deep American roots",
+  "status": "todo"
+ },
+ {
+  "id": "jordan",
+  "name": "Jordan E. Gottdank",
+  "rel": "Son of Dale & Nancy · patent attorney",
+  "status": "todo"
+ },
+ {
+  "id": "ruthM",
+  "name": "Ruth (Gottdank) Marek",
+  "rel": "Daughter of Bernhard & Bertha",
+  "status": "todo"
+ },
+ {
+  "id": "kateB",
+  "name": "Kate (Gottdank) Bierlein",
+  "rel": "Daughter of Bernhard & Bertha",
+  "status": "todo"
+ },
+ {
+  "id": "pauline",
+  "name": "Pauline (Gottdank) Ascher",
+  "rel": "Charles's sister · Generation 2",
+  "status": "todo"
+ },
+ {
+  "id": "unknownB",
+  "name": "The Unknown Brother",
+  "rel": "Charles's brother · name forgotten",
+  "status": "todo"
+ },
+ {
+  "id": "bobG",
+  "name": "Robert 'Bob' Gottdank",
+  "rel": "Son of Arthur & Violet",
+  "status": "todo"
+ },
+ {
+  "id": "davidGreely",
+  "name": "David 'Lee' Gottdank",
+  "rel": "Son of Arthur & Violet",
+  "status": "todo"
+ },
+ {
+  "id": "kimG",
+  "name": "Michael 'Kim' Gottdank",
+  "rel": "Son of Arthur & Violet · entrepreneur",
+  "status": "todo"
+ },
+ {
+  "id": "tinaG",
+  "name": "Tina Louise Gottdank-Normoyle",
+  "rel": "Daughter of Arthur & Violet",
+  "status": "todo"
+ },
+ {
+  "id": "danny",
+  "name": "Danny Gottdank",
+  "rel": "Grandson of Arthur & Violet",
+  "status": "todo"
+ },
+ {
+  "id": "celia",
+  "name": "Celia Gottdank",
+  "rel": "Wife of Danny",
+  "status": "todo"
+ },
+ {
+  "id": "steven",
+  "name": "Steven Gottdank",
+  "rel": "Grandson of Arthur & Violet",
+  "status": "todo"
+ },
+ {
+  "id": "grandkidsCA",
+  "name": "Kayla · Lauren · Nathan",
+  "rel": "Grandchildren of Arthur & Violet",
+  "status": "todo"
+ },
+ {
+  "id": "torontoMisc",
+  "name": "Edith & Barbara Gottdank",
+  "rel": "Daughters-in-law of Arthur & Violet (self-identified)",
+  "status": "todo"
+ },
+ {
+  "id": "nygen",
+  "name": "NY-born, still unplaced",
+  "rel": "The rest of the American-born band",
+  "status": "todo"
+ },
+ {
+  "id": "lawrence",
+  "name": "Lawrence Gottdank",
+  "rel": "Plainview patriarch (inferred)",
+  "status": "todo"
+ },
+ {
+  "id": "beatrice",
+  "name": "Beatrice Gottdank",
+  "rel": "Plainview matriarch",
+  "status": "todo"
+ },
+ {
+  "id": "josephP",
+  "name": "Joseph D. Gottdank",
+  "rel": "Son of Lawrence & Beatrice (inferred)",
+  "status": "todo"
+ },
+ {
+  "id": "ellenP",
+  "name": "Ellen Gottdank",
+  "rel": "Wife of Joseph",
+  "status": "todo"
+ },
+ {
+  "id": "heather",
+  "name": "Heather Gottdank",
+  "rel": "Daughter of Joseph & Ellen",
+  "status": "todo"
+ },
+ {
+  "id": "tracy",
+  "name": "Tracy Gottdank",
+  "rel": "Daughter of Joseph & Ellen",
+  "status": "todo"
+ },
+ {
+  "id": "roseEC",
+  "name": "Rose (Tuchfeld) Gottdank",
+  "rel": "The Los Angeles matriarch",
+  "status": "todo"
+ },
+ {
+  "id": "irving",
+  "name": "Irving E. Gottdank",
+  "rel": "Son of Harry & Rose · Milton's generation",
+  "status": "todo"
+ },
+ {
+  "id": "sidney",
+  "name": "Sidney Gottdank",
+  "rel": "Likely Harry & Rose's son · Irving's brother",
+  "status": "todo"
+ },
+ {
+  "id": "linda",
+  "name": "Linda L. Gottdank",
+  "rel": "Wife of Sidney",
+  "status": "todo"
+ },
+ {
+  "id": "michaelNJ",
+  "name": "Michael D. Gottdank",
+  "rel": "Unplaced, New York roots",
+  "status": "todo"
+ }
+]

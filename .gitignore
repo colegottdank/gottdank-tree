@@ -9,3 +9,8 @@
 # family photos for the tree (when added)
 !img/
 !img/**
+# cloud enrichment loop driver + CI
+!enrich/
+!enrich/**
+!.github/
+!.github/**

@@ -1,0 +1,38 @@
+name: enrich-loop
+
+# Runs the person-by-person enrichment loop in GitHub's cloud, so it keeps
+# going whether or not any laptop is open. Progress lives in git (family.js +
+# enrich/worklist.json), so each run resumes from where the last left off.
+#
+# To turn it on: add a repo secret ANTHROPIC_API_KEY (Settings -> Secrets and
+# variables -> Actions -> New repository secret). Then it runs on the schedule
+# below, or trigger it by hand from the Actions tab ("Run workflow").
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "17 */3 * * *" # every 3 hours
+
+permissions:
+  contents: write
+
+concurrency:
+  group: enrich-loop
+  cancel-in-progress: false
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run enrichment loop
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Follow enrich/LOOP.md exactly. Process up to 3 people whose status is
+            "todo" in enrich/worklist.json, then stop. Commit and push your changes
+            yourself with git, as the file instructs. If no one is "todo", do nothing.
+          claude_args: '--max-turns 60 --allowedTools "WebSearch,WebFetch,Read,Edit,Bash"'
