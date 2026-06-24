@@ -517,6 +517,9 @@ function srcLink(s){
   // everything resolves to a locally-archived snapshot or stays plain text; never an external site
   let m=s.match(/(?:find ?a ?grave|findagrave)[^0-9]*([0-9]{5,})/i); if(m) return SRCLOCAL[m[1]]?'img/sources/grave-'+m[1]+'.jpg':null;
   const t=s.toLowerCase(), L='img/sources/src-', pairs=[
+    [/bełżec|belzec/,L+'belzec.png'],
+    [/zasław|zaslaw/,L+'zaslaw.png'],
+    [/virtual shtetl|sztetl|ustrzyki/,L+'ustrzyki.png'],
     [/geni/,L+'geni.png'],
     [/jewishgen|yizkor|lesko/,L+'jewishgen-yizkor.png'],
     [/ushmm/,L+'ushmm.png'],
