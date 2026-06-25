@@ -1,6 +1,16 @@
-# Enrichment loop — instructions
+# The loop — instructions
 
-You are deepening one family-history website, person by person, until everyone has a substantial, sourced story. Work through `enrich/worklist.json` one person at a time and **keep going until no one has `"status": "todo"`**. Commit and push after each person so progress is never lost.
+You are continuously improving one family-history website. Progress lives in git, so each pass starts fresh and picks up where the last left off. **Keep going** until there's no worthwhile work left, then say so and stop.
+
+## Which mode
+1. If anyone in `enrich/worklist.json` is still `"status": "todo"`, run the **enrichment loop** below (one person per pass).
+2. Otherwise, run the **standing loop**: read `enrich/BACKLOG.md`, do the single highest-value undone item, check it off, add any new real threads you find, commit. Repeat.
+
+Either way: never fabricate (cite or skip), one change per commit, always `node --check family.js` and confirm `0` em dashes before committing, never break the file.
+
+---
+
+## Enrichment loop (one person per pass)
 
 ## Loop (repeat until the worklist is drained)
 
