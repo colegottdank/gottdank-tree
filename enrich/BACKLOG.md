@@ -3,7 +3,7 @@
 The loop reads this, does the single highest-value undone item, checks `[x]` when done, and **adds any new threads it discovers** so it never runs dry. Open-ended on purpose. When nothing here is worth doing, the loop makes no commit.
 
 ## Now
-- [ ] Deepen `thename` (the surname's origin): research the documented 1700s Hanau / Galicia origin of "Gottdank" and the broader Galician-Jewish naming context; enrich the story with sourced history, marking anything uncertain plainly. Never assert what isn't documented.
+- [x] Deepen `thename` (the surname's origin): research the documented 1700s Hanau / Galicia origin of "Gottdank" and the broader Galician-Jewish naming context; enrich the story with sourced history, marking anything uncertain plainly. Never assert what isn't documented.
 - [ ] Re-verify entries marked `conf:"likely"` or carrying a `gap`, ONE per run, against a fresh free source. If it holds, tighten the wording and cite the second source; if it doesn't hold, downgrade the confidence and note why. (Candidates: sidney, marilyn, adam, josephP, lawrence, beatrice, jessica, michaelNJ, abrahamW, miriam.)
 - [ ] Add honest period / place / trade context to any branch entry that still reads as a bare one-liner, ONE per run, grounded only in already-cited facts. Never invent the individual.
 - [ ] Capture any source still resolving to an external site as a local snapshot in `img/sources/` + a `srcLink()` mapping (check `srcLink()` in `index.html`). Keep captures to a single full-page screenshot, do NOT stitch composites.
