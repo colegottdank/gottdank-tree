@@ -3,7 +3,7 @@
 The loop reads this, does the single highest-value undone item, checks `[x]` when done, and **adds any new threads it discovers** so it never runs dry. Open-ended on purpose. When nothing here is worth doing, the loop says so and stops.
 
 ## Now
-- [ ] Deepen the still-thin entries with honest place/era/trade context (no invented facts about the person): kateB, pauline, lawrence, beatrice, ellenP, heather, tracy, linda, celia, steven, grandkidsCA, torontoMisc, nygen, roseEC, sidney.
+- [x] Deepen the still-thin entries with honest place/era/trade context (no invented facts about the person): kateB, pauline, lawrence, beatrice, ellenP, heather, tracy, linda, celia, steven, grandkidsCA, torontoMisc, nygen, roseEC, sidney. (Done: thin one-liners — kateB, pauline, ellenP, heather, tracy, linda, celia, steven — rewritten with Chicago-widowhood / postwar-Plainview / Toronto-GTA / Mojave-China-Lake context grounded in already-cited family facts. The rest already carried honest place/era/lineage context.)
 - [ ] Self-host the source snapshots that are still plain-text citations: capture each as an image into `img/sources/`, add a `srcLink()` mapping in `index.html`, so no source needs an external site. Priority: the Brazil Metrópoles Oct-7 article, the Delaware Beach Life / Franklin piece, the Knobbe / Jordan profile, the Albert Sandman obit, the Brooklyn College In Memoriam.
 - [ ] Firm up the "likely / inferred" links where a free record exists: Sidney (Ridgecrest) = Harry & Rose's son; the Orange County cluster (Alex / Marilyn / Adam) relationships; the Plainview household parentage.
 - [ ] Verify any date or place currently marked uncertain against a second free source; downgrade confidence if it doesn't hold.
