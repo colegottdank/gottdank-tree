@@ -28,7 +28,8 @@ Clean and true is the floor. Good writing is the bar. Every story should earn it
 - **Specifics are the craft.** A named street, a year, a trade, a boat, a price beats every adjective. Concrete detail does the work; description doesn't.
 - **Rhythm.** Vary sentence length. Wind out a long one, then cut hard with a short one. Read it aloud in your head; if it's flat, reshape it.
 - **Cut every limp sentence.** If a sentence only carries a dry fact and adds no image or motion, fold it into a stronger one or cut it. No connective filler.
-- **End on resonance.** The last line lands, an image, a turn, or the line of descent continuing. Never trail off on a minor fact.
+- **Find the through-line and end on it.** Every person has one thread that's truly theirs: the name that descended to them, the trade that repeated down the generations, the place they kept returning to, the thing they never stopped doing. Find it and make it the closing line. You MAY draw this line from facts already true elsewhere in the tree (the name's descent, a parent's trade) — you just may not invent anything new.
+- **No list cadence.** Never chain jobs or events into a résumé ("worked at X, then Y, then Z, then started Q"). If you're listing, you've stopped writing. Keep the one or two that matter, fold or cut the rest. A timeline is not a story.
 - **No two stories the same shape.** Let each person's real facts dictate the structure. If it reads like a template, rewrite it.
 
 ## No résumé. No corporate boilerplate.
