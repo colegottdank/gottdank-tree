@@ -1,164 +1,164 @@
 [
   {
-    "id": "thename",
-    "name": "„Gott dank“ · the name itself",
-    "rel": "Origin of the surname",
-    "conf": "verified",
-    "status": "done"
-  },
-  {
-    "id": "gittel",
-    "name": "Gittel Gottdank",
-    "rel": "Generation One · the matriarch whose name the family carries",
-    "conf": "verified",
-    "status": "done"
-  },
-  {
-    "id": "coleman",
-    "name": "Kalman ('Coleman') Gottdank",
-    "rel": "Generation One · Charles's father",
-    "conf": "verified",
-    "status": "done"
-  },
-  {
-    "id": "charles",
-    "name": "Charles Gottdank",
-    "rel": "Gittel & Coleman's son · the New York barber",
-    "conf": "verified",
-    "status": "done"
-  },
-  {
-    "id": "fannieK",
-    "name": "Fannie (Krantz) Gottdank",
-    "rel": "Charles's wife · Generation Two",
-    "conf": "verified",
-    "status": "done"
-  },
-  {
-    "id": "lillian",
-    "name": "Lillian (Gottdank) Johnson",
-    "rel": "Charles & Fannie's daughter · Milton's sister",
-    "conf": "verified",
-    "status": "done"
-  },
-  {
-    "id": "helenS",
-    "name": "Helen (Gottdank) Stober",
-    "rel": "Charles & Fannie's daughter · Milton's sister",
-    "conf": "verified",
-    "status": "done"
-  },
-  {
-    "id": "jerry",
-    "name": "Jerry (Jerome) Gottdank",
-    "rel": "Charles & Fannie's son · Milton's brother",
-    "conf": "verified",
-    "status": "done"
-  },
-  {
-    "id": "mollyR",
-    "name": "Molly Gottdank",
-    "rel": "Jerry's wife · mother of Frank, Alan & Linda",
-    "conf": "verified",
-    "status": "done"
-  },
-  {
-    "id": "franklin",
-    "name": "Franklin D. Gottdank",
-    "rel": "Son of Jerry & Molly",
-    "conf": "verified",
-    "status": "done"
-  },
-  {
-    "id": "wendy",
-    "name": "Wendy Gottdank",
-    "rel": "Wife of Franklin",
-    "conf": "verified",
-    "status": "done"
-  },
-  {
-    "id": "allan",
-    "name": "Allan M. Gottdank",
-    "rel": "Son of Jerry & Molly",
-    "conf": "verified",
-    "status": "done"
-  },
-  {
-    "id": "lindaJ",
-    "name": "Linda Gottdank",
-    "rel": "Daughter of Jerry & Molly",
-    "conf": "likely",
-    "status": "done"
-  },
-  {
-    "id": "milton",
-    "name": "Milton Gottdank",
-    "rel": "Charles & Fannie's youngest son",
-    "conf": "verified",
-    "status": "done"
-  },
-  {
-    "id": "phyllis",
-    "name": "Phyllis (Schraeter) Gottdank",
-    "rel": "Milton's wife",
-    "conf": "verified",
-    "status": "done"
-  },
-  {
-    "id": "lostKids",
-    "name": "Lynn Jay & Kurt, lost young",
-    "rel": "Children of Milton & Phyllis · Brian and Dale's siblings",
-    "conf": "likely",
-    "status": "done"
-  },
-  {
-    "id": "brian",
-    "name": "Brian R. Gottdank",
-    "rel": "Son of Milton & Phyllis",
-    "conf": "verified",
-    "status": "done"
-  },
-  {
     "id": "laurie",
     "name": "Laurie Gottdank",
     "rel": "Wife of Brian (household record)",
     "conf": "verified",
-    "status": "done"
+    "status": "todo"
   },
   {
     "id": "cole",
     "name": "Cole Gottdank",
     "rel": "Son of Brian & Laurie",
     "conf": "verified",
-    "status": "done"
+    "status": "todo"
+  },
+  {
+    "id": "brian",
+    "name": "Brian R. Gottdank",
+    "rel": "Son of Milton & Phyllis",
+    "conf": "verified",
+    "status": "todo"
+  },
+  {
+    "id": "thename",
+    "name": "„Gott dank“ · the name itself",
+    "rel": "Origin of the surname",
+    "conf": "verified",
+    "status": "todo"
+  },
+  {
+    "id": "gittel",
+    "name": "Gittel Gottdank",
+    "rel": "Generation One · the matriarch whose name the family carries",
+    "conf": "verified",
+    "status": "todo"
+  },
+  {
+    "id": "coleman",
+    "name": "Kalman ('Coleman') Gottdank",
+    "rel": "Generation One · Charles's father",
+    "conf": "verified",
+    "status": "todo"
+  },
+  {
+    "id": "charles",
+    "name": "Charles Gottdank",
+    "rel": "Gittel & Coleman's son · the New York barber",
+    "conf": "verified",
+    "status": "todo"
+  },
+  {
+    "id": "fannieK",
+    "name": "Fannie (Krantz) Gottdank",
+    "rel": "Charles's wife · Generation Two",
+    "conf": "verified",
+    "status": "todo"
+  },
+  {
+    "id": "lillian",
+    "name": "Lillian (Gottdank) Johnson",
+    "rel": "Charles & Fannie's daughter · Milton's sister",
+    "conf": "verified",
+    "status": "todo"
+  },
+  {
+    "id": "helenS",
+    "name": "Helen (Gottdank) Stober",
+    "rel": "Charles & Fannie's daughter · Milton's sister",
+    "conf": "verified",
+    "status": "todo"
+  },
+  {
+    "id": "jerry",
+    "name": "Jerry (Jerome) Gottdank",
+    "rel": "Charles & Fannie's son · Milton's brother",
+    "conf": "verified",
+    "status": "todo"
+  },
+  {
+    "id": "mollyR",
+    "name": "Molly Gottdank",
+    "rel": "Jerry's wife · mother of Frank, Alan & Linda",
+    "conf": "verified",
+    "status": "todo"
+  },
+  {
+    "id": "franklin",
+    "name": "Franklin D. Gottdank",
+    "rel": "Son of Jerry & Molly",
+    "conf": "verified",
+    "status": "todo"
+  },
+  {
+    "id": "wendy",
+    "name": "Wendy Gottdank",
+    "rel": "Wife of Franklin",
+    "conf": "verified",
+    "status": "todo"
+  },
+  {
+    "id": "allan",
+    "name": "Allan M. Gottdank",
+    "rel": "Son of Jerry & Molly",
+    "conf": "verified",
+    "status": "todo"
+  },
+  {
+    "id": "lindaJ",
+    "name": "Linda Gottdank",
+    "rel": "Daughter of Jerry & Molly",
+    "conf": "likely",
+    "status": "todo"
+  },
+  {
+    "id": "milton",
+    "name": "Milton Gottdank",
+    "rel": "Charles & Fannie's youngest son",
+    "conf": "verified",
+    "status": "todo"
+  },
+  {
+    "id": "phyllis",
+    "name": "Phyllis (Schraeter) Gottdank",
+    "rel": "Milton's wife",
+    "conf": "verified",
+    "status": "todo"
+  },
+  {
+    "id": "lostKids",
+    "name": "Lynn Jay & Kurt, lost young",
+    "rel": "Children of Milton & Phyllis · Brian and Dale's siblings",
+    "conf": "likely",
+    "status": "todo"
   },
   {
     "id": "annalyn",
     "name": "Annalyn Gottdank",
     "rel": "Daughter of Brian & Laurie",
     "conf": "likely",
-    "status": "done"
+    "status": "todo"
   },
   {
     "id": "bridget",
     "name": "Bridget Gottdank",
     "rel": "Daughter of Brian & Laurie · Cole and Annalyn's sister",
     "conf": "verified",
-    "status": "done"
+    "status": "todo"
   },
   {
     "id": "dale",
     "name": "Dale D. Gottdank",
     "rel": "Son of Milton & Phyllis (likely)",
     "conf": "verified",
-    "status": "done"
+    "status": "todo"
   },
   {
     "id": "nancy",
     "name": "Nancy Hebert",
     "rel": "Wife of Dale · deep American roots",
     "conf": "verified",
-    "status": "done"
+    "status": "todo"
   },
   {
     "id": "jordan",
