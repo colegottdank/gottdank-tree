@@ -22,6 +22,15 @@ A reader who's never heard of this person should finish feeling like they stood 
 
 You may be expansive about two things only: the sourced WORLD they lived in, and their real DOCUMENTED facts. Never invent the individual's feelings, thoughts, or undocumented events. That is what lets a thin person still get a real story: the world around them is documented even when they aren't.
 
+## Make it sing (craft)
+Clean and true is the floor. Good writing is the bar. Every story should earn its place:
+- **Earn one line.** Each story has exactly ONE sentence worth remembering, and it lands at the turn. Not ornate, TRUE, the kind that reframes everything (Kalman becomes Coleman becomes Cole; trading the exurbs for the marsh and the live oaks). If no line stands out, you haven't found the story yet.
+- **Specifics are the craft.** A named street, a year, a trade, a boat, a price beats every adjective. Concrete detail does the work; description doesn't.
+- **Rhythm.** Vary sentence length. Wind out a long one, then cut hard with a short one. Read it aloud in your head; if it's flat, reshape it.
+- **Cut every limp sentence.** If a sentence only carries a dry fact and adds no image or motion, fold it into a stronger one or cut it. No connective filler.
+- **End on resonance.** The last line lands, an image, a turn, or the line of descent continuing. Never trail off on a minor fact.
+- **No two stories the same shape.** Let each person's real facts dictate the structure. If it reads like a template, rewrite it.
+
 ## No résumé. No corporate boilerplate.
 This is the big one. **Never describe what someone's employer does, its acquisitions, headcount, revenue, products, or business.** Nobody cares that a company moved 4,200 people across 47 countries, or what the software logs, or how many organizations it served. That is the worst kind of filler: it fills space while telling you nothing about the person.
 
