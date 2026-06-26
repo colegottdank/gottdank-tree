@@ -8,6 +8,8 @@ The loop reads this, does the single highest-value undone item, checks `[x]` whe
 - [ ] Add honest period / place / trade context to any branch entry that still reads as a bare one-liner, ONE per run, grounded only in already-cited facts. Never invent the individual.
 - [ ] Capture any source still resolving to an external site as a local snapshot in `img/sources/` + a `srcLink()` mapping (check `srcLink()` in `index.html`). Keep captures to a single full-page screenshot, do NOT stitch composites.
 
+- [ ] Re-check `jessica` entry: UUFSD 'Your Search Committee' bio (uufsd.org) states Jordan's "wife Jessica" settled back in San Diego with him, suggesting Jessica may be Jordan's wife rather than Dale & Nancy's daughter. The `nancy` story also says "Jordan and Jessica carry both sides at once," implying the same couple. Verify and correct the jessica entry's rel/story accordingly.
+
 ## Needs a human (do NOT loop on these — flag and skip)
 - The "unknown brother" and the unplaced NY cluster's shared father: requires logged-in census / NYC vital-records lookups.
 - FamilySearch / Ancestry record images (gated, and bot-blocked even in the cloud): Charles's ship + barbershop, the 1909 marriage cert, etc.
