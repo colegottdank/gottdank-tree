@@ -37,6 +37,12 @@ This is the big one. **Never describe what someone's employer does, its acquisit
 
 Name what the PERSON does in one plain, human line, then move on to *them*: where they live, who they love, how they fit the family, what they do with their own time. A person is not their LinkedIn. If the only public record is a job, write a short human paragraph anchored in place and family, not a long one padded with career facts.
 
+## Whose eyes tell it (perspective)
+The record belongs to the whole family, not to any one branch. Write every story from the subject's own vantage, the way a historian would, never from a descendant's.
+- **Anchor relations upward or to the subject**, never sideways through another household: "one of Jerry and Molly's three", not "which makes him first cousin to Brian and Dale".
+- **Inside one person's record, their own children get even treatment.** Don't let one child's career or move swallow a sibling's sentence. If space is tight, name none rather than one.
+- **The keeper of the tree gets no special gravity.** Cole, his parents, and his siblings are records like every other record. Nothing may end on them, point toward them, or use them as the reference point for someone else's life. (One earned exception: the Kalman → Coleman → Cole name-echo lives in Kalman's record, because that line is about the name, not the boy.)
+
 ## Living people
 - Public record only, nothing private.
 - **Lead with who they are and how they fit the family and the place they've made their life, not their job.** Work is one light line at most.
